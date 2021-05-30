@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ArchivosListForm">
+
+        <p:panel header="#{myBundle.ListArchivosTitle}">
+            <p:contextMenu id="ArchivosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ArchivosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ArchivosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ArchivosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ArchivosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ArchivosMenuItem_logarchivosList}" icon="ui-icon-search"  action="#{archivosController.navigateLogarchivosList}" disabled="#{empty archivosController.selected.logarchivosList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{archivosController.items}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{archivosController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ArchivosListForm:createButton :ArchivosListForm:viewButton :ArchivosListForm:editButton :ArchivosListForm:deleteButton :ArchivosListForm:ArchivosDataTableContextMenu" listener="#{archivosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ArchivosListForm:createButton :ArchivosListForm:viewButton :ArchivosListForm:editButton :ArchivosListForm:deleteButton :ArchivosListForm:ArchivosDataTableContextMenu" listener="#{archivosController.resetParents}"/>
+                <p:ajax event="contextMenu" update=" :ArchivosListForm:createButton :ArchivosListForm:viewButton :ArchivosListForm:editButton :ArchivosListForm:deleteButton" listener="#{archivosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ArchivosListForm:viewButton').click();"/>
+
+               
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArchivosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesado}" filterBy="#{item.procesado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArchivosTitle_procesado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="procesado" value="#{item.procesado}" title="#{myBundle.EditArchivosTitle_procesado}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_procesado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rprocesados}" filterBy="#{item.rprocesados}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArchivosTitle_rprocesados}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rprocesados}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rnprocesados}" filterBy="#{item.rnprocesados}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArchivosTitle_rnprocesados}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rnprocesados}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{archivosController.prepareCreate}" update=":ArchivosCreateForm" oncomplete="PF('ArchivosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"    icon="ui-icon-search" value="#{myBundle.View}" update=":ArchivosViewForm" oncomplete="PF('ArchivosViewDialog').show()" disabled="#{empty archivosController.selected}"/>
+            <p:commandButton id="editButton"    icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ArchivosEditForm" oncomplete="PF('ArchivosEditDialog').show()" disabled="#{empty archivosController.selected}"/>
+            <p:commandButton id="deleteButton"  icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{archivosController.delete}" update=":growl,datalist" disabled="#{empty archivosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

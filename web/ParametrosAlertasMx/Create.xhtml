@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog id="ParametrosAlertasMxCreateDlg" widgetVar="ParametrosAlertasMxCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateParametrosAlertasMxTitle}">
+        <h:form id="ParametrosAlertasMxCreateForm">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" rendered="#{parametrosAlertasMxController.selected != null}">
+                    <p:outputLabel value="#{myBundle.CreateParametrosAlertasMxLabel_nombre}" for="nombre" />
+                    <p:inputText id="nombre" value="#{parametrosAlertasMxController.selected.nombre}" title="#{myBundle.CreateParametrosAlertasMxTitle_nombre}" />
+                    <p:outputLabel value="#{myBundle.CreateParametrosAlertasMxLabel_inicioporcentaje}" for="inicioporcentaje" />
+                    <p:inputText id="inicioporcentaje" value="#{parametrosAlertasMxController.selected.inicioporcentaje}" title="#{myBundle.CreateParametrosAlertasMxTitle_inicioporcentaje}" />
+                    <p:outputLabel value="#{myBundle.CreateParametrosAlertasMxLabel_finporcentaje}" for="finporcentaje" />
+                    <p:inputText id="finporcentaje" value="#{parametrosAlertasMxController.selected.finporcentaje}" title="#{myBundle.CreateParametrosAlertasMxTitle_finporcentaje}" />
+                </p:panelGrid>
+                <p:commandButton actionListener="#{parametrosAlertasMxController.saveNew}" 
+                                 value="#{myBundle.Save}" 
+                                 update="display,:ParametrosAlertasMxListForm:datalist,:growl" 
+                                 oncomplete="PF('handleSubmit(xhr,status,args,ParametrosAlertasMxCreateDialog);"/>
+                <p:commandButton value="#{myBundle.Cancel}" onclick="ParametrosAlertasMxCreateDialog.hide()"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+

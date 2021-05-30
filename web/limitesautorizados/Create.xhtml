@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LimitesautorizadosCreateDlg" widgetVar="LimitesautorizadosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateLimitesautorizadosTitle}" closeOnEscape="true">
+
+            <h:form id="LimitesautorizadosCreateForm">
+
+                <h:panelGroup id="display" >
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                      
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_sublimiteautorizado}" for="sublimiteautorizado" />
+                        <p:inputText id="sublimiteautorizado" value="#{limitesautorizadosController.selected.sublimiteautorizado}" title="#{myBundle.CreateLimitesautorizadosTitle_sublimiteautorizado}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_sublimiteautorizado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_plazo}" for="plazo" />
+                        <p:inputText id="plazo" value="#{limitesautorizadosController.selected.plazo}" title="#{myBundle.CreateLimitesautorizadosTitle_plazo}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_plazo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_tasas}" for="tasas" />
+                        <p:inputText id="tasas" value="#{limitesautorizadosController.selected.tasas}" title="#{myBundle.CreateLimitesautorizadosTitle_tasas}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_tasas}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_margenspread}" for="margenspread" />
+                        <p:inputText id="margenspread" value="#{limitesautorizadosController.selected.margenspread}" title="#{myBundle.CreateLimitesautorizadosTitle_margenspread}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_margenspread}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_garantiaavaluodetalle}" for="garantiaavaluodetalle" />
+                        <p:inputText id="garantiaavaluodetalle" value="#{limitesautorizadosController.selected.garantiaavaluodetalle}" title="#{myBundle.CreateLimitesautorizadosTitle_garantiaavaluodetalle}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_garantiavalor}" for="garantiavalor" />
+                        <p:inputText id="garantiavalor" value="#{limitesautorizadosController.selected.garantiavalor}" title="#{myBundle.CreateLimitesautorizadosTitle_garantiavalor}" size="100" maxlength="100"/>
+                        
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_garantiacobertura}" for="garantiacobertura" />
+                        <p:inputText id="garantiacobertura" value="#{limitesautorizadosController.selected.cobertura}" title="#{myBundle.CreateLimitesautorizadosTitle_garantiacobertura}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_comentarios}" for="comentarios" />
+                        <p:inputTextarea rows="4" cols="30" id="comentarios" value="#{limitesautorizadosController.selected.comentarios}" title="#{myBundle.CreateLimitesautorizadosTitle_comentarios}" />
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_consumido}" for="consumido" />
+                        <p:inputText id="consumido" disabled="true" value="#{limitesautorizadosController.selected.consumido}" title="#{myBundle.CreateLimitesautorizadosTitle_consumido}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_consumido}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_disponible}" for="disponible" />
+                        <p:inputText id="disponible" disabled="true" value="#{limitesautorizadosController.selected.disponible}" title="#{myBundle.CreateLimitesautorizadosTitle_disponible}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_disponible}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_pagointeres}" for="pagointeres" />
+                        <p:selectOneMenu id="pagointeres" value="#{limitesautorizadosController.selected.pagointeres}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_pagointeres}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{periodosController.items}"
+                                           var="pagointeresItem"
+                                           itemValue="#{pagointeresItem}"
+                                           itemLabel="#{pagointeresItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{periodosConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_amortizacioncapital}" for="amortizacioncapital" />
+                        <p:selectOneMenu id="amortizacioncapital" value="#{limitesautorizadosController.selected.amortizacioncapital}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_amortizacioncapital}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{periodosController.items}"
+                                           var="amortizacioncapitalItem"
+                                           itemValue="#{amortizacioncapitalItem}"
+                                           itemLabel="#{amortizacioncapitalItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{periodosConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_modalidad}" for="modalidad" />
+                        <p:selectOneMenu id="modalidad" value="#{limitesautorizadosController.selected.modalidad}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_modalidad}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{modalidadesController.items}"
+                                           var="modalidadItem"
+                                           itemValue="#{modalidadItem}"
+                                           itemLabel="#{modalidadItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{modalidadesConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_garantiaavaluo}" for="garantiaavaluo" />
+                        <p:selectOneMenu id="garantiaavaluo" value="#{limitesautorizadosController.selected.garantiaavaluo}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{garantiasController.items}"
+                                           var="garantiaavaluoItem"
+                                           itemValue="#{garantiaavaluoItem}"
+                                           itemLabel="#{garantiaavaluoItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{garantiasConverter}"/>
+                        </p:selectOneMenu>
+                        
+                        
+                      
+<!--
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_cupo}" for="cupo" />
+                        <p:selectOneMenu id="cupo" value="#{limitesautorizadosController.selected.cupo}" required="true" requiredMessage="#{myBundle.CreateLimitesautorizadosRequiredMessage_cupo}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cuposController.items}"
+                                           var="cupoItem"
+                                           itemValue="#{cupoItem}"
+                                           itemLabel="#{cupoItem.id.toString()}"
+                                           />
+                            <f:converter binding="#{cuposConverter}"/>
+                        </p:selectOneMenu>
+-->
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{limitesautorizadosController.guardar()}" value="#{myBundle.Save}" update="display,:LimitesautorizadosListForm,:growl" oncomplete="PF('handleSubmit(xhr,status,args,LimitesautorizadosCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('LimitesautorizadosCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

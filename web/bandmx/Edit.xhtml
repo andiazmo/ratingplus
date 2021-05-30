@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="BandMxEditDlg" widgetVar="BandMxEditDialog" 
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{myBundle.EditBandMxTitle}">
+            <h:form id="BandMxEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{bandMxController.selected != null}">
+                        <p:outputLabel for="numero" 
+                                       value="#{myBundle.EditBandMxLabel_numero}" />
+                        <p:inputText id="numero"
+                                     value="#{bandMxController.selected.numeroBanda}" 
+                                     title="#{myBundle.EditBandMxTitle_numero}" />
+                        <p:outputLabel  for="nodo" 
+                                        value="#{myBundle.EditBandMxLabel_nodo}"/>
+                        <p:selectOneMenu id="nodo" 
+                                         value="#{bandMxController.selected.timeBandMx}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{timeBandMxController.items}"
+                                           var="nodoItem"
+                                           itemValue="#{nodoItem}"
+                                           itemLabel="#{nodoItem.nodo.toString()}"/>
+                            <f:converter binding="#{timeBandMxConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bandMxController.save}" 
+                                     value="#{myBundle.Save}" 
+                                     update="display,:BandMxListForm:datalist,:growl" 
+                                     oncomplete="PF('handleSubmit(xhr,status,args,BandMxEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('BandMxEditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

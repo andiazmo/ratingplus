@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:form id="listEstadosSubstandarForm" >
+
+        <h:panelGroup id="display">
+
+            <p:panel header="Lista estados SubStandar"> 
+
+                <p:dataTable
+                    value="#{estadoSubStandarController.listEstados}"
+                    var="item"
+                    rowKey="#{item.id}"
+                    paginator="true"
+                    rows="10"
+                    rowsPerPageTemplate="10,20,30,40,50"
+                    id="datalist" 
+                    selection="#{estadoSubStandarController.selected}" selectionMode="single"
+                    >
+                    <p:ajax event="rowSelect"   update="createButton editButton"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton"/>
+
+                    <p:column sortBy="#{item.id}" filterBy="#{item.id}" style="width:30px ">
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet>
+
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}" style=" width:30px ">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombre}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <div class="footer-section">
+                            <p:commandButton id="createButton" icon="ui-icon-plus" actionListener="#{estadoSubStandarController.preparar()}" value="#{myBundle.Create}" update=":EstadoSubStandarCreateForm" oncomplete="PF('EstadoSubStandarCreateDialog').show()" />
+                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{myBundle.Edit}" disabled="#{empty estadoSubStandarController.selected}" update=":EstadoSubStandarEditForm" oncomplete="PF('EstadoSubStandarEditDialog').show()" />
+                        </div>
+                    </f:facet>
+
+
+                </p:dataTable>
+
+
+            </p:panel>
+
+        </h:panelGroup>
+
+    </h:form>
+
+</ui:composition>

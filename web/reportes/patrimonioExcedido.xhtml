@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Patrimonio Excedido"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+         <h:form id="LimitesautorizadosListForm">
+ <p:panel header="Patrimonio Tecnico Excedido">
+
+
+
+
+          <h:commandLink id="pdf" value ="Patrimonio Excedido" actionListener="#{clientesController.patrimonioExcedido()}">
+                <p:graphicImage value="//img/pdf.png" />
+          </h:commandLink>    
+<h:commandLink id="excel" action="#{clientesController.patrimonioExcedidoXls()}">
+                             <p:graphicImage value="//img/xls.png" />
+    </h:commandLink>         
+
+
+
+</p:panel>
+     
+
+
+        
+        
+        
+         
+
+        
+    </h:form>
+
+    </ui:define>
+
+</ui:composition>

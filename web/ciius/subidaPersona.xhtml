@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+        <p:panel header="Subir Altair">
+       <h:form enctype="multipart/form-data">       
+
+ <p:fileUpload fileUploadListener="#{personaJuridicasController.handleFileUpload}" mode="advanced" update="datalist :growl" auto="true"
+               sizeLimit="1000000000000000" label="Subir Altair"   />
+ <!-- grilla para ver las personas juridicas subidas-->
+                    
+     <p:dataTable id="datalist"
+                  value="#{personaJuridicasController.personas}"
+                         var="item"
+                         rowKey="#{item.numpersona}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                        >
+
+          
+
+                <p:column sortBy="#{item.numpersona}" filterBy="#{item.numpersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_numpersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numpersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.entidad}" filterBy="#{item.entidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_entidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.entidad}"/>
+                </p:column>
+
+
+               
+          
+                                    <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_nombre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nombre}"/>
+                                    </p:column>
+             
+          <p:column sortBy="#{item.pnombre}" filterBy="#{item.pnombre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_pnombre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.pnombre}"/>
+                                    </p:column>
+         
+                  <p:column sortBy="#{item.snombre}" filterBy="#{item.snombre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_snombre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.papellido}"/>
+                                    </p:column>
+            
+                                    <p:column sortBy="#{item.tipodocumento}" filterBy="#{item.tipodocumento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_tipodocumento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tipodocumento}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{item.numdocumento}" filterBy="#{item.numdocumento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_numdocumento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numdocumento}"/>
+                                    </p:column>
+                
+                                    <p:column sortBy="#{item.tipo}" filterBy="#{item.tipo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadespropiedades.ListPersonaJuridicasTitle_tipo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tipo}"/>
+                                    </p:column>     
+            </p:dataTable>       
+
+ </h:form>
+        </p:panel>
+</ui:composition>

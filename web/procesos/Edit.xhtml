@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+**************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 06-08-2018
+ ************************************** 
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProcesosEditDlg" widgetVar="ProcesosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditProcesosTitle}" closeOnEscape="true">
+
+            <h:form id="ProcesosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{procesosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditProcesosLabel_identificador}" for="identificador" />
+                        <h:outputText id="identificador" value="#{procesosController.selected.identificador}" />
+
+                        <p:outputLabel value="Ruta" for="Ruta" />
+                        <p:inputText id="Ruta" value="#{procesosController.selected.nombre}" title="Ruta" required="true" requiredMessage="#{myBundle.EditProcesosRequiredMessage_nombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProcesosLabel_clase}" for="clase" />
+                        <p:inputText id="clase" value="#{procesosController.selected.clase}" title="#{myBundle.CreateProcesosTitle_clase}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_clase}" size="100" maxlength="100"/>
+                        
+                        <p:outputLabel value="#{myBundle.EditProcesosLabel_cron}" for="cron" />
+                        <p:inputText id="cron" value="#{procesosController.selected.cron}" title="#{myBundle.EditProcesosTitle_cron}" required="true" requiredMessage="#{myBundle.EditProcesosRequiredMessage_cron}" size="100" maxlength="100"/>
+                        
+                        <!--FIXPACK2 - inicio -->
+                        <p:outputLabel value="#{myBundle.EditProcesosLabel_automatico}" for="automatico" />
+                        <h:selectBooleanCheckbox id="automatico" value="#{procesosController.selected.automatico}" title="#{myBundle.EditProcesosTitle_automatico}" disabled="false"/>
+                        <!--FIXPACK2 - fin -->
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesosController.modificarNuevo()}" value="#{myBundle.Save}" update="display,:ProcesosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProcesosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ProcesosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArchivosViewDlg" widgetVar="ArchivosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewArchivosTitle}" closeOnEscape="true">
+
+            <h:form id="ArchivosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{archivosController.selected != null}">
+
+                    
+                        <h:outputText value="#{myBundle.ViewArchivosLabel_nombre}"/>
+                        <h:outputText value="#{archivosController.selected.nombre}" title="#{myBundle.ViewArchivosTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewArchivosLabel_procesado}"/>
+                        <h:selectBooleanCheckbox id="procesado" value="#{archivosController.selected.procesado}" title="#{myBundle.EditArchivosTitle_procesado}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_procesado}" disabled="true"/>
+
+                        <h:outputText value="#{myBundle.ViewArchivosLabel_rprocesados}"/>
+                        <h:outputText value="#{archivosController.selected.rprocesados}" title="#{myBundle.ViewArchivosTitle_rprocesados}"/>
+
+                        <h:outputText value="#{myBundle.ViewArchivosLabel_rnprocesados}"/>
+                        <h:outputText value="#{archivosController.selected.rnprocesados}" title="#{myBundle.ViewArchivosTitle_rnprocesados}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ArchivosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LogarchivosListForm">
+
+        <p:panel header="#{myBundle.ListLogarchivosTitle}">
+            <p:contextMenu id="LogarchivosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('LogarchivosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('LogarchivosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('LogarchivosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('LogarchivosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.LogarchivosMenuItem_archivo}" icon="ui-icon-search"  actionListener="#{logarchivosController.prepareArchivo}" update=":ArchivosViewForm" oncomplete="PF('ArchivosViewDialog').show()" disabled="#{empty logarchivosController.selected.archivo}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{logarchivosController.items}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{logarchivosController.selected}">
+
+                <p:ajax event="rowSelect"   update=":LogarchivosListForm:createButton :LogarchivosListForm:viewButton :LogarchivosListForm:editButton :LogarchivosListForm:deleteButton :LogarchivosListForm:LogarchivosDataTableContextMenu" listener="#{logarchivosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":LogarchivosListForm:createButton :LogarchivosListForm:viewButton :LogarchivosListForm:editButton :LogarchivosListForm:deleteButton :LogarchivosListForm:LogarchivosDataTableContextMenu" listener="#{logarchivosController.resetParents}"/>
+                <p:ajax event="contextMenu" update=" :LogarchivosListForm:createButton :LogarchivosListForm:viewButton :LogarchivosListForm:editButton :LogarchivosListForm:deleteButton" listener="#{logarchivosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LogarchivosListForm:viewButton').click();"/>
+
+             
+
+                <p:column sortBy="#{item.linea}" filterBy="#{item.linea}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLogarchivosTitle_linea}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.linea}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.log}" filterBy="#{item.log}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLogarchivosTitle_log}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.log}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.archivo.nombre}" filterBy="#{item.archivo.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLogarchivosTitle_archivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.archivo.nombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"  style="visibility: hidden;"                           icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{logarchivosController.prepareCreate}" update=":LogarchivosCreateForm" oncomplete="PF('LogarchivosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":LogarchivosViewForm" oncomplete="PF('LogarchivosViewDialog').show()" disabled="#{empty logarchivosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":LogarchivosEditForm" oncomplete="PF('LogarchivosEditDialog').show()" disabled="#{empty logarchivosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{logarchivosController.delete}" update=":growl,datalist" disabled="#{empty logarchivosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

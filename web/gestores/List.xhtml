@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+            <h:form id="GestoresListForm">
+                <p:panel header="#{myBundle.ListGestoresTitle}">
+                    <p:dataTable id="datalist" value="#{gestoresController.gestores}" var="item"
+                                 selectionMode="single" selection="#{gestoresController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.cedula}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_cedula}"/>
+                            </f:facet>
+                            <div align="right"> <h:outputText value="#{item.cedula}"/></div>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_telefonoFijo}"/>
+                            </f:facet>
+                            <div align="right"><h:outputText value="#{item.telefonoFijo}"/></div>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_telefonoCelular}"/>
+                            </f:facet>
+                            <div align="right"><h:outputText value="#{item.telefonoCelular}"/></div>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_direccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.direccion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListGestoresTitle_email}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{gestoresController.prepareCreate}" update=":GestoresCreateForm" oncomplete="PF('GestoresCreateDialog').show()" style="visibility: #{gestoresController.crear}"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":GestoresViewForm" oncomplete="PF('GestoresViewDialog').show()" disabled="#{empty gestoresController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":GestoresEditForm" oncomplete="PF('GestoresEditDialog').show()" disabled="#{empty gestoresController.selected}" style="visibility: #{gestoresController.modificar}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{gestoresController.borrar()}" update=":growl,datalist" disabled="#{empty gestoresController.selected}" style="visibility: #{gestoresController.eliminar}">
+                             <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>    
+                        </f:facet>
+                    </p:dataTable>
+                      <ui:include src="/confirmation.xhtml"/>
+                </p:panel>
+            </h:form>
+</ui:composition>
+
+

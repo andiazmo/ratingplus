@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RpPermisosListForm">
+
+        <p:panel header="#{myBundle.ListRpPermisosTitle}">
+
+            <p:dataTable id="datalist" value="#{rpPermisosController.items}" var="item"
+                         selectionMode="single" selection="#{rpPermisosController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"  listener="#{rpPermisosController.seleccionar()}"  update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" listener="#{rpPermisosController.seleccionar()}" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.guardar}" filterBy="#{item.guardar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpPermisosTitle_guardar}"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox  disabled="true" value="#{item.guardar==1?true:false}" />
+                </p:column>
+                <p:column sortBy="#{item.modificar}" filterBy="#{item.modificar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpPermisosTitle_modificar}"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox  disabled="true" value="#{item.modificar==1?true:false}" />
+                </p:column>
+                <p:column sortBy="#{item.borrar}" filterBy="#{item.borrar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpPermisosTitle_borrar}"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox  disabled="true" value="#{item.modificar==1?true:false}" />
+                </p:column>
+                <p:column sortBy="#{item.modulo.codigo}" filterBy="#{item.modulo.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpPermisosTitle_modulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modulo.nombre}"/>
+                </p:column>
+                <p:column sortBy="#{item.rol.codigo}" filterBy="#{item.rol.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpPermisosTitle_rol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rol.nombre}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rpPermisosController.prepareCreate}" update=":RpPermisosCreateForm" oncomplete="PF('RpPermisosCreateDialog').show()" style="visibility: #{rpPermisosController.crear}"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RpPermisosViewForm" oncomplete="PF('RpPermisosViewDialog').show()" disabled="#{empty rpPermisosController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RpPermisosEditForm" oncomplete="PF('RpPermisosEditDialog').show()" disabled="#{empty rpPermisosController.selected}" style="visibility: #{rpPermisosController.modificar}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rpPermisosController.delete}" update=":growl,datalist" disabled="#{empty rpPermisosController.selected}" style="visibility: #{rpPermisosController.eliminar}">
+                     <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>    
+                </f:facet>
+
+            </p:dataTable>
+  <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

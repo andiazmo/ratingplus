@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK1
+ *Fecha del cambio : 26-06-2018
+ **************************************
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ClientesListForm" >
+
+        <p:panel header="#{myBundle.ListClientesTitle}">
+
+            <h:commandLink>
+                <p:graphicImage url="//img/excel.png" width="24"/>
+                <h:outputText value="Exportar Excel"/>
+                <p:dataExporter type="xls" target="datalist" fileName="Clientes" />
+            </h:commandLink>
+
+            <p:dataTable id="datalist"
+                         value="#{clientesController.clientes}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{clientesController.selected}"
+                         >
+
+                <p:ajax event="rowSelect"  listener="#{clientesController.copiar()}" update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" listener="#{clientesController.copiar()}" update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="page" update="datalist"/>
+
+                <p:column sortBy="#{item.nit}" filterBy="#{item.nit}" style=" width:80px " >
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_nit}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nit}-#{item.digitochequeo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.grupo.nombre}" filterBy="#{item.grupo.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_grupo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.grupo.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.rating}" filterBy="#{item.rating}" style="width:60px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_rating}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rating}" />
+                </p:column>
+
+                <p:column sortBy="#{item.desde}" filterBy="#{item.desde}" style="width:60px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_desde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.desde}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.gestorcomercial}" filterBy="#{item.gestorcomercial}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_gestorcomercial}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.gestorcomercial}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.fecharating}" filterBy="#{item.fecharating}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_fecharating}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fecharating}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.valoractivo}" filterBy="#{item.valoractivo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_valoractivo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.valoractivo}"/>
+                                    </p:column>
+                -->
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Limite Total"/>
+                    </f:facet>
+                    <h:outputText value="#{!item.cuposList.isEmpty()?item.cuposList.get(0).limitetotal:'NA'}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Limite Consumido"/>
+                    </f:facet>
+                    <h:outputText value="#{!item.cuposList.isEmpty()?clientesController.getConsumidoTotal(item.cuposList.get(0)) :'NA'}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Ventas"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventas}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Activos"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valoractivo}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fecha Balance"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechabalance}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fecha Estado Cliente"/>
+                    </f:facet>
+                    <h:outputText value="#{clientesController.getCalcularFechaEstado(item)}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estadocliente.nombre}" filterBy="#{item.estadocliente.nombre}" style="width:60px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_estadocliente}"/>
+                    </f:facet>
+                    <p:link outcome="estadocliente" value="#{item.estadocliente.nombre}" target="_blank">
+                        <f:param name="id" value="#{item.id}" />
+                    </p:link>
+                </p:column>
+
+                <p:column sortBy="#{item.subestado.nombre}" filterBy="#{item.subestado.nombre}" style="width:50px ">
+                    <f:facet name="header">
+                        <!--FIXPACK1 - inicio -->
+                        <h:outputText value="#{myBundle.ListClientesTitle_subestadocliente}"/>
+                        <!--FIXPACK1 - inicio -->
+                    </f:facet>
+<!--                    <p:link outcome="estadocliente" value="#{item.subestado.nombre}" target="_blank">
+                        <f:param name="id" value="#{item.id}" />
+                    </p:link>-->
+                    <h:outputText value="#{!item.estadocliente.nombre.equalsIgnoreCase('SCAN')?item.subestado.nombre:'NA'}">
+
+                    </h:outputText>
+
+                </p:column>
+
+                <!-- Estado SubStandar -->
+                <p:column sortBy="#{item.estadoSubstandar.nombre}" filterBy="#{item.estadoSubstandar.nombre}" style="width:60px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.Estado_substandar}"/>
+                    </f:facet>
+                    <p:link outcome="estadoSubStandar" value="#{item.estadoSubstandar.nombre}" target="_blank">
+                        <f:param name="id" value="#{item.id}" />
+                    </p:link>
+                </p:column>
+
+                <!-- Aquì EstadoCupos -->
+                <p:column sortBy="#{item.subestado.nombre}" filterBy="#{item.subestado.nombre}" style="width:50px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_estadoScan}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadocliente.nombre.equalsIgnoreCase('SCAN')?item.scan.nombre:'NA'}"/>
+                </p:column>
+                <p:column sortBy="#{item.subestado_scan.nombre}" filterBy="#{item.subestado_scan.nombre}" style="width:50px ">
+                    <f:facet name="header">
+                        <h:outputText value="Sub Estado Scan"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadocliente.nombre.equals('SCAN')?item.subestado_scan.nombre:'NA'}">
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{item.reconduccion.nombre}" filterBy="#{item.reconduccion.nombre}" style="width:50px ">
+                    <f:facet name="header">
+                        <h:outputText value="Estado Reconduccion"/>
+                    </f:facet>
+                    <p:link outcome="estadoreconduccion" value="#{item.reconduccion.nombre}" target="_blank">
+                        <f:param name="id" value="#{item.id}" />
+                    </p:link>
+                </p:column>
+
+
+
+
+                <!--
+                                    <p:column sortBy="#{item.estado.id}" filterBy="#{item.estado.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_estado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.estado.id}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.ciiu.id}" filterBy="#{item.ciiu.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_ciiu}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.ciiu.id}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.banca.id}" filterBy="#{item.banca.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListClientesTitle_banca}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.banca.id}"/>
+                                    </p:column>
+                -->
+
+
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   
+                                         value="#{myBundle.Create}" 
+                                         actionListener="#{clientesController.prepararCrear}" 
+                                         update=":ClientesCreateForm"
+                                         oncomplete="PF('ClientesCreateDialog').show()" 
+                                         style="visibility: #{clientesController.crear}" />
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":ClientesViewForm" oncomplete="PF('ClientesViewDialog').show()" disabled="#{empty clientesController.selected}" />
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" 
+                                         update=":ClientesEditForm" 
+                                         actionListener="#{clientesController.prepararEditar}"
+                                         oncomplete="PF('ClientesEditDialog').show()" disabled="#{empty clientesController.selected}" style="visibility: #{clientesController.modificar}" />
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{clientesController.borrar()}" update=":growl,datalist" disabled="#{empty clientesController.selected}" style="visibility: #{clientesController.eliminar}">
+                            <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+            <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+    </h:form>
+
+</ui:composition>

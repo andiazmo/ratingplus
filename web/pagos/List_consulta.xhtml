@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <!-- 
+    *Proyecto : Cupos Auditoria 2018
+    *Programados: Juan Herrera
+    *Tag de cambio: CupoAut2018
+    *Fecha del cambio : 22-05-2018
+    *Cambio:
+            <p:outputLabel value="Activo:" for="estado" />
+            <p:selectBooleanCheckbox id ="estado"  disabled="true" value="# {cuposController.selected.estado}"/>
+             por :
+            <p:outputLabel value="Estado:" for="estado" />
+            <p:inputText id="estado" style=" background: #e0dfdd  " readonly="true" value="# {cuposController.selected.estadoActualCupo}"/>                                                
+    -->
+    <h:form id="PagosConListForm">
+
+        <h:panelGroup id="display" >
+            <div align="center" style=" font-size: 50px">Consulta de Pagos</div>
+            <p:panelGrid columns="2"  style=" alignment-adjust:  central"  columnClasses="column">
+
+
+                <p:panel header="Datos del Cupo">
+                    <p:panelGrid columns="2" columnClasses="column"  rendered="#{!empty cuposController.selected}">
+
+                        <p:outputLabel value="#{myBundle.CreateCuposLabel_fechaalta}" for="fechaalta" />
+                        <p:inputText id="fechaalta" readonly="true"  style=" background: #e0dfdd  "  value="#{cuposController.selected.fechaalta}" title="#{myBundle.CreateCuposTitle_fechaalta}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{myBundle.CreateCuposLabel_fechavencimiento}" for="fechavencimiento" />
+                        <p:inputText id="fechavencimiento" readonly="true" style=" background: #e0dfdd  "   value="#{cuposController.selected.fechavencimiento}" title="#{myBundle.CreateCuposTitle_fechavencimiento}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{myBundle.CreateCuposLabel_limitetotal}" for="limitetotal" />
+                        <p:inputText id="limitetotal" readonly="true" style=" background: #e0dfdd  "  value="#{cuposController.selected.limitetotal}" size="30" title="#{myBundle.CreateCuposTitle_limitetotal}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_limitetotal}">
+                            <f:convertNumber   maxFractionDigits="2" />
+                        </p:inputText>
+                        <p:outputLabel value="#{myBundle.Consumido}" for="limiteconsumido" />
+                        <p:inputText readonly="true" id="limiteconsumido" style=" background: #e0dfdd  " value="#{cuposController.consumidoTotal}" size="30" title="#{myBundle.CreateCuposTitle_limiteconsumido}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_limiteconsumido}">
+                            <f:convertNumber   maxFractionDigits="2" />
+                        </p:inputText>
+                        <p:outputLabel value="#{myBundle.Disponible}" for="limitedisponible" />
+                        <p:inputText readonly="true" id="limitedisponible" style=" background: #e0dfdd  " value="#{cuposController.selected.limitetotal - cuposController.consumidoTotal}" size="30" title="#{myBundle.CreateCuposTitle_limiteconsumido}" >
+                            <f:convertNumber   maxFractionDigits="2" />
+                        </p:inputText>
+                        <p:outputLabel value="#{myBundle.CreateCuposLabel_moneda}" for="moneda" />
+                        <p:inputText readonly="true" id="moneda" style=" background: #e0dfdd  " value="#{cuposController.selected.moneda.nombre}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_moneda}"/>
+
+                        <p:outputLabel value="Estado:" for="estado" />
+                        <p:inputText id="estado" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.selected.estadoActualCupo}"/> 
+
+
+
+                    </p:panelGrid>
+
+                </p:panel>
+
+
+
+                <p:panel header="Datos del Cliente">
+                    <p:panelGrid columns="4" columnClasses="column" > 
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_nit}" for="nit" />
+                        <p:autoComplete id="nit"   size="30"         var="clienteItem" value="#{cuposController.clienteNit}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nit}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(1)}" >
+                            <!--AQUI-->   <p:ajax event="itemSelect"    listener="#{cuposController.clienteSeleccionConsultar(1)}"  update="display"/> 
+                            <f:converter binding="#{clientesConverter}" />
+                        </p:autoComplete>  
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_nombre}" for="nombre" />
+                        <p:autoComplete id="nombre"   size="60"        var="clienteItem" value="#{cuposController.clienteNombre}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nombre}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(2)}" >
+                            <p:ajax event="itemSelect"  listener="#{cuposController.clienteSeleccionConsultar(2)}"  update="display"/> 
+                            <f:converter binding="#{clientesConverter}" />
+                        </p:autoComplete> 
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_digitochequeo}" for="digitochequeo" />
+                        <p:inputText id="digitochequeo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.digitochequeo}" title="#{myBundle.CreateClientesTitle_digitochequeo}" size="1" maxlength="1"/>
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_rating}" for="rating" />
+                        <p:inputText id="rating" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.rating}" title="#{myBundle.CreateClientesTitle_rating}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_desde}" for="desde" />
+                        <p:inputText id="desde" style=" background: #e0dfdd  "  readonly="true" value="#{cuposController.clienteNit.desde}" title="#{myBundle.CreateClientesTitle_desde}"  >
+                            <f:convertDateTime  pattern="dd/MM/yyyy" />
+                        </p:inputText> 
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_gestorcomercial}" for="gestorcomercial" />
+                        <p:inputText id="gestorcomercial" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.gestorcomercial.nombre}"   size="40" maxlength="1"/>
+
+
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_fecharating}" for="fecharating" />
+                        <p:inputText id="fecharating" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.fecharating}" title="#{myBundle.CreateClientesTitle_fecharating}"  >
+                            <f:convertDateTime  pattern="dd/MM/yyyy" />
+                        </p:inputText>    
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_valoractivo}" for="valoractivo" />
+                        <p:inputText id="valoractivo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.valoractivo}" title="#{myBundle.CreateClientesTitle_valoractivo}" size="40">
+                            <f:convertNumber  currencySymbol="COP" type="currency" />
+                        </p:inputText>    
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_fechabalance}" for="fechabalance" />
+                        <p:inputText id="fechabalance" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.fechabalance}" title="#{myBundle.CreateClientesTitle_fechabalance}"  >
+                            <f:convertDateTime  pattern="dd/MM/yyyy" />
+                        </p:inputText>    
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_grupo}" for="grupo" />
+                        <p:inputText id="grupo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.grupo.nombre}" title="#{myBundle.CreateClientesTitle_valoractivo}"/>
+
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_estadocliente}" for="estadocliente" />
+                        <p:inputText id="estadocliente" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.estadocliente.nombre}" title="#{myBundle.CreateClientesTitle_valoractivo}"/>
+
+
+
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_ciiu}" for="ciiu" />
+                        <p:inputText id="ciiu" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.ciiu.nombre}" title="#{myBundle.CreateClientesTitle_valoractivo}"/>
+
+
+                        <p:outputLabel value="#{myBundle.CreateClientesLabel_banca}" for="banca" />
+                        <p:inputText id="banca" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.banca.nombre}" title="#{myBundle.CreateClientesTitle_valoractivo}"/>
+
+
+                    </p:panelGrid>
+                </p:panel>
+            </p:panelGrid>
+
+
+
+            <p:panel id="conten" visible="#{cuposController.clienteNit.nit.length() > 0}">
+                <h:panelGroup>
+                    <p:panelGrid columns="1"  > 
+                        <p:panel header="#{myBundle.ListLimitesautorizadosTitle}">
+                            <p:dataTable id="datalistLimites"
+                                         value="#{cuposController.selected.limitesautorizadosList}"
+                                         var="item"
+                                         rowKey="#{item.id}"
+                                         paginator="true"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         selectionMode="single"
+                                         selection="#{limitesautorizadosController.selected}"
+                                         scrollable="true" scrollWidth="1110"
+                                         resizableColumns="true" liveScroll="true">
+
+                                <p:ajax event="rowSelect"  listener="#{limitesautorizadosController.limpiaDesembolso()}"  update=" :PagosConListForm:display"/>
+                                <p:ajax event="rowUnselect" listener="#{limitesautorizadosController.limpiaDesembolso()}" update=" :PagosConListForm:display"/>
+
+                                <p:column  sortBy="#{item.modalidad.nombre}" style='background: #{item.modalidad.consulta?"#e0dfdd":"#ffffff"}'>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_modalidad}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.modalidad.nombre}"/>
+                                </p:column>
+
+                                <p:column  sortBy="#{item.sublimiteautorizado}" style='background: #{item.modalidad.consulta?"#e0dfdd":"#ffffff"}'>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_sublimiteautorizado}"/>
+                                    </f:facet>
+                                    <div align="right"><h:outputText value="#{item.sublimiteautorizado}">
+                                            <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText></div>
+                                </p:column>
+
+                                <p:column  sortBy="#{item.consumido}" style='background: #{item.modalidad.consulta?"#e0dfdd":"#ffffff"}'>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_utilizado}" />:
+                                        <h:outputText value="#{cuposController.consumidoTotal}">
+                                            <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <div align="right"><h:outputText value="#{item.consumido}">
+                                            <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText></div>
+                                </p:column>
+
+                                <p:column sortBy="#{item.disponible}" style='background: #{item.modalidad.consulta?"#e0dfdd":"#ffffff"}'>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_disponible}: "/>
+                                        <h:outputText value="#{(cuposController.selected.limitetotal - cuposController.consumidoTotal)}">
+                                            <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <div align="right">  
+                                        <div align="right"><h:outputText value="#{item.disponible}">
+                                                <f:convertNumber maxFractionDigits="2" />
+                                            </h:outputText></div>
+                                    </div>
+                                </p:column>
+
+                                <p:column  sortBy="#{item.comentarios}" style='background: #{item.modalidad.consulta?"#e0dfdd":"#ffffff"}'>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_comentarios}"/>
+                                    </f:facet>
+                                    <h:commandButton  id="createButton"  value="ver"    >
+                                        <p:ajax listener="#{limitesautorizadosController.selecionarLimite(item)}" update=":PagosConListForm" event="click" oncomplete="PF('LimitesautorizadosComentarioDialog').show()"/>
+                                    </h:commandButton>  
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>    
+
+                        <p:panel header="#{myBundle.ListDesembolsosTitle}">
+                            <p:dataTable id="datalistDesembolso"
+                                         value="#{limitesautorizadosController.selected.desembolsosList}"
+                                         var="itemd"
+                                         rowKey="#{itemd.id}"
+                                         paginator="true"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         selectionMode="single"
+                                         selection="#{limitesautorizadosController.desembolso}">
+
+                                <p:ajax event="rowSelect"  listener="#{limitesautorizadosController.listaPagos()}"   update=":PagosConListForm:display"  />
+                                <p:ajax event="rowUnselect" listener="#{limitesautorizadosController.listaPagos()}"   update=":PagosConListForm:display" />
+                                <p:ajax event="rowToggle" listener="#{limitesautorizadosController.listaPagos()}" update=":PagosConListForm:datalistDesembolso:datalist" />
+                                <p:column style="width:16px">
+                                    <p:rowToggler>
+
+                                    </p:rowToggler>
+                                </p:column>
+
+                                <p:column sortBy="#{itemd.fecha}" filterBy="#{itemd.fecha}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListDesembolsosTitle_fecha}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemd.fecha}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+
+                                <p:column sortBy="#{itemd.valor}" filterBy="#{itemd.valor}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{myBundle.ListDesembolsosTitle_valor}"/>
+                                    </f:facet>
+                                    <div align="right"><h:outputText value="#{itemd.valor}">
+                                            <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText></div>
+
+                                </p:column>
+
+
+
+
+
+                                <p:column sortBy="#{itemd.comentarios}" filterBy="#{itemd.comentarios}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comentarios"/>
+                                    </f:facet>
+                                    <div align="right"><h:outputText value="#{itemd.comentarios}"/></div>
+                                </p:column>
+
+
+
+                                <p:rowExpansion>
+                                    <p:dataTable id="datalist"
+                                                 value="#{itemd.pagosList}"
+                                                 var="item"
+                                                 rowKey="#{item.id}"
+                                                 paginator="true"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 selectionMode="single"
+                                                 selection="#{limitesautorizadosController.pago}"
+                                                 >
+
+                                        <p:ajax event="rowSelect"  />
+                                        <p:ajax event="rowUnselect"  />
+
+
+                                        <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{myBundle.ListPagosTitle_fecha}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.fecha}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+
+
+                                        <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{myBundle.ListPagosTitle_valor}"/>
+                                            </f:facet>
+                                            <div align="right"><h:outputText value="#{item.valor}">
+                                                    <f:convertNumber maxFractionDigits="2" />
+                                                </h:outputText> </div>   
+                                        </p:column>
+
+
+
+
+
+                                    </p:dataTable>
+                                    <ui:include src="/confirmation.xhtml"/>
+                                </p:rowExpansion>
+
+
+
+
+                            </p:dataTable>            
+
+
+
+                        </p:panel>       
+
+
+
+
+
+                    </p:panelGrid>      
+                </h:panelGroup> 
+
+            </p:panel>
+
+            <p:dialog id="LimitesautorizadosCreateDlg" widgetVar="LimitesautorizadosComentarioDialog"      header="Comentario"  >
+
+
+                <p:editor widgetVar="primeEditor" value="#{limitesautorizadosController.selected.comentarios}" disabled="true"/>
+
+            </p:dialog>  
+
+
+        </h:panelGroup>
+    </h:form>
+
+</ui:composition>

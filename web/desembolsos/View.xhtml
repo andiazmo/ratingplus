@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DesembolsosViewDlg" widgetVar="DesembolsosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewDesembolsosTitle}" closeOnEscape="true">
+
+            <h:form id="DesembolsosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{limitesautorizadosController.desembolso != null}">
+
+                       
+                        <h:outputText value="#{myBundle.ViewDesembolsosLabel_fecha}"/>
+                        <h:outputText value="#{limitesautorizadosController.desembolso.fecha}" title="#{myBundle.ViewDesembolsosTitle_fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewDesembolsosLabel_valor}"/>
+                        <h:outputText value="#{limitesautorizadosController.desembolso.valor}" title="#{myBundle.ViewDesembolsosTitle_valor}">
+                            <f:convertNumber maxFractionDigits="2"/>
+               
+                        </h:outputText>     
+
+                     
+                        <h:outputText value="#{myBundle.ViewDesembolsosLabel_comentarios}"/>
+                        <h:outputText value="#{limitesautorizadosController.desembolso.comentarios}" title="#{myBundle.ViewDesembolsosTitle_comentarios}"/>
+
+                        <h:outputText value="Contrato"/>
+                        <h:outputText value="#{limitesautorizadosController.desembolso.contrato}"/>
+                      
+                       
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('DesembolsosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

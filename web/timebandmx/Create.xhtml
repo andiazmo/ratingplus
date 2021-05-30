@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="TimeBandCreateDialog" widgetVar="TimeBandCreateDialog"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{myBundle.CreateTimeBandTitle}">
+            <h:form id="TimeBandCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{timeBandMxController.selected != null}">
+                        <p:outputLabel value="#{myBundle.CreateTimeBandLabel_nodo}" for="nodo" />
+                        <p:inputText id="nodo" value="#{timeBandMxController.selected.nodo}" 
+                                     title="#{myBundle.CreateTimeBandTitle_nodo}" 
+                                     required="true" requiredMessage="#{myBundle.TimeBandRequiredMessage_nodo}"/>
+                        <h:outputLabel for="diasI" value="#{myBundle.CreateTimeBandLabel_diasI}" />
+                        <p:spinner id="diasI" value="#{timeBandMxController.selected.diasInicio}" 
+                                   title="#{myBundle.CreateTimeBandTitle_diasI}"
+                                   required="true" requiredMessage="#{myBundle.TimeBandRequiredMessage_diasI}"/>
+                        <h:outputLabel for="diasF" value="#{myBundle.CreateTimeBandLabel_diasF}" />
+                        <p:spinner id="diasF" value="#{timeBandMxController.selected.diasFin}"
+                                   title="#{myBundle.CreateTimeBandTitle_diasF}"
+                                   required="true" requiredMessage="#{myBundle.TimeBandRequiredMessage_diasF}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{timeBandMxController.guardar}" 
+                                     value="#{myBundle.Save}" 
+                                     update="display,:TimeBandListForm:datalist,:growl"
+                                     oncomplete="PF('handleSubmit(xhr,status,args,TimeBandCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('TimeBandCreateDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

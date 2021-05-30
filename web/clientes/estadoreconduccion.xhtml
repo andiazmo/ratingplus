@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+                    
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.ClientesTitle}"/>
+    </ui:define>
+        
+    <ui:define name="body">
+        <h:form id="EstadoClientesListForm2" >
+            
+            <h:panelGroup id="display">
+                
+                <p:panel id="ClientePanel" header="Cliente">
+                    <h:panelGrid columns="5" cellpadding="10">
+                        
+                        <h:outputText value="Nit:" style="font-weight:bold"/>
+                        <h:outputText value="#{estadosReconduccionController.clientes.nit}" title="#{myBundle.ViewClientesTitle_digitochequeo}"/>
+                        
+                        <h:outputText value="Nombre:" style="font-weight:bold"/>
+                        <h:outputText value="#{estadosReconduccionController.clientes.nombre}" title="#{myBundle.ViewClientesTitle_nombre}"/>
+                            
+                        <p:link outcome="estadoReconduccionReporte" value="Clic para solicitar Reporte" target="_blank" style="font-weight:bold">
+                            <f:param name="id" value="#{estadosReconduccionController.clientes.id}" />
+                        </p:link>
+                        
+                    </h:panelGrid>
+                </p:panel>
+                
+                <p:panel id="EstadoClienteCreatePanel" header="Crear nuevo estado Reconduccion">
+                    <h:panelGrid columns="7" cellpadding="10">
+                        
+                        <p:outputLabel value="Fecha" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm:ss" value="#{estadosReconduccionController.fecha}" title="Fecha" required="true" showOn="button"/>
+                            
+                        <p:outputLabel for="advanced" value="Estado: " />
+                        <p:selectOneMenu id="advanced" value="#{estadosReconduccionController.reconduccion}" panelStyle="width:180px"
+                                         effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{estadosReconduccionController.reconduccionList}" var="theme" itemLabel="#{idClienteItem.nombre}" itemValue="#{theme}" />
+                                
+                            <p:column>
+                                <h:outputText value="#{t.nombre}" />
+                            </p:column>
+                            <f:converter binding="#{reconduccionConverter}"/>
+                        </p:selectOneMenu>
+                            
+                            
+                        <p:outputLabel value="Descripcion" for="descripcion" />
+                        <p:inputTextarea rows="3" cols="50" id="descripcion" value="#{estadosReconduccionController.descripcion}" title="#{myBundle.CreateEstadoClienteTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateEstadoClienteRequiredMessage_descripcion}"/>
+                            
+                        <p:commandButton actionListener="#{estadosReconduccionController.guardar()}" value="#{myBundle.Save}" update="display: datalist"/>
+                            
+                    </h:panelGrid>
+                </p:panel>
+                    
+                    
+                <p:panel header="Lista estados Reconduccion"> 
+                    <p:dataTable
+                        id="datalist"
+                        value="#{estadosReconduccionController.list}"
+                        var="item"
+                        rowKey="#{item.id}"
+                        paginator="true"
+                        rows="10"
+                        rowsPerPageTemplate="10,20,30,40,50"
+                        selectionMode="single"
+                        selection="#{estadosReconduccionController.selectedRow}"
+                        >
+                        
+                        <p:ajax event="rowSelect"   update=" deleteButton "/>
+                        <p:ajax event="rowUnselect" update=" deleteButton "/>
+                            
+                            
+                            
+                        <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}" style="width:30px ">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                                
+                            <h:outputText value="#{item.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                                
+                        </p:column>
+                            
+                        <p:column sortBy="#{item.idReconduccion.nombre}" filterBy="#{item.idReconduccion.nombre}" style=" width:30px ">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idReconduccion.nombre}"/>
+                        </p:column>
+                            
+                            
+                        <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}" style=" width:40px " >
+                            <f:facet name="header">
+                                <h:outputText value="Descripcion"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <div class="footer-section">
+                                <p:commandButton id="deleteButton" value="Delete" icon="ui-icon-trash" action="#{estadosReconduccionController.borrar}" update="datalist"  disabled="#{empty estadosReconduccionController.selectedRow}"> 
+                                    <p:ajax listener="#{estadosReconduccionController.borrar()}" update="datalist" />
+                                </p:commandButton>
+                            </div>
+                        </f:facet>
+                            
+                            
+                            
+                    </p:dataTable>
+                </p:panel>
+                    
+            </h:panelGroup>
+                
+        </h:form>
+    </ui:define>
+        
+</ui:composition>

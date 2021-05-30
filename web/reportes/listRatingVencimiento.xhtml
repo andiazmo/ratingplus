@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Reporte de Ratings Vencidos"/>
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="LimitesautorizadosListForm">
+            <p:panel header="Reporte Listado de clientes con Ratings Vencidos y por Vencer">
+                <p:panelGrid columns="10" columnClasses="column" >  
+
+                    <p:outputLabel for="filtro" value="Seleccione una opción:" />
+                    <p:selectOneRadio id="filtro" value="#{clientesController.isRatingVencido}" >
+                        <f:selectItem itemLabel="Vencido" itemValue="true" />
+                        <f:selectItem itemLabel="Por Vencerse" itemValue="false" />
+                        <p:ajax process="filtro" 
+                                update="LimitesautorizadosListForm" />
+                    </p:selectOneRadio >
+
+
+                    <p:outputLabel value="Seleccione:" for="rango" rendered="#{!clientesController.isRatingVencido}" />
+                    <p:selectOneMenu id="rango" value="#{clientesController.paramSelected}" rendered="#{!clientesController.isRatingVencido}">
+                        <f:selectItems value="#{clientesController.rangoFechas}"
+                                       var="item"
+                                       itemValue="#{item}"
+                                       itemLabel="#{item.nombre}"
+                                       />
+                        <f:converter binding="#{nombreValorConversor}"/>
+                    </p:selectOneMenu>
+
+                    <h:commandLink id="pdf" 
+                                   value ="" 
+                                   actionListener="#{clientesController.reporteRatingVencidoPDF()}">
+                        <p:graphicImage value="//img/pdf.png" />
+                    </h:commandLink>    
+
+                    <h:commandLink id="excel" 
+                                   action="#{clientesController.reporteRatingVencidoXLS()}">
+                        <p:graphicImage value="//img/xls.png" />
+                    </h:commandLink> 
+
+                </p:panelGrid>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

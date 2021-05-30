@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="ClientesViewDlg" widgetVar="ClientesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewClientesTitle}" closable="false" closeOnEscape="false">
+
+            <h:form id="ClientesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columnClasses="column" style=" text-align:center" rendered="#{clientesController.selected != null}">
+
+                        <p:row>
+                            <p:column colspan="7">Informacion Basica</p:column>
+                        </p:row>  
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Tipo Documento" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.tipo_documento.nombre}" title="#{myBundle.ViewClientesTitle_nit}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+                            <p:column colspan="2">  
+                                <h:outputText value="#{myBundle.ViewClientesLabel_nit}"/>
+                            </p:column>  
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.nit}-#{clientesController.selected.digitochequeo}" title="#{myBundle.ViewClientesTitle_nit}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_nombre}"/>   
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.nombre}" title="#{myBundle.ViewClientesTitle_nombre}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_desde}"/>
+                            </p:column>  
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.desde}" title="#{myBundle.ViewClientesTitle_desde}" style="background: #e0dfdd" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+                            </p:column>        
+
+                        </p:row>        
+
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_grupo}"/>
+
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.grupo.nombre}" style="background: #e0dfdd" readonly="true"/>    
+                            </p:column> 
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_ciiu}"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.ciiu.nombre}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column> 
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_banca_local}"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.banca.nombre}" style="background: #e0dfdd" readonly="true"/>  
+                            </p:column> 
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_gestorcomercial}"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.gestorcomercial.nombre}" title="#{myBundle.ViewClientesTitle_gestorcomercial}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column> 
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_banca_corporativa}"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  id="bancaCorporativaId" value="#{clientesController.selected.bancaCorporativaBean.id} - #{clientesController.selected.bancaCorporativaBean.nombre}" style="background: #e0dfdd" readonly="true"/>  
+                                <p:tooltip for="bancaCorporativaId" value="#{clientesController.selected.bancaCorporativaBean.descripcion}"/>
+                            </p:column> 
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7">Situacion Cliente</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_estadocliente}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.estadocliente.nombre}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText value="Fecha Estado:"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.fechaestado} " style="background: #e0dfdd" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="Estado Scan:"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.scan.nombre}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText value="Subestado Scan:"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.subestado_scan.nombre}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="Fecha Scan:"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText value="#{clientesController.selected.fechascan}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7">Informacion Financiera</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_rating}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.rating}" title="#{myBundle.ViewClientesTitle_rating}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_fecharating}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText  value="#{clientesController.selected.fecharating}" title="#{myBundle.ViewClientesTitle_fecharating} " style="background: #e0dfdd" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_valoractivo}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.valoractivo}" title="#{myBundle.ViewClientesTitle_valoractivo}" style="background: #e0dfdd" readonly="true">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </p:inputText> 
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText value="Valor Ventas:"/>
+                            </p:column> 
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.ventas}" style="background: #e0dfdd" readonly="true">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </p:inputText>
+                            </p:column> 
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{myBundle.ViewClientesLabel_fechabalance}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.fechabalance}" title="#{myBundle.ViewClientesTitle_fechabalance}" style="background: #e0dfdd" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+
+
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}"
+                                     actionListener="#{clientesController.reiniciar}"                                                                                           
+                                     oncomplete="PF('ClientesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

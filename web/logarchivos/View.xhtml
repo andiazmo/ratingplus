@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogarchivosViewDlg" widgetVar="LogarchivosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLogarchivosTitle}" closeOnEscape="true">
+
+            <h:form id="LogarchivosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{logarchivosController.selected != null}">
+
+                     
+                        <h:outputText value="#{myBundle.ViewLogarchivosLabel_linea}"/>
+                        <h:outputText value="#{logarchivosController.selected.linea}" title="#{myBundle.ViewLogarchivosTitle_linea}"/>
+
+                        <h:outputText value="#{myBundle.ViewLogarchivosLabel_log}"/>
+                        <h:outputText value="#{logarchivosController.selected.log}" title="#{myBundle.ViewLogarchivosTitle_log}"/>
+
+                        <h:outputText value="#{myBundle.ViewLogarchivosLabel_archivo}"/>
+                        <h:outputText value="#{logarchivosController.selected.archivo.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LogarchivosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

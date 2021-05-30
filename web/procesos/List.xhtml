@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+**************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 03-08-2018
+ ************************************** 
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProcesosListForm">
+
+        <p:panel header="#{myBundle.ListProcesosTitle}">
+
+            <p:dataTable id="datalist"
+                         value="#{procesosController.procesos}"
+                         var="item"
+                         rowKey="#{item.identificador}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{procesosController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProcesosListForm:createButton :ProcesosListForm:viewButton :ProcesosListForm:editButton :ProcesosListForm:deleteButton" />
+                <p:ajax event="rowUnselect" update=":ProcesosListForm:createButton :ProcesosListForm:viewButton :ProcesosListForm:editButton :ProcesosListForm:deleteButton"/>
+
+
+                <p:column sortBy="#{item.identificador}" filterBy="#{item.identificador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProcesosTitle_identificador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.identificador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Ruta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.clase}" filterBy="#{item.clase}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProcesosTitle_clase}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.clase}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.cron}" filterBy="#{item.cron}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProcesosTitle_cron}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cron}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProcesosTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado ? 'Corriendo' : 'Detenido'}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Accion"/>
+                    </f:facet>
+                    <!--FIXPACK2 - inicio -->
+                    <div class="oculta-boton"></div>
+                    <!--<p:commandButton icon="#{item.estado ?'ui-icon-stop':'ui-icon-play'}"   value="#{item.estado ? 'Stop' : 'Play'}" actionListener="#{procesosController.cambiarEstado}" update=":ProcesosListForm"/>-->
+                    <p:commandButton icon="#{item.estado ?'ui-icon-stop':'ui-icon-play'}"   value="#{item.estado ? 'Stop' : 'Play'}" actionListener="#{procesosController.cambiarEstado}" update=":growl,:ProcesosListForm"/>
+                    <!--FIXPACK2 - fin -->
+                </p:column>
+
+
+                <!--FIXPACK2 - inicio -->
+                <p:column sortBy="#{item.automatico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProcesosTitle_automatico}"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox  disabled="true" value="#{item.automatico}"/>
+                </p:column>
+                <!--FIXPACK2 - fin -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{procesosController.prepareCreate}" update=":ProcesosCreateForm" oncomplete="PF('ProcesosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":ProcesosViewForm" oncomplete="PF('ProcesosViewDialog').show()" disabled="#{empty procesosController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProcesosEditForm" oncomplete="PF('ProcesosEditDialog').show()" disabled="#{empty procesosController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{procesosController.borrar()}" update=":growl,datalist" disabled="#{empty procesosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert" />
+            </p:commandButton>
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

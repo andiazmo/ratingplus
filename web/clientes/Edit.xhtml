@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK1
+ *Fecha del cambio : 26-06-2018
+ **************************************
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+        <p:dialog id="ClientesEditDlg" widgetVar="ClientesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditClientesTitle}" closeOnEscape="true">
+
+            <h:form id="ClientesEditForm">
+
+                <h:panelGroup id="display"  style="text-align:center">
+                    <p:panelGrid  columnClasses="column" rendered="#{clientesController.selected != null}">
+
+                        <p:row>
+                            <p:column colspan="7">Informacion Basica</p:column>
+                        </p:row>  
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Tipo Documento" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{clientesController.selected.tipo_documento.nombre}" title="#{myBundle.ViewClientesTitle_nit}" style="background: #e0dfdd" readonly="true"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_nit}" for="nit" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText id="nit" value="#{clientesController.selected.nit}" 
+                                             title="#{myBundle.CreateClientesTitle_nit}" 
+                                             required="true" 
+                                             requiredMessage="#{myBundle.CreateClientesRequiredMessage_nit}" 
+                                             style="background: #e0dfdd" disabled="true" size="15" maxlength="15">
+                                    <p:ajax listener="#{clientesController.verificaNit()}" event="blur" update="display :growl" ></p:ajax>
+                                </p:inputText>  
+                                <p:inputText id="digitochequeo" 
+                                             value="#{clientesController.selected.digitochequeo}" 
+                                             title="#{myBundle.CreateClientesTitle_digitochequeo}" 
+                                             style="background: #e0dfdd" disabled="true" size="1" maxlength="1"/>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>  
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_nombre}" for="nombre" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText id="nombre" value="#{clientesController.selected.nombre}" title="#{myBundle.EditClientesTitle_nombre}" required="true" requiredMessage="#{myBundle.EditClientesRequiredMessage_nombre}" style="width:160px" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_desde}" for="desde" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:calendar id="desde" pattern="dd/MM/yyyy" value="#{clientesController.selected.desde}" required="true"  >
+                                    <p:ajax event="dateSelect" listener="#{clientesController.validarDesde()}" update=":growl desde" />    
+                                    <p:ajax event="change" listener="#{clientesController.validarDesde()}" update=":growl desde" />        
+                                </p:calendar>  
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_grupo}" for="grupo" />
+                            </p:column>  
+                            <p:column colspan="2"> 
+                                <p:inputText  id="grupo" value="#{clientesController.selected.grupo.nombre}" style="background: #e0dfdd" readonly="true"/>    
+
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_ciiu}" for="ciiu" />
+                            </p:column>   
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="ciiu" value="#{clientesController.selected.ciiu}" required="true" style="width:160px" >
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{ciiusController.items}"
+                                                   var="ciiuItem"
+                                                   itemValue="#{ciiuItem}"
+                                                   itemLabel="#{ciiuItem.id.toString()}-#{ciiuItem.descripcion.toString()}"
+                                                   />
+                                    <f:converter binding="#{ciiusConverter}"/>
+                                </p:selectOneMenu>   
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_banca_local}" for="banca"  />
+
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="banca" value="#{clientesController.selected.banca}" required="true" style="width:160px" >
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{bancasController.items}"
+                                                   var="bancaItem"
+                                                   itemValue="#{bancaItem}"
+                                                   itemLabel="#{bancaItem.nombre.toString()}"
+                                                   />
+                                    <f:converter binding="#{bancasConverter}"/>
+                                </p:selectOneMenu>   
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_gestorcomercial}" for="gestorcomercial" />  
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="gestorcomercial" value="#{clientesController.selected.gestorcomercial}" required="true" style="width:160px" >
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{gestoresController.items}"
+                                                   var="gestoresItem"
+                                                   itemValue="#{gestoresItem}"
+                                                   itemLabel="#{gestoresItem.nombre.toString()}"
+                                                   />
+                                    <f:converter binding="#{gestoresConverter}"/>
+                                </p:selectOneMenu>  
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_banca_corporativa}" for="bancaCorporativa"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="bancaCorporativa" value="#{clientesController.selected.bancaCorporativaBean}" required="true" style="width:160px" >
+                                    <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{bancaCorporativaController.items}"
+                                                   var="bancaCorporativaItem"
+                                                   itemValue="#{bancaCorporativaItem}"
+                                                   itemLabel="#{bancaCorporativaItem.id.toString()} - #{bancaCorporativaItem.nombre.toString()}"
+                                                   />
+                                    <f:converter binding="#{bancaCorporativaConverter}"/>
+                                </p:selectOneMenu>   
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_detalles_corporativa} " for="desatallesClasificacion" />
+                            </p:column>
+                            <p:column colspan="1" style="text-align: left">
+                                <p:commandButton id="desatallesClasificacion" icon="ui-icon-note" update=":BancaCorporativaForm" oncomplete="PF('BancaCorporativaDialog').show()"></p:commandButton>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7">Situacion Cliente</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_estadocliente}" for="estadocliente" />  
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="estadocliente" value="#{clientesController.selected.estadocliente}" required="true" requiredMessage="#{myBundle.CreateClientesRequiredMessage_estadocliente}" style="width:160px" >
+                                    <f:selectItems value="#{estadosController.items}"
+                                                   var="estadoclienteItem"
+                                                   itemValue="#{estadoclienteItem}"
+                                                   itemLabel="#{estadoclienteItem.nombre.toString()}"
+                                                   />
+                                    <f:converter binding="#{estadosConverter}"/>
+                                </p:selectOneMenu> 
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Fecha Estado" for="estadocliente" />  
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:calendar id="fechaestado"   pattern="dd/MM/yyyy" value="#{clientesController.selected.fechaestado}" title="#{myBundle.CreateClientesTitle_fechabalance}" required="true"  showOn="button" style="width:160px">
+                                    <p:ajax event="dateSelect" listener="#{clientesController.validarFechaEstado()}" update=":growl fechaestado" />  
+                                    <p:ajax event="change" listener="#{clientesController.validarFechaEstado()}" update=":growl fechaestado" />    
+                                </p:calendar> 
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Estado Scan:" for="scan" />     
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:selectOneMenu id="scan" value="#{clientesController.selected.scan}" required="true" requiredMessage="#{myBundle.CreateClientesRequiredMessage_estadocliente}" style="width:160px" >
+                                    <f:selectItems value="#{estadoScanController.items}"
+                                                   var="estadoscanItem"
+                                                   itemValue="#{estadoscanItem}"
+                                                   itemLabel="#{estadoscanItem.nombre.toString()}"
+                                                   />
+                                    <f:converter binding="#{estadoScanConverter}"/>
+                                    <p:ajax listener="#{clientesController.serviceChange()}" update="advanced2" />
+                                </p:selectOneMenu> 
+                            </p:column>
+                            <p:column colspan="2">  
+                                <p:outputLabel value="Subestado Scan:" />
+                            </p:column>
+                            <p:column colspan="2"> 
+                                <p:selectOneMenu id="advanced2" value="#{clientesController.selected.subestado_scan}"
+                                                 panelStyle="width:180px"
+                                                 effect="fade" style="width:160px">
+                                    <f:selectItems value="#{clientesController.listsubestadoscan}"
+                                                   var="subestadoscanItem" 
+                                                   itemValue="#{subestadoscanItem}" 
+                                                   itemLabel="#{subestadoscanItem.nombre.toString()}" /> 
+                                    <f:converter binding="#{subEstadoScanConverter}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Fecha Scan:" for="fechascan" />     
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:calendar id="fechascan"   pattern="dd/MM/yyyy" value="#{clientesController.selected.fechascan}" title="#{myBundle.CreateClientesTitle_fechabalance}"  required="true" showOn="button">
+                                    <p:ajax event="dateSelect" listener="#{clientesController.validarScan()}" update=":growl fechascan" />  
+                                    <p:ajax event="change" listener="#{clientesController.validarScan()}" update=":growl fechascan" />    
+                                </p:calendar>   
+                            </p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="7">Informacion Financiera</p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_rating}" for="rating" /> 
+                            </p:column>
+                            <p:column colspan="2">
+                                <pe:inputNumber id="rating" value="#{clientesController.selected.rating}" required="true" title="#{myBundle.CreateClientesTitle_rating}" >
+                                    <p:ajax event="change" listener="#{clientesController.actualizacionautomaticafecharating()}" update="fecharating" />
+                                </pe:inputNumber>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_fecharating}" for="fecharating" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:calendar id="fecharating" pattern="dd/MM/yyyy" value="#{clientesController.selected.fecharating}" title="#{myBundle.CreateClientesTitle_fecharating}" required="true"  showOn="button">
+                                    <p:ajax event="dateSelect" listener="#{clientesController.validarRatingmodificacion()}" update=":growl fecharating" />    
+                                    <p:ajax event="change" listener="#{clientesController.validarRatingmodificacion()}" update=":growl fecharating" /> 
+                                </p:calendar>     
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_valoractivo}" for="valoractivo" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <pe:inputNumber id="valoractivo"  value="#{clientesController.selected.valoractivo}"  required="true"   maxValue="99999999999999999" title="#{myBundle.CreateClientesTitle_valoractivo}" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Valor Ventas" for="valorventas" />
+                            </p:column> 
+                            <p:column colspan="2">
+                                <pe:inputNumber id="valorventas" value="#{clientesController.selected.ventas}"/>
+                            </p:column>
+                        </p:row> 
+                        <p:row>  
+                            <p:column colspan="2">
+                                <p:outputLabel value="#{myBundle.EditClientesLabel_fechabalance}" for="fechabalance" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:calendar id="fechabalance"   pattern="dd/MM/yyyy" value="#{clientesController.selected.fechabalance}" title="#{myBundle.CreateClientesTitle_fechabalance}" required="true"  showOn="button">
+                                    <p:ajax event="dateSelect" listener="#{clientesController.validarFechaBalanceModificar()}" update=":growl fechabalance" />  
+                                    <p:ajax event="change" listener="#{clientesController.validarFechaBalanceModificar()}" update=":growl fechabalance" />    
+                                </p:calendar>   
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" >
+                                <p:commandButton  actionListener="#{clientesController.guardar(true)}" value="#{myBundle.Save}" update="display,:ClientesListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,ClientesEditDialog);"/>
+                            </p:column>
+                            <p:column colspan="4" >
+                                <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ClientesEditDialog').hide()" action="#{clientesController.submitOperation()}"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding
+="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+
+        <p:dialog id="GruposEconomicosViewIntegrantesDlg" widgetVar="GruposEconomicosViewIntegrantesDialog" modal="true" resizable="false"  appendTo="@(body)" header="Consulta Relacion Clientes" closeOnEscape="true">
+
+            <h:form id="GruposEconomicosViewIntegrantesForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" columnClasses="column">
+                        <p:outputLabel value="Nombre: " for="nombre"/>
+                        <p:inputText disabled="true" id="nombre" value="#{clientesController.selected.nombre}"/>
+
+                        <p:outputLabel value="Nit: " for="nit"/>
+                        <p:inputText disabled="true" id="nit" value="#{clientesController.selected.nit}"/>
+
+                        <p:outputLabel value="Grupo Economico: "  for="grupos"/>
+                        <p:inputText disabled="true" id="grupos" value="#{clientesController.selected.relacionClienteGrupos.get(0).gruposEconomico.nombre}"/>
+
+                        <p:outputLabel value="Tipo Vinculo: " for="vinculo"/>
+                        <p:inputText disabled="true" id="vinculo" value="#{parametriaCWController.definirParametria(clientesController.selected.relacionClienteGrupos.get(0).tipoVinculo, parametriaCWController.codigoTipoVinculo, false)}"/>
+
+                        <p:outputLabel value="Tipo Relacion: " for="relacion"/>
+                        <p:inputText disabled="true" id="relacion" value="#{parametriaCWController.definirParametria(clientesController.selected.relacionClienteGrupos.get(0).tipoRelacion, parametriaCWController.codigoTipoRelacion, false)}"/>
+
+                        <p:outputLabel value="Rol Jerarquico: " for="jerarquico"/>
+                        <p:inputText disabled="true" id="jerarquico" value="#{parametriaCWController.definirParametria(clientesController.selected.relacionClienteGrupos.get(0).rolJerarquico, parametriaCWController.codigoRolJerarquico, false)}"/>
+
+                        <p:outputLabel value="Porcentaje Participacion: " for="participacion"/>
+                        <pe:inputNumber disabled="true" id="participacion" value="#{clientesController.selected.relacionClienteGrupos.get(0).porcParticipacion}" symbol="%" symbolPosition="s" decimalPlaces="0">
+                        </pe:inputNumber>
+                        <p:outputLabel value="Facturacion: " for="facturacion"/>
+                        <pe:inputNumber disabled="true" id="facturacion" value="#{clientesController.selected.relacionClienteGrupos.get(0).facturacion}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                        <p:outputLabel value="Total Activo: " for="activo"/>
+                        <pe:inputNumber disabled="true" id="activo" value="#{clientesController.selected.relacionClienteGrupos.get(0).totalActivo}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                        <p:outputLabel value="Numero de Empleados: " for="empleados"/>
+                        <pe:inputNumber disabled="true" id="empleados" value="#{clientesController.selected.relacionClienteGrupos.get(0).cantidadEmpleado}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" actionListener="#{clientesController.vaciarSelected()}" onclick="PF('GruposEconomicosViewIntegrantesDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

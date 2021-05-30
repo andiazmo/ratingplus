@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Reporte Exposicion Crediticia Derivados"/>
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="reporteexposicionderivadListForm">
+            <p:panel header="Reporte Exposicion Crediticia linea Derivados">
+                             
+                <h:commandLink >
+                    <p:graphicImage url="//img/excel.png" width="24"/>
+                    <p:dataExporter type="xls" target="reporteexposicioncrediticiaderivadosexp" fileName="ReporteExposicionDerivados" />
+                </h:commandLink>
+                 <h:commandLink>
+                    <p:graphicImage url="//img/csv.png" width="24"/>
+                    <p:dataExporter type="csv" target="reporteexposicioncrediticiaderivadosexp" fileName="ReporteExposicionDerivados" />
+                </h:commandLink> 
+                 <h:commandLink>
+                    <p:graphicImage url="//img/pdf.png" width="24"/>
+                    <p:dataExporter type="pdf" target="reporteexposicioncrediticiaderivadosexp" fileName="ReporteExposicionDerivados"/>
+                </h:commandLink>
+                        
+                <p:dataTable id="reporteexposicioncrediticiaderivados"
+                             value="#{clientesController.exposicionCrediticiaDerivados}"
+                             var="item"
+                             rowKey="#{item.nit}"
+                            
+                             >
+
+                    <p:column   filterBy="#{item.nit}" style=" width:100px " >
+                        <f:facet name="header">
+                            <h:outputText value="Nit"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nit}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.cliente}" style=" width:100px " >
+                        <f:facet name="header">
+                            <h:outputText value="Cliente"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cliente}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.tiposfc}" style=" width:100px " >
+                        <f:facet name="header" >
+                            <h:outputText value="Tipo SFC "/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.tiposfc}">
+                            <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="MAX Control RISK"/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.maxcontrolrisk}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                      <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="SFC Neteo"/>
+
+                        </f:facet>
+                          <h:outputText value="#{item.sfcneteo}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                      <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="SFC Acumulado"/>
+
+                        </f:facet>
+                          <h:outputText value="#{item.sfcacumulado}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Consumo SFC"/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.consumosfc}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Corporativo Neteo"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.corpneteo}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Corporativo Acumulado"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.corpacumulado}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Consumo Corporativo"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.consumocorp}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    
+
+                    
+                </p:dataTable>
+
+                <p:dataTable id="reporteexposicioncrediticiaderivadosexp"
+                             value="#{clientesController.exposicionCrediticiaDerivados}"
+                             var="item"
+                             rowKey="#{item.nit}"
+                             >
+
+                    <p:column   style="display: none" >
+                        <f:facet name="header">
+                            <h:outputText value="Nit"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nit}"/>
+                    </p:column>
+
+                    <p:column style="display: none" >
+                        <f:facet name="header">
+                            <h:outputText value="Cliente"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cliente}"/>
+                    </p:column>
+
+                    <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="Tipo SFC "/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.tiposfc}">
+                            <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="MAX Control RISK"/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.maxcontrolrisk}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                      <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="SFC Neteo"/>
+
+                        </f:facet>
+                          <h:outputText value="#{item.sfcneteo}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                      <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="SFC Acumulado"/>
+
+                        </f:facet>
+                          <h:outputText value="#{item.sfcacumulado}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="Consumo SFC"/>
+
+                        </f:facet>
+                        <h:outputText value="#{item.consumosfc}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="Corporativo Neteo"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.corpneteo}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="Corporativo Acumulado"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.corpacumulado}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    
+                     <p:column style="display: none">
+                        <f:facet name="header">
+                            <h:outputText value="Consumo Corporativo"/>
+
+                        </f:facet>
+                         <h:outputText value="#{item.consumocorp}">
+                              <f:convertNumber     maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                              
+
+                    
+                </p:dataTable>
+             
+<ui:include src="/confirmation.xhtml"/>
+
+            </p:panel>
+        </h:form>   
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RpUsuariosEditDlg" widgetVar="RpUsuariosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.EditRpUsuariosTitle}">
+
+            <h:form id="RpUsuariosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rpUsuariosController.selected != null}">
+                        
+                        <p:outputLabel value="#{myBundle.CreateRpUsuariosLabel_nombre}" for="nombre" />
+                      <p:inputText id="nombres" value="#{rpUsuariosController.selected.nombres}" title="#{myBundle.CreateRpUsuariosTitle_nombres}" />
+
+                      <p:outputLabel value="#{myBundle.CreateRpUsuariosLabel_telefonos}" for="telefonos" />
+                      <p:inputText id="telefonos" value="#{rpUsuariosController.selected.telefonos}" title="#{myBundle.CreateRpUsuariosTitle_telefono}" />
+                      
+                      <p:outputLabel value="#{myBundle.CreateRpUsuariosLabel_Correo}" for="correo" />
+                      <p:inputText id="correo" value="#{rpUsuariosController.selected.correo}" title="#{myBundle.CreateRpUsuariosTitle_correo}" validatorMessage="#{myBundle.formatoEmail}" >
+                          <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                      </p:inputText>    
+                      
+                      
+                        <p:outputLabel value="Nombre Usuario:" for="nombre" />
+                        <p:inputText id="nombre" value="#{rpUsuariosController.selected.nombre}" title="#{myBundle.EditRpUsuariosTitle_nombre}" />
+
+                      
+                        <p:outputLabel value="#{myBundle.EditRpUsuariosLabel_rol}" for="rol" />
+                        <p:selectOneMenu id="rol" value="#{rpUsuariosController.selected.rol}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rpRolesController.items}"
+                                           var="rolItem"
+                                           itemValue="#{rolItem}"
+                                           itemLabel="#{rolItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{rpRolesConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rpUsuariosController.save}" value="#{myBundle.Save}" update="display,:RpUsuariosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,RpUsuariosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('RpUsuariosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

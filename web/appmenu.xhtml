@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem  value="#{myBundle.Home}"  outcome="/index" icon="ui-icon-home"/>
+                <p:submenu   label="#{myBundle.Sistema}" >
+                    <p:menuitem value="Barrios" outcome="//sisBarrios/index" />
+                    <p:menuitem value="Ciudades" outcome="//sisCiudades/index" />
+                    <p:menuitem value="Ocupaciones" outcome="//sisOcupaciones/index" />
+                    <p:menuitem value="Oficinas" outcome="//sisOficinas/index" />
+                    <p:menuitem value="Profesiones" outcome="//sisProfesiones/index" />
+                    <p:menuitem value="Tipo de Documentos" outcome="//sisTipDocumentos/index" />
+                </p:submenu>
+                <p:submenu label="#{myBundle.Maintenance}">
+                    <p:menuitem value="Afiliaciones" outcome="//afiAfiliaciones/index" />
+                    <p:menuitem value="Areas" outcome="//afiAreas/index" />
+                    <p:menuitem value="Beneficiarios" outcome="//afiBeneficiarios/index" />
+                    <p:menuitem value="Cargos" outcome="//afiCargos/index" />
+                    <p:menuitem value="Contratos" outcome="//afiContratos/index" />
+                    <p:menuitem value="Estadosciviles" outcome="//afiEstadosciviles/index" />
+                    <p:menuitem value="Grupos" outcome="//afiGrupos/index" />
+                    <p:menuitem value="Niveles Academicos" outcome="//afiNivacademicos/index" />
+                    <p:menuitem value="Parentezcos" outcome="//afiParentescos/index" />
+                    <p:menuitem value="Roles" outcome="//afiRoles/index" />
+                    <p:menuitem value="Rotaciones" outcome="//afiRotaciones/index" />
+                    <p:menuitem value="Tipo de Beneficiarios" outcome="//afiTipbeneficiarios/index" />
+                    <p:menuitem value="Tipo de Viviendas" outcome="//afiTipviviendas/index" />
+                    <p:menuitem value="Zonas" outcome="//afiZonas/index" />
+                   
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

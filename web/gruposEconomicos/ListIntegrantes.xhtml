@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="GruposEconomicosListIntegrantesDlg" widgetVar="GruposEconomicosIntegrantesDialog" modal="true" resizable="false" appendTo="@(body)" header="Lista de Integrantes de Grupo Economico" closeOnEscape="true">
+
+
+            <h:form id="GruposEconomicosListIntegrantesForm">
+<!--                                <p:ajax event="rowToggle" listener="#{limitesautorizadosController.listaPagos()}" update=":PagosConListForm:datalistDesembolso:datalist" />-->
+
+                <p:panel header="Lista de Integrantes de #{gruposEconomicosController.selected.nombre}">
+                    <p:dataTable id="datalist"
+                                 value="#{clientesController.clientesGrupo(gruposEconomicosController.selected.codigoGrupo)}"
+                                 var="item"
+                                 rowKey="#{item.id}"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 selectionMode="single"
+                                 selection="#{clientesController.selected}">
+                        <p:ajax event="rowSelect"   update="vincular desvincular consultar editar"/>
+                        <p:ajax event="rowUnselect" update="vincular desvincular consultar editar"/>
+
+
+                        <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoVinculo, parametriaCWController.codigoTipoVinculo, false)}" filterBy="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoVinculo, parametriaCWController.codigoTipoVinculo, false)}">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo de Vinculo"/>
+                            </f:facet>
+                            <h:outputText value="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoVinculo, parametriaCWController.codigoTipoVinculo, false)}"/>
+                        </p:column>
+                        <p:column sortBy="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoRelacion, parametriaCWController.codigoTipoRelacion, false)}" filterBy="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoRelacion, parametriaCWController.codigoTipoRelacion, false)}">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo de Relacion"/>
+                            </f:facet>
+                            <h:outputText value="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).tipoRelacion, parametriaCWController.codigoTipoRelacion, false)}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).rolJerarquico, parametriaCWController.codigoRolJerarquico, false)}" filterBy="#{item.relacionClienteGrupos.get(0).rolJerarquico}">
+                            <f:facet name="header">
+                                <h:outputText value="Rol Jeralquico"/>
+                            </f:facet>
+                            <h:outputText value="#{parametriaCWController.definirParametria(item.relacionClienteGrupos.get(0).rolJerarquico, parametriaCWController.codigoRolJerarquico, false)}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{item.relacionClienteGrupos.get(0).porcParticipacion}" filterBy="#{item.relacionClienteGrupos.get(0).porcParticipacion}">
+                            <f:facet name="header">
+                                <h:outputText value="Porcentaje Participacion"/>
+                            </f:facet>
+                            <h:outputText value="#{item.relacionClienteGrupos.get(0).porcParticipacion} %"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <div class="footer-section">
+                                <p:commandButton id="vincular" value="Vincular" icon="ui-icon-plus" rendered="#{clientesController.botonVincular and gruposEconomicosController.enableAndDesabledForSession()}" update=":GruposEconomicosVinculoForm" oncomplete="PF('GruposEconomicosVinculoDialog').show()" disabled="#{empty clientesController.selected}">
+                                </p:commandButton>
+                                <p:commandButton id="desvincular" action="#{gruposEconomicosController.reiniciarListGrupos()}" actionListener="#{clientesController.desvincularClienteGrupo()}" value="Desvincular" icon="ui-icon-close" rendered="#{clientesController.botonDesvincular and gruposEconomicosController.enableAndDesabledForSession()}" disabled="#{empty clientesController.selected}" oncomplete="PF('handleSubmit(xhr,status,args,GruposEconomicosIntegrantesDialog);">
+                                    <p:ajax update=":growl,datalist, :GruposEconomicosListForm:datalist" listener="#{clientesController.desvincularClienteGrupo()}"/>                                
+                                </p:commandButton>
+                                <p:commandButton id="editar" value="Editar" icon="ui-icon-pencil" rendered="#{clientesController.botonDesvincular and gruposEconomicosController.enableAndDesabledForSession()}" update=":GruposEconomicosEditRelacionForm" oncomplete="PF('GruposEconomicosEditRelacionDialog').show()" disabled="#{empty clientesController.selected}">
+                                </p:commandButton>
+                                <p:commandButton id="consultar" value="Consultar" update=":GruposEconomicosViewIntegrantesForm" oncomplete="PF('GruposEconomicosViewIntegrantesDialog').show()" icon="ui-icon-search" disabled="#{empty clientesController.selected}"/>
+                                <p:commandButton value="Cerrar" action="#{clientesController.vaciarSelected()}" onclick="PF('GruposEconomicosIntegrantesDialog').hide()"/>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+
+                </p:panel>
+
+
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

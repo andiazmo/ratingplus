@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RpPermisosViewDlg" widgetVar="RpPermisosViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.ViewRpPermisosTitle}">
+
+            <h:form id="RpPermisosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{rpPermisosController.selected != null}">
+
+                     
+                        <h:outputText value="#{myBundle.ViewRpPermisosLabel_guardar}"/>
+                        <p:selectBooleanCheckbox id="guardar" disabled="true" value="#{rpPermisosController.guardarb}" />
+
+                        <h:outputText value="#{myBundle.ViewRpPermisosLabel_modificar}"/>
+                         <p:selectBooleanCheckbox id="modificar" disabled="true" value="#{rpPermisosController.modificarb}" />
+
+                        <h:outputText value="#{myBundle.ViewRpPermisosLabel_borrar}"/>
+                         <p:selectBooleanCheckbox id="borrar" disabled="true" value="#{rpPermisosController.borrarb}" />
+
+                        <h:outputText value="#{myBundle.ViewRpPermisosLabel_modulo}"/>
+                        <h:outputText value="#{rpPermisosController.selected.modulo.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewRpPermisosLabel_rol}"/>
+                        <h:outputText value="#{rpPermisosController.selected.rol.nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('RpPermisosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

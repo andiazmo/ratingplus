@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+
+        <p:dialog id="GestoresViewDlg" widgetVar="GestoresViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.ViewGestoresTitle}">
+            <h:form id="GestoresViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{gestoresController.selected != null}">
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_cedula}"/>
+                        <h:outputText value="#{gestoresController.selected.cedula}" title="#{myBundle.ViewGestoresTitle_cedula}"/>
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_nombre}"/>
+                        <h:outputText value="#{gestoresController.selected.nombre}" title="#{myBundle.ViewGestoresTitle_nombre}"/>
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_telefonoFijo}"/>
+                        <h:outputText value="#{gestoresController.selected.telefonoFijo}" title="#{myBundle.ViewGestoresTitle_telefonoFijo}"/>
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_telefonoCelular}"/>
+                        <h:outputText value="#{gestoresController.selected.telefonoCelular}" title="#{myBundle.ViewGestoresTitle_telefonoCelular}"/>
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_direccion}"/>
+                        <h:outputText value="#{gestoresController.selected.direccion}" title="#{myBundle.ViewGestoresTitle_direccion}"/>
+                        <h:outputText value="#{myBundle.ViewGestoresLabel_email}"/>
+                        <h:outputText value="#{gestoresController.selected.email}" title="#{myBundle.ViewGestoresTitle_email}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="GestoresViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

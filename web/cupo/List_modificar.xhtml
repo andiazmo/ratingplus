@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+ 
+    <h:form id="CuposListForm">
+
+        <p:panel header="#{myBundle.ListCuposTitle}"   style=" overflow:  auto">
+            <h:panelGroup id="display" >
+
+
+                <h:panelGrid id="nuevo" style=" display:#{cuposController.modificacion?'none':''}">    
+                    <!--FIXPACK2 - inicio -->
+                    <!--<p:panelGrid columns="2"  style=" alignment-adjust:  central"  columnClasses="column">-->
+                    <p:panelGrid columns="1"  class="panel-encabezado"  columnClasses="column">
+                        <!--FIXPACK2 - fin --> 
+                        <!--FIXPACK2 - inicio -->
+                        <p:panel header="Datos del Cliente" class="panel-datos-cliente">
+                            <!--<p:panelGrid columns="4" columnClasses="column" style="margin-bottom:0px; width:100%;">-->
+                            <p:panelGrid columns="6" class="column" style="margin-bottom:0px; width:100%;">
+                                <!--FIXPACK2 - fin -->
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_nit}" for="nit" />
+                                <p:autoComplete id="nit"   size="30"         var="clienteItem" value="#{cuposController.clienteNit}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nit}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(1)}" >
+                                    <p:ajax event="itemSelect"    listener="#{cuposController.clienteSeleccion(1)}"  update="display :growl"/> 
+                                    <f:converter binding="#{clientesConverter}" />
+                                </p:autoComplete>  
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_nombre}" for="nombre" />
+                                <p:autoComplete id="nombre"   size="60"        var="clienteItem" value="#{cuposController.clienteNombre}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nombre}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(2)}" >
+                                    <p:ajax event="itemSelect"  listener="#{cuposController.clienteSeleccion(2)}"  update="display :growl"/> 
+                                    <f:converter binding="#{clientesConverter}" />
+                                </p:autoComplete> 
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_digitochequeo}" for="digitochequeo" />
+                                <p:inputText id="digitochequeo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.digitochequeo}" title="#{myBundle.CreateClientesTitle_digitochequeo}" size="1" maxlength="1"/>
+
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_desde}" for="desde" />
+                                <p:inputText id="desde" style=" background: #e0dfdd  "  readonly="true" value="#{cuposController.clienteNit.desde}" title="#{myBundle.CreateClientesTitle_desde}"  >
+                                    <f:convertDateTime  pattern="dd/MM/yyyy" />
+                                </p:inputText> 
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_rating}" for="rating" />
+                                <p:inputText id="rating" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.rating}" title="#{myBundle.CreateClientesTitle_rating}"/>
+
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_fecharating}" for="fecharating" />
+                                <p:inputText id="fecharating" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.fecharating}" title="#{myBundle.CreateClientesTitle_fecharating}"  >
+                                    <f:convertDateTime  pattern="dd/MM/yyyy" />
+                                </p:inputText>    
+
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_valoractivo}" for="valoractivo" />
+                                <p:inputText id="valoractivo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.valoractivo}" title="#{myBundle.CreateClientesTitle_valoractivo}" size="40">
+                                    <f:convertNumber  currencySymbol="COP" type="currency" />
+
+                                </p:inputText>    
+
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_fechabalance}" for="fechabalance" />
+                                <p:inputText id="fechabalance" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.fechabalance}" title="#{myBundle.CreateClientesTitle_fechabalance}"  >
+                                    <f:convertDateTime  pattern="dd/MM/yyyy" />
+                                </p:inputText>    
+
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2"  class="panel-encabezado"  columnClasses="column">
+                            <p:panel header="Datos del Cupo">
+                                <p:panelGrid columns="2" columnClasses="column"  rendered="#{!empty cuposController.selected}">
+
+                                    <p:outputLabel value="#{myBundle.CreateCuposLabel_fechamodificacion}" for="fechaalta" />
+
+
+                                    <p:inputText id="fechaalta"  value="#{cuposController.selected.fechaalta}" readonly="true"  style=" background: #e0dfdd  ">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </p:inputText>
+
+
+                                    <p:outputLabel value="#{myBundle.CreateCuposLabel_fechavencimiento}" for="fechavencimiento" />
+                                    <p:calendar id="fechavencimiento" pattern="dd/MM/yyyy" value="#{cuposController.selected.fechavencimiento}" title="#{myBundle.CreateCuposTitle_fechavencimiento}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_fechavencimiento}" showOn="button">
+                                        <p:ajax event="dateSelect" listener="#{cuposController.validarFechasModificacion()}" update=":growl fechavencimiento estado datalist" />
+                                       <!-- <p:ajax event="blur" listener="#{cuposController.validarFechasModificacion()}" update=":growl fechavencimiento estado datalist" /> -->
+                                    </p:calendar>
+                                    <p:outputLabel value="#{myBundle.CreateCuposLabel_limitetotal}" for="limitetotal" />
+                                    <pe:inputNumber id="limitetotal" value="#{cuposController.selected.limitetotal}"   title="#{myBundle.CreateCuposTitle_limitetotal}" required="true"   requiredMessage="#{myBundle.CreateCuposRequiredMessage_limitetotal}" >
+                                        <p:ajax listener="#{cuposController.verificaPatrimonio(true)}"  update="display :growl" />
+                                    </pe:inputNumber> 
+
+                                    <p:outputLabel value="#{myBundle.Consumido}" for="limiteconsumido" />
+                                    <p:inputText readonly="true" id="limiteconsumido" style=" background: #e0dfdd  " value="#{cuposController.consumidoTotal}" size="30" title="#{myBundle.CreateCuposTitle_limiteconsumido}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_limiteconsumido}">
+                                        <f:convertNumber   maxFractionDigits="2" />
+                                    </p:inputText>
+                                    <p:outputLabel value="#{myBundle.Disponible}" for="limitedisponible" />
+                                    <p:inputText readonly="true" id="limitedisponible" style=" background: #e0dfdd  " value="#{cuposController.selected.limitetotal - cuposController.consumidoTotal}" size="30" title="#{myBundle.CreateCuposTitle_limiteconsumido}" >
+                                        <f:convertNumber     maxFractionDigits="2" />
+                                        <p:ajax listener="#{cuposController.verificaPatrimonio()}"  update=":growl display" />
+                                    </p:inputText>
+                                    <!--FIXPACK1 - inicio -->
+                                    <p:outputLabel value="#{myBundle.CreateCuposLabel_pordistribuir}" for="pordistribuir"/>
+                                    <p:inputText id="pordistribuir" style=" background: #e0dfdd  " value="#{cuposController.selected.limitetotal - cuposController.selected.limiteconsumido}" readonly="true">   
+                                        <f:convertNumber maxFractionDigits="2" /> 
+                                    </p:inputText>
+                                    <!--FIXPACK1 - fin -->
+
+                                    <p:outputLabel value="#{myBundle.CreateCuposLabel_moneda}" for="moneda" />
+                                    <p:selectOneMenu id="moneda" value="#{cuposController.selected.moneda}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_moneda}">
+                                        <f:selectItems value="#{monedasController.items}"
+                                                       var="monedaItem"
+                                                       itemValue="#{monedaItem}"
+                                                       itemLabel="#{monedaItem.nombre.toString()}"
+                                                       />
+                                        <f:converter binding="#{monedasConverter}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Estado:" for="estado" />
+                                    <p:inputText id="estado" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.selected.estadoActualCupo}"/>  
+
+                                    <p:outputLabel value="Activo:" for="estadoactivo" />
+                                    <p:selectBooleanCheckbox id ="estadoactivo" value="#{cuposController.selected.estado}" disabled="#{cuposController.validaEstadoFlagActivo(cuposController.selected.estado)}">
+                                        <p:ajax update=":growl"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:commandButton actionListener="#{cuposController.guardarModificacion(true)}"  value="#{myBundle.Save}" update=":growl estado estadoactivo"/>
+
+                                </p:panelGrid>
+
+                            </p:panel>
+
+                        <p:panel header="Datos del Grupo">
+                            <p:panelGrid columns="8" style="margin-bottom:0px; width:100%;">
+                                <p:outputLabel value="#{myBundle.CreateClientesLabel_grupo}"/>
+                                <p:inputText id="grupo" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.grupo.nombre}" title="#{myBundle.CreateClientesTitle_valoractivo}">
+                                    <f:convertNumber   maxFractionDigits="2" />
+                                </p:inputText>
+                                <p:outputLabel value="Total:" />
+                                <p:inputText id="grupototal" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.grupo.cupo}" title="#{myBundle.CreateClientesTitle_valoractivo}">
+                                    <f:convertNumber   maxFractionDigits="2" />
+                                </p:inputText>
+                                <p:outputLabel value="Disponible:" />
+                                <p:inputText id="grupodisponible" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.grupo.disponibleGrupo}" title="#{myBundle.CreateClientesTitle_valoractivo}">
+                                    <f:convertNumber   maxFractionDigits="2" />
+                                </p:inputText>
+                                <p:outputLabel value="Consumido:" />
+                                <p:inputText id="grupoconsumido" style=" background: #e0dfdd  " readonly="true" value="#{cuposController.clienteNit.grupo.consumido}" title="#{myBundle.CreateClientesTitle_valoractivo}">
+                                    <f:convertNumber   maxFractionDigits="2" />
+                                </p:inputText>
+
+                            </p:panelGrid>
+
+                            <p:dataTable id="datalist1"
+                                         value="#{cuposController.selected.cliente.grupo.clientesList}"
+                                         var="itemi"
+                                         rowKey="#{itemi.id}"
+                                         paginator="true"
+                                         rows="8"
+                                         rowsPerPageTemplate="8,10,20,30,40,50"
+                                         selectionMode="single"
+                                         tableStyle="width:100%"
+                                         >
+                                <p:column >
+                                    <f:facet name="header">
+
+                                        <h:outputText value="Nit"/>
+
+                                    </f:facet>
+                                    <h:outputText value="#{itemi.nit}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+
+                                        <h:outputText value="Nombre"/>
+
+                                    </f:facet>
+                                    <h:outputText value="#{itemi.nombre}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Limite Total"/>
+                                    </f:facet>
+                                    <h:outputText value="#{!itemi.cuposList.isEmpty()?itemi.cuposList.get(0).limitetotal:'NA'}">
+                                        <f:convertNumber     maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Limite Consumido"/>
+                                    </f:facet>
+                                    <h:outputText value="#{!itemi.cuposList.isEmpty()?clientesController.getConsumidoTotal(itemi.cuposList.get(0)) :'NA'}">
+                                        <f:convertNumber     maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+
+                            </p:dataTable>
+                        </p:panel>   
+
+
+                    </p:panelGrid>
+                    <p:panel header="#{myBundle.ListLimitesautorizadosTitle}">
+                        <!--FIXPACK2 - inicio -->
+                        <p:dataTable id="datalist"
+                                     value="#{cuposController.selected.limitesautorizadosList}"
+                                     var="itemi"
+                                     rowKey="#{itemi.id}"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     selectionMode="single"
+                                     tableStyle="width:100%"
+                                     resizableColumns="true" selection="#{cuposController.limiteActual}" style=" overflow:  scroll">
+                            <!--FIXPACK2 - fin -->
+
+
+                            <p:column sortBy="#{itemi.modalidad.nombre}" >
+                                <f:facet name="header">
+                                    <!--FIXPACK1 - inicio -->
+                                    <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_modalidad}"/>
+                                    <!-- Distribuido:  <h:outputText value="#{cuposController.selected.limiteconsumido}">  <f:convertNumber maxFractionDigits="2" /> </h:outputText> -->
+                                    <!--FIXPACK1 - fin -->  
+                                </f:facet>
+                                <h:outputText value="#{itemi.modalidad.nombre}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{itemi.sublimiteautorizado}" >
+                                <f:facet name="header">
+                                    <!--FIXPACK1 - inicio -->
+                                    <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_sublimiteautorizado}"/>
+                                    <!-- Por distribuir: <h:outputText value="#{cuposController.selected.limitetotal - cuposController.selected.limiteconsumido}">   <f:convertNumber maxFractionDigits="2" /> </h:outputText> -->
+                                    <!--FIXPACK1 - fin -->   
+                                </f:facet>
+                                <pe:inputNumber value="#{itemi.sublimiteautorizado}"   readonly="#{cuposController.cupoVencido}"  >
+                                    <p:ajax  listener="#{cuposController.calcular(itemi)}" update=":CuposListForm:display :growl" />
+                                </pe:inputNumber> 
+                            </p:column>
+
+                            <p:column sortBy="#{itemi.consumido}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_utilizado}" />:
+                                    <h:outputText value="#{cuposController.consumidoTotal}">
+                                        <f:convertNumber maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                                <!--FIXPACK2 - inicio -->
+                                    <!--<div align="right"><h:outputText value="#{item.consumido}">
+                                    <f:convertNumber maxFractionDigits="2" />
+                                    </h:outputText></div>-->
+                                <h:outputText value="#{itemi.consumido}">
+                                    <f:convertNumber maxFractionDigits="2" />
+                                </h:outputText>
+                                <!--FIXPACK2 - fin -->  
+                            </p:column>
+
+                            <p:column sortBy="#{itemi.disponible}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_disponible}: "/>
+                                    <h:outputText value="#{(cuposController.selected.limitetotal - cuposController.consumidoTotal)}">
+                                        <f:convertNumber maxFractionDigits="2" />
+                                    </h:outputText>      
+                                </f:facet>
+                                <!--FIXPACK2 - inicio -->
+                                <h:outputText value="#{itemi.disponible}">
+                                    <f:convertNumber maxFractionDigits="2" />
+                                </h:outputText>
+                                <!--FIXPACK2 - fin -->      
+                            </p:column>    
+                            
+                            <p:column >
+                                <f:facet name="header">
+                                    <!--FIXPACK1 - inicio -->
+                                    <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_comentarios}"/>
+                                    <!--<h:outputText value="Mas Datos"/> -->
+                                    <!--FIXPACK1 - fin -->
+                                </f:facet>
+                                <h:commandButton  id="createButton"  value="Información complementaria"    >
+                                    <p:ajax listener="#{cuposController.selecionarLimite(itemi)}" update=":LimiteCreateForm" event="click" oncomplete="PF('LimitesautorizadosCreateDialog').show()"/>
+                                </h:commandButton>          
+                            </p:column>      
+                           
+
+                        </p:dataTable>
+                    </p:panel>
+                    
+                     
+                </h:panelGrid>
+
+                <h:panelGrid id="existe" style=" display:#{cuposController.modificacion?'':'none'}">    
+                    <p:outputPanel deferred="true">
+                        <h3>Cupo No Existe!</h3>
+                        <p>El cupo no existe si necesita crearlo por favor vaya a la opcion crear cupo...</p>
+                    </p:outputPanel>
+                </h:panelGrid> 
+            </h:panelGroup>
+        </p:panel>
+    </h:form>
+
+</ui:composition>

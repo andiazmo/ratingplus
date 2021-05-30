@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RpSubmodulosListForm">
+
+        <p:panel header="#{myBundle.ListRpSubmodulosTitle}">
+
+            <p:dataTable id="datalist" value="#{rpSubmodulosController.items}" var="item"
+                         selectionMode="single" selection="#{rpSubmodulosController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+               
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpSubmodulosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column sortBy="#{item.url}" filterBy="#{item.url}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpSubmodulosTitle_url}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.url}"/>
+                </p:column>
+                <p:column sortBy="#{item.modulo.codigo}" filterBy="#{item.modulo.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpSubmodulosTitle_modulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modulo.nombre}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rpSubmodulosController.prepareCreate}" update=":RpSubmodulosCreateForm" oncomplete="PF('RpSubmodulosCreateDialog').show()" style="visibility: #{rpSubmodulosController.crear}"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RpSubmodulosViewForm" oncomplete="PF('RpSubmodulosViewDialog').show()" disabled="#{empty rpSubmodulosController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RpSubmodulosEditForm" oncomplete="PF('RpSubmodulosEditDialog').show()" disabled="#{empty rpSubmodulosController.selected}" style="visibility: #{rpSubmodulosController.modificar}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rpSubmodulosController.delete}" update=":growl,datalist" disabled="#{empty rpSubmodulosController.selected}" style="visibility: #{rpSubmodulosController.eliminar}">
+                     <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>    
+                    
+                </f:facet>
+
+            </p:dataTable>
+  <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

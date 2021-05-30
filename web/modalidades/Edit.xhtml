@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ModalidadesEditDlg" widgetVar="ModalidadesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditModalidadesTitle}" closeOnEscape="true">
+
+            <h:form id="ModalidadesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{modalidadesController.selected != null}">
+                        <p:outputLabel value="#{myBundle.EditModalidadesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{modalidadesController.selected.nombre}" title="#{myBundle.EditModalidadesTitle_nombre}" required="true" requiredMessage="#{myBundle.EditModalidadesRequiredMessage_nombre}" size="100" maxlength="100"/>
+                        <p:outputLabel value="#{myBundle.CreateModalidadesLabel_consulta}" for="consulta" />
+                        <p:selectBooleanCheckbox id="consulta" value="#{modalidadesController.selected.consulta}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modalidadesController.save}" value="#{myBundle.Save}" update="display,:ModalidadesListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,ModalidadesEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ModalidadesEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

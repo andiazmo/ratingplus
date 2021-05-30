@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcesosCreateDlg" widgetVar="ProcesosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProcesosTitle}" closeOnEscape="true">
+
+            <h:form id="ProcesosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{procesosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProcesosLabel_identificador}" for="identificador" />
+                        <p:inputText id="identificador" value="#{procesosController.selected.identificador}" title="#{myBundle.CreateProcesosTitle_identificador}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_identificador}"/>
+
+                        <p:outputLabel value="Ruta" for="Ruta" />
+                        <p:inputText id="nombre" value="#{procesosController.selected.nombre}" title="#{myBundle.CreateProcesosTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_nombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProcesosLabel_clase}" for="clase" />
+                        <p:inputText id="clase" value="#{procesosController.selected.clase}" title="#{myBundle.CreateProcesosTitle_clase}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_clase}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProcesosLabel_cron}" for="cron" />
+                        <p:inputText id="cron" value="#{procesosController.selected.cron}" title="#{myBundle.CreateProcesosTitle_cron}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_cron}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProcesosLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{procesosController.selected.estado}" required="true" requiredMessage="#{myBundle.CreateProcesosRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesosController.guardarNuevo()}" value="#{myBundle.Save}" update="display,:ProcesosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProcesosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ProcesosCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

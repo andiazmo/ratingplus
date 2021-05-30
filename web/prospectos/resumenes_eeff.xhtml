@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- 
+        **********************************************
+        *Proveedor : Samtel
+        *Proyecto : Calificacion Semestral de Cartera
+        *Programador: Jeferson Camargo
+        *Tag de cambio: BSNC-19-0098
+        *Fecha del cambio : 28-08-2019
+        **********************************************
+    -->
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListResumenes_eeffTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListResumenes_eeffEmpty}" rendered="#{resumenes_eeffController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{resumenes_eeffController.items.rowCount > 0}">
+                    <h:outputText value="#{resumenes_eeffController.pagination.pageFirstItem + 1}..#{resumenes_eeffController.pagination.pageLastItem + 1}/#{resumenes_eeffController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{resumenes_eeffController.previous}" value="#{bundle.Previous} #{resumenes_eeffController.pagination.pageSize}" rendered="#{resumenes_eeffController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{resumenes_eeffController.next}" value="#{bundle.Next} #{resumenes_eeffController.pagination.pageSize}" rendered="#{resumenes_eeffController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{resumenes_eeffController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_nit}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_nombreempresa}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombreempresa}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_sector}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sector}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_rating}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rating}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_fechaacta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaacta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_estadoaprobacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estadoaprobacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_aniobalance}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.aniobalance}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_ingresosnetos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ingresosnetos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_costedeventas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costedeventas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadobruto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadobruto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_gastosgenerales}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.gastosgenerales}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosingresosGastosOp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosingresosGastosOp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_provisiones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.provisiones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoexplotacionEbitda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoexplotacionEbitda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_margenebitda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.margenebitda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_amortizaciones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.amortizaciones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadooperativoEbit}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadooperativoEbit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_margenebit}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.margenebit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_ingresossociedadesgrupo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ingresossociedadesgrupo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosingresosfinancieros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosingresosfinancieros}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_gastosfinancieros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.gastosfinancieros}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadofinanciero}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadofinanciero}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_ajustescambiariosInflacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ajustescambiariosInflacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_amortFondocomercioconsolidacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.amortFondocomercioconsolidacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadospuestaenequivalencia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadospuestaenequivalencia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoordinario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoordinario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoextraordinario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoextraordinario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoantesdeimpuestos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoantesdeimpuestos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_impuestos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.impuestos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoneto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoneto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_margenneto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.margenneto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_interesesminoritarios}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.interesesminoritarios}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoatribuible}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoatribuible}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dividendosaprobados}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dividendosaprobados}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_beneficioretenido}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.beneficioretenido}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_noDeacciones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noDeacciones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_beneficioporaccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.beneficioporaccion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dividendoporaccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dividendoporaccion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_payOut}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.payOut}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_aniobalanceRo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.aniobalanceRo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_resultadoperativoEbit}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resultadoperativoEbit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_amortizacionesProvisiones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.amortizacionesProvisiones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_variacioncapitalcirculanteoperativo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.variacioncapitalcirculanteoperativo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosajustesRo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosajustesRo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_impuestosRo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.impuestosRo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cfoperativoCfo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cfoperativoCfo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capex}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capex}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_desinversionesporventadeactivos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.desinversionesporventadeactivos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_inversionesfinancieras}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.inversionesfinancieras}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_desinversionesfinancieras}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.desinversionesfinancieras}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cobrosfinancieros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cobrosfinancieros}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_prestamosalgrupo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prestamosalgrupo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrasinversionesDesinversiones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrasinversionesDesinversiones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cfaplicadoainversionCfi}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cfaplicadoainversionCfi}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cfantesdefinanciacionCfafCfoCfi}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cfantesdefinanciacionCfafCfoCfi}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dividendospagados}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dividendospagados}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_variacionnetadeudaalP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.variacionnetadeudaalP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_variacionnetadeudaacP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.variacionnetadeudaacP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_pagosfinancierosIntereses}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pagosfinancierosIntereses}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_variacionderecursospropios}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.variacionderecursospropios}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosajustescf}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosajustescf}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cfderivadodefinanciacionCff}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cfderivadodefinanciacionCff}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cfdespuesdefinanciacionCfdfCfafCff}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cfdespuesdefinanciacionCfdfCfafCff}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_efectodelasdiferenciasdecambioentesoreria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.efectodelasdiferenciasdecambioentesoreria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_aumentoDisminucionnetadetesoreria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.aumentoDisminucionnetadetesoreria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cajaaliniciodelejercicio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cajaaliniciodelejercicio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cajaalfinaldelperiodo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cajaalfinaldelperiodo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_networkinginvestment}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.networkinginvestment}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_aniobalanceTaf}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.aniobalanceTaf}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_tesoreriaActivosfacilmenteliquidables}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tesoreriaActivosfacilmenteliquidables}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cuentasacobrarAdt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentasacobrarAdt}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_existencias}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.existencias}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_administracionespublicas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.administracionespublicas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosactivoscirculantes}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosactivoscirculantes}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalactivocirculante}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalactivocirculante}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_inmovilizadomaterialneto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.inmovilizadomaterialneto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_activosintangibles}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.activosintangibles}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_inmovilizadofinanciero}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.inmovilizadofinanciero}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrosactivoslP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrosactivoslP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalactivofijo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalactivofijo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalactivo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalactivo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_activoscontingentes}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.activoscontingentes}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudafinancieraacP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudafinancieraacP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudagrupocP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudagrupocP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cuentasapagar}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentasapagar}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_cuentasapagaralaadministracion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentasapagaralaadministracion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrospasivoscP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrospasivoscP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalexigibleacorto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalexigibleacorto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudafinancieraalP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudafinancieraalP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudagrupoalP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudagrupoalP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_otrospasivoslP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.otrospasivoslP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_provisionesTec}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.provisionesTec}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalexigiblealargo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalexigiblealargo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitalsocial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitalsocial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_reservasacumuladas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.reservasacumuladas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_sociosexternos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sociosexternos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_recursospropios}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recursospropios}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalexigible}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalexigible}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_totalpasivo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalpasivo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_pasivoscontingentes}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pasivoscontingentes}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_indicadores}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.indicadores}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudafinancierabruta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudafinancierabruta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_deudafinancieranetaDfn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deudafinancieranetaDfn}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitalizacionFfppAt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitalizacionFfppAt}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_apalancamiento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apalancamiento}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dfnFfpp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dfnFfpp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dfbEbitda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dfbEbitda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dfnEbitda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dfnEbitda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_dfnCfl}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dfnCfl}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_liquidez}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.liquidez}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_liquidezacida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.liquidezacida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_roeBnetoFfpp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.roeBnetoFfpp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_roaBnetoAt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.roaBnetoAt}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_ebitdaGastosfinancieros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ebitdaGastosfinancieros}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_coberturadeinteresCfoperatGastosfinancieros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.coberturadeinteresCfoperatGastosfinancieros}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitaldetrabajoActivocirculantePasivocirculante}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitaldetrabajoActivocirculantePasivocirculante}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitaldetrabajoVentas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitaldetrabajoVentas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitaldetrabajooperativo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitaldetrabajooperativo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_capitaldetrabajooperativoVentas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitaldetrabajooperativoVentas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_rotaciondeclientesDias}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rotaciondeclientesDias}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_rotaciondeinventariosDias}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rotaciondeinventariosDias}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_rotaciondeproveedoresDias}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rotaciondeproveedoresDias}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_usuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListResumenes_eeffTitle_idResumeneeff}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idResumeneeff}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{resumenes_eeffController.prepareView}" value="#{bundle.ListResumenes_eeffViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{resumenes_eeffController.prepareEdit}" value="#{bundle.ListResumenes_eeffEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{resumenes_eeffController.destroy}" value="#{bundle.ListResumenes_eeffDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{resumenes_eeffController.prepareCreate}" value="#{bundle.ListResumenes_eeffCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListResumenes_eeffIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

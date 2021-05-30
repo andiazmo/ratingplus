@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RpPermisosEditDlg" widgetVar="RpPermisosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.EditRpPermisosTitle}">
+
+            <h:form id="RpPermisosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rpPermisosController.selected != null}">
+
+                        <p:outputLabel value="#{myBundle.CreateRpPermisosLabel_guardar}" for="guardar" />
+                        <p:selectBooleanCheckbox id="guardar" value="#{rpPermisosController.guardarb}" />
+                  
+
+                        <p:outputLabel value="#{myBundle.CreateRpPermisosLabel_modificar}" for="modificar" />
+                        <p:selectBooleanCheckbox id="modificar" value="#{rpPermisosController.modificarb}" />
+
+                        <p:outputLabel value="#{myBundle.CreateRpPermisosLabel_borrar}" for="borrar" />
+                        <p:selectBooleanCheckbox id="borrar" value="#{rpPermisosController.borrarb}" />
+
+                        <p:outputLabel value="#{myBundle.EditRpPermisosLabel_modulo}" for="modulo" />
+                        <p:selectOneMenu id="modulo" value="#{rpPermisosController.selected.modulo}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rpSubmodulosController.items}"
+                                           var="moduloItem"
+                                           itemValue="#{moduloItem}"
+                                           itemLabel="#{moduloItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{rpSubmodulosConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditRpPermisosLabel_rol}" for="rol" />
+                        <p:selectOneMenu id="rol" value="#{rpPermisosController.selected.rol}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rpRolesController.items}"
+                                           var="rolItem"
+                                           itemValue="#{rolItem}"
+                                           itemLabel="#{rolItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{rpRolesConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rpPermisosController.modificar()}" value="#{myBundle.Save}" update="display,:RpPermisosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,RpPermisosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('RpPermisosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

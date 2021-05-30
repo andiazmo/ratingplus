@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+        <p:dialog id="ClientesCreateRelacionDialog" widgetVar="ClientesCreateRelacionDialog" modal="true" resizable="false" appendTo="@(body)" header="Datos Adicionales" closable="false" closeOnEscape="true">
+
+            <h:form id="ClientesCreateRelacionForm">
+
+                <h:panelGroup id="display"  rendered="#{clientesController.selected != null}">
+                    <p:panelGrid columns="4" columnClasses="column">
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Tipo Vinculo: " for="vinculo"/>
+                        <p:selectOneMenu rendered="#{clientesController.botonGuardar}"  id="vinculo" value="#{clientesController.relacionCG.tipoVinculo}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoTipoVinculo)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Tipo Relacion: " for="relacion"/>
+                        <p:selectOneMenu rendered="#{clientesController.botonGuardar}"  id="relacion" value="#{clientesController.relacionCG.tipoRelacion}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoTipoRelacion)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Rol Jerarquico: " for="jerarquico"/>
+                        <p:selectOneMenu rendered="#{clientesController.botonGuardar}"  id="jerarquico" value="#{clientesController.relacionCG.rolJerarquico}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoRolJerarquico)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Porcentaje Participacion: " for="participacion"/>
+                        <pe:inputNumber rendered="#{clientesController.botonGuardar}"  required="true" id="participacion" value="#{clientesController.relacionCG.porcParticipacion}" symbol="%" symbolPosition="s" minValue="0" maxValue="100" decimalPlaces="0">
+                            <p:ajax update=":growl participacion" listener="#{clientesController.validarPorcentajeParticipacion(true)}"/>
+                        </pe:inputNumber>
+
+<!--                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Facturacion: " for="factuacion"/>
+                        <pe:inputNumber disabled="true" rendered="#{clientesController.botonGuardar}"  required="true" id="factuacion" value="#{clientesController.relacionCG.facturacion}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Total Activo: " for="activo"/>
+                        <pe:inputNumber disabled="true" rendered="#{clientesController.botonGuardar}"  required="true" id="activo" value="#{clientesController.relacionCG.totalActivo}" decimalPlaces="0">
+                        </pe:inputNumber>-->
+
+                        <p:outputLabel rendered="#{clientesController.botonGuardar}"  value="Numero de Empleados: " for="empleados"/>
+                        <pe:inputNumber rendered="#{clientesController.botonGuardar}"  required="true" id="empleados" value="#{clientesController.relacionCG.cantidadEmpleado}" decimalPlaces="0">   
+                        </pe:inputNumber>
+
+                    </p:panelGrid>
+
+                    <p:commandButton rendered="#{clientesController.botonGuardar}" actionListener="#{clientesController.guardar(false)}"  value="De acuerdo" update=":growl" oncomplete="PF('handleSubmit(xhr,status,args,ClientesCreateRelacionDialog, :ClientesCreateDialog);"/>
+                    <p:commandButton rendered="#{clientesController.botonGuardar}"  value="#{myBundle.Cancel}" onclick="PF('ClientesCreateRelacionDialog').hide()">
+                    </p:commandButton> 
+                    
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+
+</html>

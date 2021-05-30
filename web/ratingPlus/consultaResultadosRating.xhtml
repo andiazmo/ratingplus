@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Resultados Rating"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        
+        <h:form id="formParamModulo">
+            <p:growl id="msgs" showDetail="true"/>
+            
+            <p:panel id="pnlFiltros" header="RESULTADOS RATING">
+                <h:panelGrid columns="10" cellpadding="5">
+                    <p:outputLabel for="nit" value="Nit:"/>
+                    <p:inputText id="nit" value="#{consultaResultadosRating.nitSeleccionado}"/>
+                    
+                    <p:outputLabel for="nombre" value="Nombre:"/>
+                    <p:inputText id="nombre" value="#{consultaResultadosRating.nombreDiligenciado}"/>
+                    
+                    <p:outputLabel for="grupo" value="Grupo:"/>
+                    <p:inputText id="grupo" value="#{consultaResultadosRating.grupoDiligenciado}"/>
+                      
+                    <p:outputLabel for="fechaInicial" value="Fecha Inicial:"/>
+                    <p:calendar id="fechaInicial" pattern="dd/MM/yyyy" 
+                                maxdate="#{consultaResultadosRating.date}"
+                                value="#{consultaResultadosRating.minDate}" 
+                                showOn="button">
+                        <p:ajax event="dateSelect" listener="#{consultaResultadosRating.onDateSelect}" 
+                                update=":formParamModulo:pnlFiltros"/>
+                    </p:calendar>
+                    
+                    <p:outputLabel for="fechaFinal" value="Fecha Final:"/>
+                    <p:calendar id="fechaFinal" pattern="dd/MM/yyyy"
+                                mindate="#{consultaResultadosRating.finalDate}"
+                                value="#{consultaResultadosRating.maxDate}" 
+                                showOn="button" disabled="#{consultaResultadosRating.validDate}"/>
+                    
+                </h:panelGrid>
+                
+                <p:commandButton value="Consultar"  action="#{consultaResultadosRating.displayDataTable}"
+                             icon="pi pi-check" update=":formTableRespuesta:cntTableRespuestas"/>
+            </p:panel>
+            
+        </h:form>
+        
+        <h:form id="formTableRespuesta">
+            
+            <p:growl id="msgs" showDetail="true"/>
+            <p:outputPanel id="cntTableRespuestas" style="visibility: #{consultaResultadosRating.listaResultadosRatingFiltro.size() &gt; 0 ? 'visible' : 'hidden'};">
+                <p:dataTable id="lazyModel" var="resultado" value="#{consultaResultadosRating.lazyModelFiltro}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         paginator="true" rows="10" lazy="true"
+                         emptyMessage="No se encontraron resultados">
+                
+                    <p:column headerText="Usuario Ejecución">
+                        <h:outputText value="#{resultado.usuarioBanco}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Fecha Ejecución">
+                        <h:outputText value="#{resultado.fechaInsercion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{resultado.estado}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nit">
+                        <h:outputText value="#{resultado.nit}"/>
+                    </p:column>
+                   
+                    <p:column headerText="Razón Social">
+                        <h:outputText value="#{resultado.razonSocial}"/>
+                    </p:column> 
+ 
+                    <p:column headerText="Grupo">
+                        <h:outputText value="#{resultado.grupoEconomico}"/>
+                    </p:column>                     
+
+                    <p:column headerText="Valor Rating Calculado">
+                        <h:outputText value="#{resultado.valorRating}"/>
+                    </p:column>                
+
+                    <p:column headerText="Valor Rating Modificado">
+                       <h:outputText value="#{resultado.valorRatingFinal}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Número de Caso"  style="display: none">
+                        <h:outputText value="#{resultado.numeroCaso}"/>
+                    </p:column>
+                    
+                     <p:column headerText="Motivo modificación"  style="display: none">
+                         <h:outputText value="#{resultado.comentarioUsuario}"/>
+                    </p:column>
+                   
+                    <p:column headerText="Rango Apalancamiento" style="display: none">
+                        <h:outputText value="#{resultado.rangoApalancamiento}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango DFNEBITDA" style="display: none">
+                        <h:outputText value="#{resultado.rangoDFNEBITDA}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango DFNCFL" style="display: none">
+                        <h:outputText value="#{resultado.rangoDFNCFL}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Liquidez" style="display: none">
+                        <h:outputText value="#{resultado.rangoLiquidez}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Cobertura Intereses" style="display: none">
+                        <h:outputText value="#{resultado.rangoCoberturaIntereses}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Margen Ebitda" style="display: none">
+                        <h:outputText value="#{resultado.rangoMargenEBITDA}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Rotación Clientes" style="display: none">
+                        <h:outputText value="#{resultado.rangoRotacionClientesDias}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Rotación Inventarios" style="display: none">
+                        <h:outputText value="#{resultado.rangoRotacionInventariosDias}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rango Rotación Proveedores" style="display: none">
+                        <h:outputText value="#{resultado.rangoRotacionProveedoresDias}"/>
+                    </p:column>
+                     
+                    <p:column headerText="Calificación Sector Financiero" style="display: none">
+                        <h:outputText value="#{resultado.calificacion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Garantias Sector Financiero" style="display: none">
+                        <h:outputText value="#{resultado.garantia}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Indicador Mora" style="display: none">
+                        <h:outputText value="#{resultado.indicadorMora}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Número Bancos" style="display: none">
+                        <h:outputText value="#{resultado.numeroBancos}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Marcación Reestructuración" style="display: none">
+                        <h:outputText value="#{resultado.reestructuracion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Evolución esperada en el sector" style="display: none">
+                        <h:outputText value="#{resultado.evolucionEsperada}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Posición en el Mercado" style="display: none">
+                        <h:outputText value="#{resultado.posicionMercado}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Dependencia de Clientes" style="display: none">
+                        <h:outputText value="#{resultado.dependenciaClientes}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Concentración del Proveedor" style="display: none">
+                        <h:outputText value="#{resultado.concentracionProveedor}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Voluntad y capacidad de apoyo por parte del accionista" style="display: none">
+                        <h:outputText value="#{resultado.voluntadCapacidad}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Garantías adicionales" style="display: none">
+                        <h:outputText value="#{resultado.garantiasAdicionales}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Calidad del Revisor Fiscal" style="display: none">
+                        <h:outputText value="#{resultado.calidadRevisor}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Informe Revisor Fiscal" style="display: none">
+                        <h:outputText value="#{resultado.informeRevisor}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Tipo de Producto o Servicio" style="display: none">
+                        <h:outputText value="#{resultado.tipoProducto}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Gerencia Capacidad Profesionalidad Experiencia" style="display: none">
+                        <h:outputText value="#{resultado.gerenciaCapacidad}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Abanico Bancario y facilidad de sustitución" style="display: none">
+                        <h:outputText value="#{resultado.abanicoBancario}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Mecanismos de Financiación" style="display: none">
+                        <h:outputText value="#{resultado.mecanismosFinanciacion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Estructura de Costos" style="display: none">
+                        <h:outputText value="#{resultado.estructuraCostos}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Capcidad para atender calendario de pago deuda" style="display: none">
+                        <h:outputText value="#{resultado.capacidadAtencion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Grado Autofinanciación Inversiones" style="display: none">
+                        <h:outputText value="#{resultado.gradoAutofinanciacion}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Existencia de deudas o compromisos fuera de balance" style="display: none">
+                        <h:outputText value="#{resultado.existenciaDeudas}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Perfil de Pago de la deuda" style="display: none">
+                        <h:outputText value="#{resultado.perfilPagoDeuda}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Calidad de activos circulantes" style="display: none">
+                        <h:outputText value="#{resultado.calidadActivos}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Tipo de accionista" style="display: none">
+                        <h:outputText value="#{resultado.tipoAccionista}"/>
+                    </p:column>
+                    
+<!--                    <p:column headerText="Valor Intercepto Combinación Subjetivo Objetivo" style="display: none">
+                        <h:outputText value="#{resultado.interceptoSumatoria}"/>
+                    </p:column>-->
+                    
+                    <p:column headerText="WOE de Módulos" style="display: none">
+                        <h:outputText value="#{resultado.sumatoriaWoe}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Beta Módulos" style="display: none">
+                        <h:outputText value="#{resultado.sumatoriaBeta}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Beta Módulo Subjetivo" style="display: none">
+                        <h:outputText value="#{resultado.betaSubjetivo}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Valor Alpha" style="display: none">
+                        <h:outputText value="#{resultado.valorAlpha}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Valor Beta" style="display: none">
+                        <h:outputText value="#{resultado.valorBeta}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Valor LogOdds" style="display: none">
+                        <h:outputText value="#{resultado.valorLogOdds}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+                <br/>
+                <h:commandLink>
+                    <p:graphicImage value="/img/excelPrime.png"/>
+                    <p:dataExporter type="xls" target="lazyModel" 
+                                    fileName="#{consultaResultadosRating.fileName}"
+                                    postProcessor="#{consultaResultadosRating.postProcessXLS}"/>
+                </h:commandLink>
+            </p:outputPanel>
+            
+           
+        </h:form>
+                
+        
+    </ui:define>
+
+</ui:composition>
+
+

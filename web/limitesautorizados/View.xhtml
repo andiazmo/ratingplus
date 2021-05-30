@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LimitesautorizadosViewDlg" widgetVar="LimitesautorizadosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLimitesautorizadosTitle}" closeOnEscape="true">
+
+            <h:form id="LimitesautorizadosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{limitesautorizadosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_sublimiteautorizado}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.sublimiteautorizado}" title="#{myBundle.ViewLimitesautorizadosTitle_sublimiteautorizado}">
+                            <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_plazo}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.plazo}" title="#{myBundle.ViewLimitesautorizadosTitle_plazo}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_tasas}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.tasas}" title="#{myBundle.ViewLimitesautorizadosTitle_tasas}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_margenspread}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.margenspread}" title="#{myBundle.ViewLimitesautorizadosTitle_margenspread}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_garantiaavaluodetalle}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.garantiaavaluodetalle}" title="#{myBundle.ViewLimitesautorizadosTitle_garantiaavaluodetalle}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_garantiavalor}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.garantiavalor}" title="#{myBundle.ViewLimitesautorizadosTitle_garantiavalor}">
+                            <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_comentarios}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.comentarios}" title="#{myBundle.ViewLimitesautorizadosTitle_comentarios}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_consumido}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.consumido}" title="#{myBundle.ViewLimitesautorizadosTitle_consumido}">
+                            <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+                            
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_disponible}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.disponible}" title="#{myBundle.ViewLimitesautorizadosTitle_disponible}">
+                            <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_garantiacobertura}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.cobertura}"/>
+                        
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_pagointeres}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.pagointeres.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_amortizacioncapital}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.amortizacioncapital.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_modalidad}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.modalidad.nombre}"/>
+
+                       <h:outputText value="#{myBundle.ViewLimitesautorizadosLabel_garantiaavaluo}"/>
+                        <h:outputText value="#{limitesautorizadosController.selected.garantiaavaluo.nombre}"/>
+
+                      
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LimitesautorizadosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

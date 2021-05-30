@@ -1,0 +1,248 @@
+/**************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 16-07-2018
+ **************************************/
+.ui-widget {
+    /* FIXPACK2 - inicio */
+    font-family: 'Open Sans', sans-serif;
+    /* FIXPACK2 - fin */
+    font-size: 12px !important;
+}
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+    /* FIXPACK2 - inicio */
+    /* Estilo de encabezados de títulos */
+    background: #EC0000 !important; /* #990000 #CC0000 */
+    -webkit-border-radius: 15px 15px 0px 0px; 
+    border-radius: 15px 15px 0px 0px;    
+    /* FIXPACK2 - fin */
+}
+
+/* FIXPACK2 - inicio */
+/* Estilo del footer de las tablas*/
+.ui-corner-bottom{
+    -webkit-border-radius: 0px 0px 15px 15px;
+    border-radius: 0px 0px 15px 15px;    
+}
+/* FIXPACK2 - fin */
+
+.ui-datatable .ui-datatable-footer .footer-section {
+    text-align: left;
+}
+
+/* FIXPACK2 - inicio */
+/*.column {
+    font-weight: bold;
+    background-color: menu;
+}*/
+/* Estilo de lables de formularios*/
+.column label{
+    background-color: menu;
+}
+/* FIXPACK2 - fin */
+
+/* FIXPACK2 - inicio */
+
+/* ESTILOS DE LOGO */
+.logo-top {
+    background-color: #EC0000 !important;
+    background-image: url(../..//img/top-contacto.svg);
+    background-size: 330px;
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 105px;
+}
+
+.logo-top .ui-widget-content{
+    background: #EC0000;
+    border: none;
+    text-align: right;
+}
+
+.logo-top .ui-panelgrid .ui-panelgrid-cell{
+    padding: 0px !important;
+    border: none;
+}
+
+.logo-top label{
+    color: white;
+    font-size: 1.2em;
+}
+
+/* ESTILOS DE ENCABEZADO */
+.head-titulo{
+    background-color: #EC0000;
+    border: 0px;
+    margin: -5px !important;    
+    padding: 0px !important;
+}
+.titulo{
+    color: white;
+    padding: 5px 0px;
+    position: absolute;    
+    width: 100%;    
+}
+
+.titulo h1{
+    font-size: 3.2em;
+    font-weight: lighter;
+    margin: 0px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.titulo h2{
+    font-size: 1.9em;
+    font-weight: lighter;
+    margin: 0px;
+    text-align: center;
+}
+
+@media screen and (max-width: 860px){
+    .titulo h1{
+        font-size: 2.2em;
+    }
+
+    .titulo h2{
+        font-size: 0.9em;
+    }    
+}
+
+.infousu {
+    position: absolute;
+    right: 10px;    
+    top: 15px;
+}
+
+/* Estilo de reloj */
+.ui-clock{
+    background-color: #EC0000 !important;
+    border: 0px;
+    padding: 0px !important;
+}
+
+/* ESTILOS DE LOGIN */
+.panel-login{
+    background-color: #ffffff;
+    position:relative;margin: 0 auto;
+    width:500px;
+}
+
+/* ESTILOS DE TABLAS */
+
+/* Separación entre elementos */
+.ui-panelgrid .ui-panelgrid-cell {
+    padding: 4px 1px !important;
+}
+
+/* Color de Botones y enlaces */
+.ui-inputfield{
+    color: #000000 !important;
+}
+
+.ui-state-active a:link{
+    color: #CC0000 !important;
+}
+
+.ui-state-hover a:hover{
+    color: #6F7779 !important;
+
+}
+
+/* Estados opción del menú */
+.ui-state-hover{
+    font-weight: bolder;
+    font-size: 12.4px !important;
+}
+
+.ui-state-default a:link{
+    color: #000000;
+}
+
+.ui-state-active a:visited{
+    color: green !important;
+}
+
+.ui-state-default{
+    color: #000000 !important;
+}
+
+/* Línea seleccionada */
+.ui-widget-content .ui-state-highlight{
+    border: 1px solid #C3DEE7;    
+}
+
+.ui-state-highlight td{
+    background: #DEEDF2;
+}
+.oculta-boton{
+    background-color: white;
+    width: 6%;
+    height: 25px;
+    position: absolute;
+    z-index: 10;
+    opacity: 0.6;
+    padding: 0px;
+    margin: 0px;
+    cursor: auto;    
+}
+.ui-state-highlight .oculta-boton{
+    z-index: 0;
+    opacity:0;
+}
+
+/* Alineación elementos tabla*/
+.ui-datatable-resizable td:first-child {
+    text-align: left;
+}
+.ui-datatable-resizable td {
+    text-align: right;
+}
+
+/* Colores de lineas de tabla */
+.modo-consulta{
+    background: #e0dfdd !important;
+}
+
+.modo-edicion{
+    background:#ffffff;
+}
+
+/* Tamaño y alineamiento de encabezado*/
+.panel-encabezado{
+    width: 100%;
+}
+
+.panel-encabezado td{
+    vertical-align: sub;
+}
+.panel-datos-cliente{
+    margin-bottom:0px;
+    width: 100%;
+}
+
+/* Estilo de chackbox */
+
+.ui-chkbox-box ,.ui-state-disabled {
+    opacity: 0.6 !important;
+}
+
+.panel-datos-cliente ui-panelgrid-cell {
+    font-weight: bold;
+}
+
+/* ESTILOS DE FOOTER */
+.footer{    
+    color:#6F7779 !important;
+}
+
+/* FIXPACK2 - fin */

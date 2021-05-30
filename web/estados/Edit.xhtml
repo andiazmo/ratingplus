@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EstadosEditDlg" widgetVar="EstadosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditEstadosTitle}" closeOnEscape="true">
+
+            <h:form id="EstadosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{estadosController.selected != null}">
+
+
+                      
+                        <p:outputLabel value="#{myBundle.EditEstadosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{estadosController.selected.nombre}" title="#{myBundle.EditEstadosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditEstadosRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadosController.save}" value="#{myBundle.Save}" update="display,:EstadosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,EstadosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('EstadosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

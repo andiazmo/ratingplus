@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!-- 
+**************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 10-08-2018
+ ************************************** 
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title><ui:insert name="title">Pagina de Entrada</ui:insert></title>
+        <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
+
+    </h:head>
+    <h:body  >
+        <style type="text/css">
+            .ui-growl {
+                right: 30%;
+                top: 30%;
+                background-color:  antiquewhite;
+            }
+        </style>  
+
+        <p:layout fullPage="true">
+            <!--FIXPACK2 - inicio -->
+            <p:layoutUnit position="north" size="105" class="head-titulo">
+                <!--<p:media value="//img/top-contacto.jpg" width="1400"  height="100" player="flash"></p:media>-->
+
+                <div class="titulo">
+                    <h1>#{myBundle.AppName}</h1>
+                    <h2>#{myBundle.AppSubTitle}</h2>
+                </div>
+                <div class="logo-top"></div>
+                <!--FIXPACK2 - fin -->
+
+            </p:layoutUnit>
+
+
+            <p:layoutUnit position="south" size="60">
+                <ui:insert name="footer"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <p:panel   style=" background-color: #ffffff  ; border-color:#563D64;      width:500px; position:relative;margin: 0 auto;  " > 
+                    <br>
+                        <table>
+
+                            <tr>
+
+                                <td><p:graphicImage url="//img/logo1.gif"></p:graphicImage></td>
+
+                                <td>
+                                    <p:panel  header="Ingreso"  style=" background-color: #e0dfdd; width: 300px; height: 150px ">
+
+
+                                        <h:form id="form">
+                                            <h:messages id="msgs" infoStyle="color:green;" showDetail="false" />
+                                            <table>  
+                                                <tr>
+                                                    <td>
+                                                        <p:outputLabel  value="Usuario:" for="nombre"></p:outputLabel> 
+                                                    </td>
+                                                    <td>
+                                                        <p:growl id="huevonl" life="4000"/>
+                                                        <p:inputText id="nombre" />
+                                                    </td>
+                                                </tr>   
+                                                <tr>
+                                                    <td>
+                                                        <p:outputLabel value="Clave:" for="clave"></p:outputLabel>  
+                                                    </td><td>
+                                                        <p:password id="clave"/>
+
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p:outputLabel value="Confirme Clave:" for="clave"></p:outputLabel>  
+                                                    </td><td>
+                                                        <p:password id="clave1"/>
+
+                                                        <p:growl id="mensaje" life="4000"/>
+                                                    </td>
+                                                </tr>
+
+
+
+                                            </table> 
+                                            <p:commandButton value="Ingresar"  update="mensaje" actionListener="#{rpUsuariosController.cambioClave()}"/>
+
+                                        </h:form>  
+                                    </p:panel>
+
+                                </td>
+                            </tr>
+
+                        </table>    
+
+
+                    </br>
+                </p:panel> 
+            </p:layoutUnit>
+        </p:layout>
+
+
+    </h:body>
+</html>

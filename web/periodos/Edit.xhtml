@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PeriodosEditDlg" widgetVar="PeriodosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPeriodosTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{periodosController.selected != null}">
+
+
+                        <p:outputLabel value="#{myBundle.EditPeriodosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{periodosController.selected.nombre}" title="#{myBundle.EditPeriodosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditPeriodosRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodosController.save}" value="#{myBundle.Save}" update="display,:PeriodosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,PeriodosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('PeriodosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

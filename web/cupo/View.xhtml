@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuposViewDlg" widgetVar="CuposViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewCuposTitle}" closeOnEscape="true">
+
+            <h:form id="CuposViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cuposController.selected != null}">
+
+                      
+                        <h:outputText value="#{myBundle.ViewCuposLabel_fechaalta}"/>
+                        <h:outputText value="#{cuposController.selected.fechaalta}" title="#{myBundle.ViewCuposTitle_fechaalta}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewCuposLabel_fechavencimiento}"/>
+                        <h:outputText value="#{cuposController.selected.fechavencimiento}" title="#{myBundle.ViewCuposTitle_fechavencimiento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewCuposLabel_limitetotal}"/>
+                        <h:outputText value="#{cuposController.selected.limitetotal}" title="#{myBundle.ViewCuposTitle_limitetotal}">
+                             <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewCuposLabel_limiteconsumido}"/>
+                        <h:outputText value="#{cuposController.selected.limiteconsumido}" title="#{myBundle.ViewCuposTitle_limiteconsumido}">
+                             <f:convertNumber maxFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewCuposLabel_moneda}"/>
+                        <h:outputText value="#{cuposController.selected.moneda.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewCuposLabel_cliente}"/>
+                        <h:outputText value="#{cuposController.selected.cliente.nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('CuposViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

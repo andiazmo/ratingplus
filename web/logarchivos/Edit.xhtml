@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LogarchivosEditDlg" widgetVar="LogarchivosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditLogarchivosTitle}" closeOnEscape="true">
+
+            <h:form id="LogarchivosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{logarchivosController.selected != null}">
+
+
+                        
+                        <p:outputLabel value="#{myBundle.EditLogarchivosLabel_linea}" for="linea" />
+                        <p:inputText id="linea" value="#{logarchivosController.selected.linea}" title="#{myBundle.EditLogarchivosTitle_linea}" required="true" requiredMessage="#{myBundle.EditLogarchivosRequiredMessage_linea}"/>
+
+                        <p:outputLabel value="#{myBundle.EditLogarchivosLabel_log}" for="log" />
+                        <p:inputTextarea rows="4" cols="30" id="log" value="#{logarchivosController.selected.log}" title="#{myBundle.EditLogarchivosTitle_log}" required="true" requiredMessage="#{myBundle.EditLogarchivosRequiredMessage_log}"/>
+
+                        <p:outputLabel value="#{myBundle.EditLogarchivosLabel_archivo}" for="archivo" />
+                        <p:selectOneMenu id="archivo" value="#{logarchivosController.selected.archivo}" required="true" requiredMessage="#{myBundle.EditLogarchivosRequiredMessage_archivo}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{archivosController.items}"
+                                           var="archivoItem"
+                                           itemValue="#{archivoItem}"
+                                           itemLabel="#{archivoItem.id.toString()}"
+                                           />
+                            <f:converter binding="#{archivosConverter}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{logarchivosController.save}" value="#{myBundle.Save}" update="display,:LogarchivosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LogarchivosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('LogarchivosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

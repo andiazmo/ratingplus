@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RpSubmodulosEditDlg" widgetVar="RpSubmodulosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.EditRpSubmodulosTitle}">
+
+            <h:form id="RpSubmodulosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rpSubmodulosController.selected != null}">
+
+                      
+                        <p:outputLabel value="#{myBundle.EditRpSubmodulosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{rpSubmodulosController.selected.nombre}" title="#{myBundle.EditRpSubmodulosTitle_nombre}" />
+
+                        <p:outputLabel value="#{myBundle.EditRpSubmodulosLabel_url}" for="url" />
+                        <p:inputText id="url" value="#{rpSubmodulosController.selected.url}" title="#{myBundle.EditRpSubmodulosTitle_url}" />
+
+                        <p:outputLabel value="#{myBundle.EditRpSubmodulosLabel_modulo}" for="modulo" />
+                        <p:selectOneMenu id="modulo" value="#{rpSubmodulosController.selected.modulo}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rpModulosController.items}"
+                                           var="moduloItem"
+                                           itemValue="#{moduloItem}"
+                                           itemLabel="#{moduloItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{rpModulosConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rpSubmodulosController.save}" value="#{myBundle.Save}" update="display,:RpSubmodulosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,RpSubmodulosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('RpSubmodulosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

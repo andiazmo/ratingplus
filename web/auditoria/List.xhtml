@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AuditoriaListForm">
+
+        <p:panel header="#{myBundle.ListAuditoriaTitle}">
+            <p:dataTable id="datalist"
+                         value="#{auditoriaController.items}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{auditoriaController.selected}"
+                         widgetVar="carsTable"
+                         >
+
+                <p:ajax event="rowSelect"   update=" viewButton "/>
+                <p:ajax event="rowUnselect" update=" viewButton "/>
+
+              
+
+
+                <p:column sortBy="#{item.usuario}" filterBy="#{item.usuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAuditoriaTitle_usuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accion}" filterBy="#{item.accion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListAuditoriaTitle_accion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}"  headerText="#{myBundle.ListAuditoriaTitle_fecha}" filterMatchMode="exact" filterBy="#{item.fecha}" >
+                   
+                <f:facet name="filter">
+                    <p:calendar id="fecha" pattern="dd/MM/yyyy kk:mm:ss"  onkeypress="PF('carsTable').filter()"   showOn="button"/>
+                </f:facet>
+                    
+                    
+                    <h:outputText value="#{item.fecha}">
+                         <f:convertDateTime  pattern="dd/MM/yyyy kk:mm:ss"  />
+                    </h:outputText>
+                </p:column>
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":AuditoriaViewForm" oncomplete="PF('AuditoriaViewDialog').show()" disabled="#{empty auditoriaController.selected}"/>
+                       </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

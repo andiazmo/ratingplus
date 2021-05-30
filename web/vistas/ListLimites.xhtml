@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- 
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK1
+ *Fecha del cambio : 26-06-2018
+ **************************************
+*Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 16-07-2018
+ ************************************** 
+--> 
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <h:form id="LimiteautorizadoViewForm">
+            <h:panelGroup>
+                <p:panel header="#{myBundle.ListLimitesautorizadosTitle}">
+                    <!--FIXPACK1 - inicio -->
+                    <p:dataTable id="datalist"
+                                 value="#{cuposController.selected.limitesautorizadosList}"
+                                 var="item"
+                                 rowKey="#{item.id}"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 selectionMode="single"
+                                 selection="#{limitesautorizadosController.selected}"                         
+                                 scrollable="true"
+                                 resizableColumns="true" liveScroll="true">
+                        <!--FIXPACK1 - fin -->
+
+
+                        <p:ajax event="rowSelect"   listener="#{limitesautorizadosController.listaSublimites()}"    update=":DesembolsosListForm:datalist :DesembolsosListForm:datalist:viewButton :DesembolsosListForm:datalist:editButton :DesembolsosListForm:datalist:deleteButton :growl"/>
+                        <p:ajax event="rowUnselect" listener="#{limitesautorizadosController.listaSublimites()}"  update=":DesembolsosListForm:datalist :DesembolsosListForm:datalist:viewButton :DesembolsosListForm:datalist:editButton :DesembolsosListForm:datalist:deleteButton :growl"/>
+
+                        <!--FIXPACK2 - inicio -->
+                        <!-- <p:column  sortBy="#{item.modalidad.nombre}" style='background: #{item.modalidad.consulta?"#e0dfdd !important":"#ffffff"}'> -->
+                        <p:column  sortBy="#{item.modalidad.nombre}" class='#{item.modalidad.consulta?"modo-consulta":"modo-edicion"}'>
+                            <!--FIXPACK2 - fin --> 
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_modalidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.modalidad.nombre}" />
+                        </p:column>
+
+
+                        <!--FIXPACK2 - inicio -->
+                        <p:column  sortBy="#{item.sublimiteautorizado}" class='#{item.modalidad.consulta?"modo-consulta":"modo-edicion"}'>
+                            <!--FIXPACK2 - fin -->
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_sublimiteautorizado}"/>
+                            </f:facet>
+                            <!--FIXPACK2 - inicio -->
+                    <!--<div align="right"><h:outputText value="#{item.sublimiteautorizado}">
+                    <f:convertNumber maxFractionDigits="2" />
+                    </h:outputText></div>-->
+                            <h:outputText value="#{item.sublimiteautorizado}">
+                                <f:convertNumber maxFractionDigits="2" />
+                            </h:outputText>
+                            <!--FIXPACK2 - fin -->
+                        </p:column>
+
+                        <!--FIXPACK2 - inicio -->
+                        <p:column  sortBy="#{item.consumido}" class='#{item.modalidad.consulta?"modo-consulta":"modo-edicion"}'>
+                            <!--FIXPACK2 - fin -->
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_utilizado}" /> :
+                                <h:outputText value="#{cuposController.consumidoTotal}">
+                                    <f:convertNumber maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
+                            <!--FIXPACK2 - inicio -->
+                            <h:outputText value="#{item.consumido}">
+                                <f:convertNumber maxFractionDigits="2" />
+                            </h:outputText>
+                            <!--FIXPACK2 - fin -->
+                        </p:column>
+
+                        <!--FIXPACK2 - inicio -->
+                        <p:column sortBy="#{item.disponible}" class='#{item.modalidad.consulta?"modo-consulta":"modo-edicion"}'>
+                            <!--FIXPACK2 - fin -->
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_disponible}: "/>
+                                <h:outputText value="#{(cuposController.selected.limitetotal - cuposController.consumidoTotal)}">
+                                    <f:convertNumber maxFractionDigits="2" />
+                                </h:outputText> 
+                            </f:facet>
+                            <!--FIXPACK2 - inicio -->
+                            <h:outputText value="#{item.disponible}">
+                                <f:convertNumber maxFractionDigits="2" />
+                            </h:outputText>
+                            <!--FIXPACK2 - fin -->
+                        </p:column>
+
+                        <!--FIXPACK2 - inicio -->
+                        <p:column  sortBy="#{item.comentarios}" class='#{item.modalidad.consulta?"modo-consulta":"modo-edicion"}'>                   
+                        <!--FIXPACK2 - fin -->
+                            <f:facet name="header">
+                                <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_comentarios}"/>
+                            </f:facet>
+
+                            <h:commandButton  id="createButton"  value="ver"    >
+                                <p:ajax listener="#{limitesautorizadosController.selecionarLimite(item)}" update=":DesembolsosListForm:LimiteautorizadoViewForm" event="click" oncomplete="PF('LimitesautorizadosComentarioDialog').show()"/>
+                            </h:commandButton>  
+
+                        </p:column>
+
+
+
+                    </p:dataTable>
+                </p:panel>
+
+                <p:dialog id="LimitesautorizadosCreateDlg" widgetVar="LimitesautorizadosComentarioDialog"      header="Comentario"  >
+
+                    <p:editor widgetVar="primeEditor" value="#{limitesautorizadosController.selected.comentarios}" disabled="true"/>
+
+
+                </p:dialog>  
+
+
+
+            </h:panelGroup>    
+
+        </h:form>
+
+
+
+
+    </ui:composition>
+
+</html>

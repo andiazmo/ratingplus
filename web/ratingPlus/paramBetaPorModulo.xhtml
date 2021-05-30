@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.respuestasPorBetaModuloTitle}"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        
+        <h:form id="formParamModulo">
+        
+            <p:panel header="#{myBundle.respuestasPorBetaModuloTitle}">
+                
+                <p:outputLabel for="numCaso" value="Caso de uso: "/>
+                <p:inputText id="numCaso" required="true" value="#{betaModuloCaso.codigoBeta}"/>
+
+                <p:outputLabel for="sltVariable" value="Variable: "/>
+                <p:selectOneMenu id="sltVariable"
+                                 required="true"
+                                 value="#{betaModuloCaso.categoriaSeleccionada}">
+                    <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                    <f:selectItems value="#{betaModuloCaso.listaCategorias}" var="categoria" itemLabel="#{categoria.categoria}" itemValue="#{categoria.codigo}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="vlrBeta" value="Valor:"/>
+                <p:inputText id="vlrBeta" required="true" value="#{betaModuloCaso.valor}"/> 
+
+                <p:commandButton value="Guardar" update=":growl, :formTableModulo:tableParamModulo, :formParamModulo:numCaso, :formParamModulo:sltVariable, :formParamModulo:vlrBeta" actionListener="#{betaModuloCaso.guardarParametro}"/>
+                
+            </p:panel>
+            
+        </h:form>
+        
+        <h:form id="formTableModulo">
+        
+            <p:dataTable id="tableParamModulo" 
+                         emptyMessage="Cero registros encontrados"
+                         paginator="true"
+                         value="#{betaModuloCaso.listaBetas}"
+                         var="betas"
+                         rows="10">
+
+                <p:column headerText="Caso No.">
+                    <h:outputText value="#{betas.numCaso}"/>
+                </p:column>
+
+                <p:column headerText="Variable">
+                    <h:outputText value="#{betas.categoria.categoria}"/>
+                </p:column>                
+
+                <p:column headerText="Valor">
+                    <h:outputText value="#{betas.valor}"/>
+                </p:column>
+
+                <p:column headerText="Acciones" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-pencil" actionListener="#{betaModuloCaso.preseleccionarRegistro}" onsuccess="PF('actualizarParametro').show();" update=":formActualizarParametro:dlgActualizaParametro">
+                        <f:attribute name="registroSeleccionado" value="#{betas}"/>
+                    </p:commandButton>    
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{betaModuloCaso.preseleccionarRegistro}" onsuccess="PF('eliminarParametro').show();">
+                        <f:attribute name="registroSeleccionado" value="#{betas}"/>
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+            
+        </h:form>
+        
+        <h:form id="formActualizarParametro">
+            
+            <p:dialog id="dlgActualizaParametro"
+                      widgetVar="actualizarParametro">
+                
+                <h:outputText value="Número de caso: #{betaModuloCaso.registroSeleccionado.numCaso}"/>
+                <h:outputText value="Categoría: #{betaModuloCaso.registroSeleccionado.categoria.categoria}"/>
+                
+                <p:outputLabel value="Valor del beta:"/>
+                <p:inputText id="txtValor" value="#{betaModuloCaso.registroSeleccionado.valor}" required="true"/>
+                
+                <div style="text-align: center">
+                    <p:commandButton value="Actualizar beta" update=":growl" actionListener="#{betaModuloCaso.actualizarParametro}" onsuccess="PF('actualizarParametro').hide();"/>                
+                </div>
+                
+            </p:dialog>
+            
+        </h:form>
+
+        <h:form id="eliminaParametro">
+            
+            <p:dialog id="dlgEliminaParametro"
+                      widgetVar="eliminarParametro">
+                
+                
+                <h:outputText value="Esta acción eliminará el beta seleccionado. ¿Desea continuar?"/>
+                
+                <hr/>
+                <br/>
+                
+                <div style="text-align: center">
+                    <p:commandButton value="Si" update=":growl" actionListener="#{betaModuloCaso.eliminarParametro}" onsuccess="PF('eliminarParametro').hide();"/>                
+                    <p:commandButton value="No" onclick="PF('eliminarParametro').hide();"/>                
+                </div>
+                
+            </p:dialog>
+            
+        </h:form>        
+        
+    </ui:define>
+
+</ui:composition>
+
+

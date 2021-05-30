@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TasasEditDlg" widgetVar="TasasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditTasasTitle}" closeOnEscape="true">
+
+            <h:form id="TasasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tasasController.selected != null}">
+
+
+                        
+                        <p:outputLabel value="#{myBundle.EditTasasLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tasasController.selected.nombre}" title="#{myBundle.EditTasasTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTasasRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tasasController.save}" value="#{myBundle.Save}" update="display,:TasasListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,TasasEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('TasasEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="LimitesautorizadosComentarioDlg" widgetVar="LimitesautorizadosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateLimitesautorizadosTitle}" >
+
+            <h:form id="LimiteCreateForm">
+
+                <h:panelGroup id="displayCrear" >
+                    <p:panelGrid id="derivados" style="display:center" columns="6" class="column" rendered= "#{cuposController.flagDerivados}" >  
+
+                        <p:outputLabel value="Plazo Forwards:" />
+                        <p:inputText id="plazo_forwards" value="#{cuposController.limiteActual.plazo_forwards}" required="true" requiredMessage="#{myBundle.CreateClientesRequiredMessage_nombre}" style="width:140px" />
+
+                        <p:outputLabel value="Plazo Swaps:" />
+                        <p:inputText id="plazo_swaps" value="#{cuposController.limiteActual.plazo_swaps}" required="true" requiredMessage="#{myBundle.CreateClientesRequiredMessage_nombre}" style="width:140px" />
+
+
+                        <p:outputLabel value="Tipo:" />
+                        <p:selectOneMenu id="tipo" value="#{cuposController.limiteActual.tiposfc}" style="width:160px">
+                            <f:selectItem itemLabel="NETEO" itemValue="NETEO" />
+                            <f:selectItem itemLabel="ACUMULADO" itemValue="ACUMULADO" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <!-- BSNC-19-0119 Operaciones Especiales - ACT - INI -->
+                    <!-- #{cuposController.flagOpEspeciales} -->
+                    <p:panelGrid id="opEspeciales" style="display:center" columns="6" class="column" rendered= "#{cuposController.flagOpEspeciales}" >  
+                        <p:outputLabel value="#{myBundle.CreateCuposLabel_fechavencimientoOP}" for="fechavencimientoOP" />
+                        <p:calendar id="fechavencimientoOP" pattern="dd/MM/yyyy" mindate="#{cuposController.selected.fechaalta}" maxdate="#{cuposController.selected.fechavencimiento}"  value="#{cuposController.limiteActual.fechavencimiento}" title="#{myBundle.CreateCuposLabel_fechavencimiento}" required="true" requiredMessage="#{myBundle.CreateCuposRequiredMessage_fechavencimiento}" showOn="button">
+<!--                            <p:ajax event="dateSelect" listener="#{cuposController.validarFechaVencimientoOpEspeciales()}" update=":growl fechavencimientoOP"/>-->
+                        </p:calendar>
+                    </p:panelGrid>
+                    <!-- BSNC-19-0119 Operaciones Especiales - ACT - FIN -->
+                    <p:panelGrid columns="2" columnClasses="column">  
+                        <p:outputLabel value="#{myBundle.CreateLimitesautorizadosLabel_comentarios}" for="comentarios" />
+                        <p:editor id="comentarios" widgetVar="editorWidget" value="#{cuposController.limiteActual.comentarios}" width="600" />
+                    </p:panelGrid>
+                    <p:commandButton  value="#{myBundle.Save}" actionListener="#{cuposController.llenar()}" onclick="PF('LimitesautorizadosCreateDialog').hide()" update=":CuposListForm:datalist" />
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

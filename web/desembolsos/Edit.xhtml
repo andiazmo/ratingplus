@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+        <p:dialog id="DesembolsosEditDlg" widgetVar="DesembolsosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditDesembolsosTitle}" closeOnEscape="true">
+
+            <h:form id="DesembolsosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" >
+
+
+                      
+                        <p:outputLabel value="#{myBundle.EditDesembolsosLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy" value="#{limitesautorizadosController.desembolso.fecha}" title="#{myBundle.EditDesembolsosTitle_fecha}" required="true" requiredMessage="#{myBundle.EditDesembolsosRequiredMessage_fecha}" showOn="button">
+                         <p:ajax event="dateSelect" listener="#{limitesautorizadosController.validarFechasDesembolso()}" update=":growl display" />                         
+                        </p:calendar>
+                        <p:outputLabel value="#{myBundle.EditDesembolsosLabel_valor}" for="valor" />
+                         <pe:inputNumber id="valor" value="#{limitesautorizadosController.desembolso.valor}"  title="#{myBundle.EditDesembolsosTitle_valor}" required="true" requiredMessage="#{myBundle.EditDesembolsosRequiredMessage_valor}">
+                             <p:ajax update="valor :growl" event="blur"  listener="#{limitesautorizadosController.validarDesembolsoEdicion()}"/>
+                        </pe:inputNumber>
+                      
+                        <p:outputLabel value="#{myBundle.EditDesembolsosLabel_comentarios}" for="comentarios" />
+                        <p:inputTextarea rows="4" cols="30" id="comentarios" value="#{limitesautorizadosController.desembolso.comentarios}" title="#{myBundle.EditDesembolsosTitle_comentarios}" />
+                         
+                   
+                      
+                        <p:outputLabel value="Contrato" for="contrato"/>
+                        <p:inputText id="contrato" value="#{limitesautorizadosController.desembolso.contrato}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{limitesautorizadosController.modificarDesembolso()}" value="#{myBundle.Save}" update="display,:DesembolsosListForm,:growl" oncomplete="PF('handleSubmit(xhr,status,args,DesembolsosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('DesembolsosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

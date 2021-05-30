@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+          
+            <h:form id="ClienteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="6"  rendered="#{limitesautorizadosController.cliente != null}">
+
+                    
+                        <h:outputText value="#{myBundle.ViewClientesLabel_nit}" style="background-color:  #e0dfdd" />
+                        <h:outputText value="#{limitesautorizadosController.cliente.nit}" title="#{myBundle.ViewClientesTitle_nit}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_digitochequeo}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.digitochequeo}" title="#{myBundle.ViewClientesTitle_digitochequeo}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_nombre}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.nombre}" title="#{myBundle.ViewClientesTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_rating}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.rating}" title="#{myBundle.ViewClientesTitle_rating}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_desde}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.desde}" title="#{myBundle.ViewClientesTitle_desde}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_gestorcomercial}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.gestorcomercial.nombre}" title="#{myBundle.ViewClientesTitle_gestorcomercial}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_fecharating}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.fecharating}" title="#{myBundle.ViewClientesTitle_fecharating}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_valoractivo}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.valoractivo}" title="#{myBundle.ViewClientesTitle_valoractivo}">
+                            <f:convertNumber currencyCode="COP" type="currency" />
+                        </h:outputText>    
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_fechabalance}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.fechabalance}" title="#{myBundle.ViewClientesTitle_fechabalance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_grupo}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.grupo.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_estadocliente}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.estadocliente.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_estado}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.estadocliente.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_ciiu}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.ciiu.nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientesLabel_banca}" style="background-color:  #e0dfdd"/>
+                        <h:outputText value="#{limitesautorizadosController.cliente.banca.nombre}"/>
+                    </p:panelGrid>
+                
+                </h:panelGroup>
+
+            </h:form>
+
+</ui:composition>

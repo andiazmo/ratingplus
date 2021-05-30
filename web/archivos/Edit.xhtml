@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ArchivosEditDlg" widgetVar="ArchivosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditArchivosTitle}" closeOnEscape="true">
+
+            <h:form id="ArchivosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{archivosController.selected != null}">
+
+
+                     
+                        <p:outputLabel value="#{myBundle.EditArchivosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{archivosController.selected.nombre}" title="#{myBundle.EditArchivosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_nombre}" size="100" maxlength="200"/>
+
+                        <p:outputLabel value="#{myBundle.EditArchivosLabel_procesado}" for="procesado" />
+                        <p:selectBooleanCheckbox id="procesado" value="#{archivosController.selected.procesado}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_procesado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditArchivosLabel_rprocesados}" for="rprocesados" />
+                        <p:inputText id="rprocesados" value="#{archivosController.selected.rprocesados}" title="#{myBundle.EditArchivosTitle_rprocesados}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_rprocesados}"/>
+
+                        <p:outputLabel value="#{myBundle.EditArchivosLabel_rnprocesados}" for="rnprocesados" />
+                        <p:inputText id="rnprocesados" value="#{archivosController.selected.rnprocesados}" title="#{myBundle.EditArchivosTitle_rnprocesados}" required="true" requiredMessage="#{myBundle.EditArchivosRequiredMessage_rnprocesados}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{archivosController.save}" value="#{myBundle.Save}" update="display,:ArchivosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ArchivosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ArchivosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
+

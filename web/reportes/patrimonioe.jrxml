@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patrimonioe" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9efd02-8018-4d27-8970-bf41e98ee332">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="patrimonio" class="java.lang.Double"/>
+	<parameter name="totalexcedente" class="java.lang.Double"/>
+	<parameter name="url" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="cupo" class="java.lang.Double"/>
+	<field name="diferencia" class="java.lang.Double"/>
+	<variable name="diferencia_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{diferencia}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement x="113" y="59" width="334" height="20" uuid="866d3309-320e-4a1f-99aa-dadaf65e96d0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patrimonio Excedido por Grupo Económico]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="220" height="59" uuid="989bced0-83fd-40e8-a188-d928cdb4945a"/>
+				<imageExpression><![CDATA[$P{url}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<textField pattern="#,##0">
+				<reportElement x="173" y="0" width="377" height="20" uuid="90fadde3-e540-4eb4-8ae0-3606517e1f70"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patrimonio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="0" width="93" height="20" uuid="212bd86d-c01b-4226-b607-281a137f72e0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patrimonio Actual:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="379" y="2" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="ae5bf01b-5509-43eb-9ef2-49a16e92fc86"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Excedente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="2" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="8f4b6cd0-f065-4d0f-8996-8dc8a362c66f"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Utilizado	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="81" y="2" width="198" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="f5cc8c33-98a8-41c5-b6dd-193f84774120"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo Económico]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="81" y="0" width="198" height="20" uuid="b5ac27a3-f3f4-4da2-b605-ab6931e487d4"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="279" y="0" width="100" height="20" uuid="8d27810c-42ea-4edb-bf7a-90b05ebecbf9"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cupo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="379" y="0" width="100" height="20" uuid="b20a92f7-02e3-4781-846a-3b6c3aad5116"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{diferencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="81" y="0" width="298" height="20" uuid="f9c0859f-ca5d-4078-9fd8-85c9ad9b6b34"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="379" y="0" width="100" height="20" uuid="679124b0-cd46-4536-a956-0ab7be429501"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalexcedente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AuditoriaViewDlg" widgetVar="AuditoriaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewAuditoriaTitle}" closeOnEscape="true">
+
+            <h:form id="AuditoriaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{auditoriaController.selected != null}">
+
+                       
+                        <h:outputText value="#{myBundle.ViewAuditoriaLabel_usuario}"/>
+                        <h:outputText value="#{auditoriaController.selected.usuario}" title="#{myBundle.ViewAuditoriaTitle_usuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewAuditoriaLabel_accion}"/>
+                        <h:outputText value="#{auditoriaController.selected.accion}" title="#{myBundle.ViewAuditoriaTitle_accion}"/>
+
+                        <h:outputText value="#{myBundle.ViewAuditoriaLabel_fecha}"/>
+                        <h:outputText value="#{auditoriaController.selected.fecha}" title="#{myBundle.ViewAuditoriaTitle_fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('AuditoriaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

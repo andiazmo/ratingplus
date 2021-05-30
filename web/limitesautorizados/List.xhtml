@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="LimitesautorizadosListForm">
+ <p:panel header="#{myBundle.SeleccionTitle}">
+
+        <p:panelGrid columns="1" style="margin-bottom:10px"   columnClasses="label, value">
+            <p:selectOneRadio id="tipo" required="true" value="#{limitesautorizadosController.tipobusqueda}">
+                <f:selectItem itemLabel="Nombre" itemValue="nombre"/>
+                <f:selectItem itemLabel="NIT" itemValue="nit"  />
+            </p:selectOneRadio>
+        </p:panelGrid>
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
+             <p:outputLabel value="Cliente:" for="dd" />
+             <p:autoComplete id="dd"   size="100"        var="clienteItem" value="#{limitesautorizadosController.cliente}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nombre}" completeMethod="#{limitesautorizadosController.clientesAutocompletar()}" >
+                <p:ajax event="itemSelect"    update="datalist conten"/> 
+                <f:converter binding="#{clientesConverter}" />
+             </p:autoComplete>    
+          
+        </h:panelGrid>
+        
+      <p:panel id="conten" visible="#{limitesautorizadosController.cliente.nit.length() > 0}">
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="0" columnClasses="label,value">
+                <p:panel id="oculta" style=" right:400px;" visible="true" header="#{myBundle.Seleccione_ClienteTitle}">
+                    <ui:include src="/vistas/list.xhtml"/>
+                </p:panel>
+                <p:panel id="ocultar"   visible="true" header="#{myBundle.Seleccione_CupoTitle}">
+                    <ui:include src="/vistas/Cupoasignado.xhtml"/>
+                </p:panel>
+            </h:panelGrid>        
+              
+        </p:panel>
+
+      <p:panel header="#{myBundle.ListLimitesautorizadosTitle}">
+           <h:commandLink id="excel">
+                             <p:graphicImage value="//img/xls.png" />
+                             <p:dataExporter type="xls" target="datalist" fileName="Limites Autorizados"  />
+                       </h:commandLink>
+          <h:commandLink id="pdf" value ="" actionListener="#{limitesautorizadosController.reporte()}">
+                <p:graphicImage value="//img/pdf.png" />
+          </h:commandLink>    
+
+            <p:dataTable id="datalist"
+                         value="#{limitesautorizadosController.cliente.cuposList.get(0).limitesautorizadosList}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{limitesautorizadosController.selected}">
+
+                <p:ajax event="rowSelect"    update="createButton viewButton editButton deleteButton" />
+                <p:ajax event="rowUnselect"  update="createButton viewButton editButton deleteButton"/>
+
+              
+
+                <p:column sortBy="#{item.modalidad.nombre}" filterBy="#{item.modalidad.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_modalidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modalidad.nombre}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.sublimiteautorizado}" filterBy="#{item.sublimiteautorizado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_sublimiteautorizado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sublimiteautorizado}">
+                        <f:convertNumber maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column sortBy="#{item.consumido}" filterBy="#{item.consumido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_consumido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.consumido}">
+                        <f:convertNumber maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.plazo}" filterBy="#{item.plazo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_plazo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.plazo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tasas}" filterBy="#{item.tasas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_tasas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tasas}"/>
+                </p:column>
+
+                <!--
+                <p:column sortBy="#{item.margenspread}" filterBy="#{item.margenspread}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_margenspread}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.margenspread}"/>
+                </p:column>
+                -->
+
+                
+
+                <!--
+                                    <p:column sortBy="#{item.garantiavalor}" filterBy="#{item.garantiavalor}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_garantiavalor}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.garantiavalor}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.comentarios}" filterBy="#{item.comentarios}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_comentarios}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.comentarios}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.consumido}" filterBy="#{item.consumido}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_consumido}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.consumido}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.disponible}" filterBy="#{item.disponible}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_disponible}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.disponible}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.pagointeres.id}" filterBy="#{item.pagointeres.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_pagointeres}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.pagointeres.id}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.amortizacioncapital.id}" filterBy="#{item.amortizacioncapital.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_amortizacioncapital}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.amortizacioncapital.id}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.garantiaavaluodetalle}" filterBy="#{item.garantiaavaluodetalle}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_garantiaavaluodetalle}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.garantiaavaluodetalle}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cobertura}" filterBy="#{item.cobertura}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_garantiacobertura}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cobertura}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.garantiaavaluo.id}" filterBy="#{item.garantiaavaluo.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_garantiaavaluo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.garantiaavaluo.id}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cupo.id}" filterBy="#{item.cupo.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListLimitesautorizadosTitle_cupo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cupo.id}"/>
+                                    </p:column>
+                -->
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus" actionListener="#{limitesautorizadosController.prepareCreate}"  value="#{myBundle.Create}"  update=":LimitesautorizadosCreateForm" oncomplete="PF('LimitesautorizadosCreateDialog').show()" style="visibility: #{limitesautorizadosController.crear}"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":LimitesautorizadosViewForm" oncomplete="PF('LimitesautorizadosViewDialog').show()" disabled="#{empty limitesautorizadosController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}"  update=":LimitesautorizadosEditForm" oncomplete="PF('LimitesautorizadosEditDialog').show()" disabled="#{empty limitesautorizadosController.selected}" style="visibility: #{limitesautorizadosController.modificar}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{limitesautorizadosController.borrar()}" update=":LimitesautorizadosListForm,:growl,datalist" disabled="#{empty limitesautorizadosController.selected}" style="visibility: #{limitesautorizadosController.eliminar}">
+                         <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>    
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+  <ui:include src="/confirmation.xhtml"/>
+</p:panel>
+     
+     
+ </p:panel>   
+
+        
+        
+        
+         
+
+        
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RpModulosEditDlg" widgetVar="RpModulosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.EditRpModulosTitle}">
+
+            <h:form id="RpModulosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rpModulosController.selected != null}">
+
+                        <p:outputLabel value="#{myBundle.EditRpModulosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{rpModulosController.selected.nombre}" title="#{myBundle.EditRpModulosTitle_nombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rpModulosController.save}" value="#{myBundle.Save}" update="display,:RpModulosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,RpModulosEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('RpModulosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

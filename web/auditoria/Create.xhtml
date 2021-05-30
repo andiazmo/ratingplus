@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AuditoriaCreateDlg" widgetVar="AuditoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateAuditoriaTitle}" closeOnEscape="true">
+
+            <h:form id="AuditoriaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{auditoriaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateAuditoriaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{auditoriaController.selected.id}" title="#{myBundle.CreateAuditoriaTitle_id}" required="true" requiredMessage="#{myBundle.CreateAuditoriaRequiredMessage_id}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateAuditoriaLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{auditoriaController.selected.usuario}" title="#{myBundle.CreateAuditoriaTitle_usuario}" required="true" requiredMessage="#{myBundle.CreateAuditoriaRequiredMessage_usuario}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateAuditoriaLabel_accion}" for="accion" />
+                        <p:inputText id="accion" value="#{auditoriaController.selected.accion}" title="#{myBundle.CreateAuditoriaTitle_accion}" required="true" requiredMessage="#{myBundle.CreateAuditoriaRequiredMessage_accion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateAuditoriaLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy kk:mm:ss" value="#{auditoriaController.selected.fecha}" title="#{myBundle.CreateAuditoriaTitle_fecha}" required="true" requiredMessage="#{myBundle.CreateAuditoriaRequiredMessage_fecha}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{auditoriaController.saveNew}" value="#{myBundle.Save}" update="display,:AuditoriaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AuditoriaCreateDialog'));"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('AuditoriaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

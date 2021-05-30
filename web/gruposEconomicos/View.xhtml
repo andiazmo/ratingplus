@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding
+="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+
+        <p:dialog id="GruposEconomicosViewDlg" widgetVar="GruposEconomicosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewGruposEconomicosTitle}" closeOnEscape="true">
+
+            <h:form id="GruposEconomicosViewForm">
+
+                <h:panelGroup id="display"  style="text-align:center">
+                    <p:panelGrid columnClasses="column"  >
+                        <p:row>
+                            <p:column colspan="7">Informacion de Grupo Economico</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Nombre Grupo:" for="nombre"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="nombre" value="#{gruposEconomicosController.selected.nombre}"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Pais Referencia" for="pais"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="pais" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoPaisReferencia, parametriaCWController.codigoPais, false)}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Tipo Actividad" for="actividad"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="actividad" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoTipoActividad, parametriaCWController.codigoActivadad, true)}" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Forma Juridica" for="juridica"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="juridica" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoFormaJuridica, parametriaCWController.codigoFormaJuridica, false)}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Codigo Grupo" for="codigo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="codigo" value="#{gruposEconomicosController.selected.codigoGrupo}" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Tipo Grupo:" for="tipoGrupo"/>                            
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="tipoGrupo" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoTipoGrupo, parametriaCWController.codigoGrupo, false)}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Responsable Comcercial" for="responsable"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="responsable" value="#{gestoresController.gestorByCedula(gruposEconomicosController.selected.codigoGestorComercial)}" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Sucursal" for="sucursal"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="sucursal" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoSucursal, parametriaCWController.codigoSucursal, false)}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Sector Economico" for="sector"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="sector" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoSectorEconomico, parametriaCWController.codigoSectorEconomico, false)}" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Modo Operacion" for="modo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled = "true" id="modo" value="#{parametriaCWController.definirParametria(gruposEconomicosController.selected.codigoModoOperacion, parametriaCWController.codigoOperacion, false)}" />
+                            </p:column>
+                        </p:row>
+
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Valor Cupo" for="cupo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="cupo" value="#{gruposEconomicosController.selected.cupo}" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Disponible" for="disponible"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="disponible" value="#{gruposEconomicosController.selected.disponibleGrupo}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Consumido" for="consumido"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="consumido" value="#{gruposEconomicosController.selected.consumido}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7">Datos Adicionales</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Empleados" for="empleados"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="empleados" value="#{gruposEconomicosController.selected.empleadosGrupo}" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Facturacion" for="facturacion" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="facturacion" value="#{gruposEconomicosController.selected.facturacionGrupo}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Activo" for="activo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled = "true" id="activo" value="#{gruposEconomicosController.selected.totalActivo}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7"><hr style="border-color: #e52e2d;"></hr></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="7">Datos de Garantia</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Garantia: "/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText disabled="true" value="#{gruposEconomicosController.selected.garantia == true ? 'SI':'NO'}"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Valor de garantia"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber immediate="true" id="vgarantia"  value="#{gruposEconomicosController.selected.vgarantia}"  required="true" disabled="true" maxValue="99999999999999999999" title="#{myBundle.CreateGruposEconomicosTitle_cupo}">
+                                </pe:inputNumber>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel  value="Cupo Patrimonio"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber id="cupoAsignar" value="#{gruposEconomicosController.selected.cupo}" disabled="true" maxValue="99999999999999999999" title="#{myBundle.CreateGruposEconomicosTitle_cupo}"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Fecha Garantia"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:calendar id="fgarantia" pattern="dd/MM/yyyy" disabled="true" value="#{gruposEconomicosController.selected.fechaGarantia}" showOn="button">
+                                </p:calendar>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="4" style="text-align: left">
+                                <p:outputLabel  value="Comentario: "/>
+                            </p:column>
+                            <p:column colspan="4">
+                                <p:inputTextarea id="comentario" value="#{gruposEconomicosController.selected.comentario}" disabled="true"  rows="5" cols="50" maxlength="250" counterTemplate="{0} characters remaining." autoResize="false"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" actionListener="#{gruposEconomicosController.limpiarSelected()}" onclick="PF('GruposEconomicosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

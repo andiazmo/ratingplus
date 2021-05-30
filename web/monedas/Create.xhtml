@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MonedasCreateDlg" widgetVar="MonedasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateMonedasTitle}" closeOnEscape="true">
+
+            <h:form id="MonedasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{monedasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                       
+                        <p:outputLabel value="#{myBundle.CreateMonedasLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{monedasController.selected.nombre}" title="#{myBundle.CreateMonedasTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateMonedasRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{monedasController.saveNew}" value="#{myBundle.Save}" update="display,:MonedasListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,MonedasCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('MonedasCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

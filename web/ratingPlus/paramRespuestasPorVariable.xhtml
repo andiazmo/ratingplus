@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.respuestasPorVariableTitle}"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        
+        <h:form id="formParamModulo">
+            <p:growl id="msgs" showDetail="true"/>
+            
+            <p:panel header="#{myBundle.respuestasPorVariableTitle}">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="modulo" value="Modulo:"/>
+                    <p:selectOneMenu id="modulo" value="#{respuestaRating.moduloSeleccionado}">
+                        <p:ajax listener="#{respuestaRating.onModuleChange}" update="variable"/>
+                        <f:selectItem itemLabel="Seleccione un Módulo" itemValue="" />
+                        <f:selectItems value="#{respuestaRating.modulos}" />
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="variable" value="Variable: "/>
+                    <p:selectOneMenu id="variable" value="#{respuestaRating.variableSeleccionada}" style="width:150px">
+                        <f:selectItem itemLabel="Seleccione una Variable" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{respuestaRating.variables}"/>
+                    </p:selectOneMenu>
+                    
+                </h:panelGrid>
+                
+                <p:commandButton value="Consultar"  action="#{respuestaRating.displayDataTable}"
+                             icon="pi pi-check" update=":formTableRespuesta:cntTableRespuestas, :formTableRespuesta:tableParamModulo"/>
+            </p:panel>
+            
+        </h:form>
+        
+        <h:form id="formTableRespuesta">
+            
+            <p:growl id="msgs" showDetail="true"/>
+            <p:outputPanel id="cntTableRespuestas" style="visibility: #{respuestaRating.listaRespuestasRatingFinancieras.size() &gt; 0 ? 'visible' : 'hidden'};">
+                <p:dataTable id="tableParamModulo" 
+                             emptyMessage="Cero registros encontrados"
+                             paginator="true"
+                             value="#{respuestaRating.listaRespuestasRatingFinancieras}"
+                             editable="true"
+                             var="betas"
+                             rowKey="betas.nombre"
+                             rows="10">
+                
+                
+                    <p:ajax event="rowEdit" listener="#{respuestaRating.onRowEdit}" update=":formTableRespuesta:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{respuestaRating.onRowCancel}" update=":formTableRespuesta:msgs"/>
+
+                    <p:column headerText="Módulo">
+                        <h:outputText value="#{betas.nombreModulo}"/>
+                    </p:column>
+
+                    <p:column headerText="Variable">
+                        <h:outputText value="#{betas.nombre}"/>
+                    </p:column>                
+
+                    <p:column headerText="Respuesta">
+                       <h:outputText value="#{betas.respuesta}"/>
+                    </p:column>
+                
+                    <p:column headerText="WOE">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{betas.woe}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                    <p:inputText value="#{betas.woe}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                
+                    <p:column headerText="Min">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{betas.min}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                    <p:inputText value="#{betas.min}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                
+                    <p:column headerText="Max">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{betas.max}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                    <p:inputText value="#{betas.max}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+<!--                <p:column headerText="Acciones" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-pencil" actionListener="#{betaModuloCaso.preseleccionarRegistro}" onsuccess="PF('actualizarParametro').show();" update=":formActualizarParametro:dlgActualizaParametro">
+                        <f:attribute name="registroSeleccionado" value="#{betas}"/>
+                    </p:commandButton>    
+                </p:column>-->
+
+                    <p:column style="width:6rem">
+                        <p:rowEditor/>
+                    </p:column>
+
+                </p:dataTable>
+                
+                <br/>
+                
+                <p:commandButton value="Actulizar Valores" id="btnActualizarValoresRespuesta"  actionListener="#{respuestaRating.updateVariablesValuesFront}" />
+<!--                
+                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" disabled="#{consultaRating.tipoConsulta == null &amp;&amp; consultaRating.periodoSeleccionado == null}" actionListener="#{consultaRating.consultaClientes}" update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>-->
+                
+            </p:outputPanel>
+        </h:form>
+        
+        <h:form id="formActualizarParametro">
+            
+            <p:dialog id="dlgActualizaParametro"
+                      widgetVar="actualizarParametro">
+                
+                <h:outputText value="Número de caso: #{betaModuloCaso.registroSeleccionado.numCaso}"/>
+                <h:outputText value="Categoría: #{betaModuloCaso.registroSeleccionado.categoria.categoria}"/>
+                
+                <p:outputLabel value="Valor del beta:"/>
+                <p:inputText id="txtValor" value="#{betaModuloCaso.registroSeleccionado.valor}" required="true"/>
+                
+                <div style="text-align: center">
+                    <p:commandButton value="Actualizar beta" update=":growl" actionListener="#{betaModuloCaso.actualizarParametro}" onsuccess="PF('actualizarParametro').hide();"/>                
+                </div>
+                
+            </p:dialog>
+            
+        </h:form>
+
+        <h:form id="eliminaParametro">
+            
+            <p:dialog id="dlgEliminaParametro"
+                      widgetVar="eliminarParametro">
+                
+                
+                <h:outputText value="Esta acción eliminará el beta seleccionado. ¿Desea continuar?"/>
+                
+                <hr/>
+                <br/>
+                
+                <div style="text-align: center">
+                    <p:commandButton value="Si" update=":growl" actionListener="#{betaModuloCaso.eliminarParametro}" onsuccess="PF('eliminarParametro').hide();"/>                
+                    <p:commandButton value="No" onclick="PF('eliminarParametro').hide();"/>                
+                </div>
+                
+            </p:dialog>
+            
+        </h:form>        
+        
+    </ui:define>
+
+</ui:composition>
+
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK1
+ *Fecha del cambio : 26-06-2018
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 06-08-2018
+ ************************************** 
+ -->
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <!--FIXPACK2 - inicio -->
+    <servlet>
+        <servlet-name>servlet1</servlet-name>
+        <servlet-class>onstartup.ProcesosAutomaticosServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <!--FIXPACK2 - fin -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/cupos/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            300
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>cupos/login.xhtml</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>blitzer</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+     <!--FIXPACK1 - inicio -->
+    <context-param>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>    
+    <!--FIXPACK1 - fin -->
+    <error-page>
+        <error-code>400</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>402</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>405</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>406</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>407</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>408</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>409</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>410</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>411</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>412</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>413</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>414</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>415</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>416</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>417</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/sorrypage.html</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>java.lang.RuntimeException</exception-type>
+        <location>/sorrypage.html</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/sorrypage.html</location>
+    </error-page>
+
+</web-app>

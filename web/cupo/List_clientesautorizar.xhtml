@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK1
+ *Fecha del cambio : 26-06-2018
+ **************************************
+--> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ClientesListForm" >
+
+        <p:panel header="#{myBundle.ListCuposTitle_cupos_cliente}">
+
+            <h:commandLink>
+                <p:graphicImage url="//img/excel.png" width="24"/>
+                <h:outputText value="Exportar Excel"/>
+                <p:dataExporter type="xls" target="datalist" fileName="EstadoCupoClientes" />
+            </h:commandLink>
+
+            <p:dataTable id="datalist"
+                         value="#{clientesController.clientesEstadoCupo}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{clientesController.selected}"
+                         >
+
+                <p:column sortBy="#{item.nit}" filterBy="#{item.nit}" style=" width:100px " >
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_nit}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nit}-#{item.digitochequeo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.grupo.nombre}" filterBy="#{item.grupo.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_grupo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.grupo.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.cupoEstado}" filterBy="#{item.cupoEstado}" style="width:100px ">
+                    <f:facet name="header">
+                        <h:outputText  value="#{myBundle.ListClientesTitle_cuposEstado}"/>
+                    </f:facet>
+                    <p:link style="font-weight:bold" outcome="index_autorizar" value="#{item.cupoEstado}">
+                        <f:param name="id" value="#{item.id}" />
+                    </p:link>
+                </p:column>
+
+                <p:column sortBy="#{item.desde}" filterBy="#{item.desde}" style="width:100px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_desde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.desde}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Limite Total"/>
+                    </f:facet>
+                    <h:outputText value="#{!item.cuposList.isEmpty()?item.cuposList.get(0).limitetotal:'NA'}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Limite Consumido"/>
+                    </f:facet>
+                    <h:outputText value="#{!item.cuposList.isEmpty()?clientesController.getConsumidoTotal(item.cuposList.get(0)) :'NA'}">
+                        <f:convertNumber     maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fecha Estado Cliente"/>
+                    </f:facet>
+                    <h:outputText value="#{clientesController.getCalcularFechaEstado(item)}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{item.estadocliente.nombre}" filterBy="#{item.estadocliente.nombre}" style="width:100px ">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientesTitle_estadocliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadocliente.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.subestado.nombre}" filterBy="#{item.subestado.nombre}" style="width:100px ">
+                    <f:facet name="header">
+                        <!--FIXPACK1 - inicio -->
+                        <h:outputText value="#{myBundle.ListClientesTitle_subestadocliente}"/>
+                        <!--FIXPACK1 - fin -->
+                    </f:facet>                    
+                    <h:outputText value="#{item.subestado.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.reconduccion.nombre}" filterBy="#{item.reconduccion.nombre}" style="width:100px ">
+                    <f:facet name="header">
+                        <h:outputText value="Estado Reconduccion"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconduccion.nombre}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+    </h:form>
+</ui:composition>

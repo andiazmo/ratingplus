@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CuposEditDlg" widgetVar="CuposEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditCuposTitle}" closeOnEscape="true">
+
+            <h:form id="CuposEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cuposController.selected != null}">
+
+
+                      
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_fechaalta}" for="fechaalta" />
+                        <p:calendar id="fechaalta" pattern="dd/MM/yyyy" value="#{cuposController.selected.fechaalta}" title="#{myBundle.EditCuposTitle_fechaalta}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_fechaalta}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_fechavencimiento}" for="fechavencimiento" />
+                        <p:calendar id="fechavencimiento" pattern="dd/MM/yyyy" value="#{cuposController.selected.fechavencimiento}" title="#{myBundle.EditCuposTitle_fechavencimiento}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_fechavencimiento}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_limitetotal}" for="limitetotal" />
+                        <p:inputText id="limitetotal" value="#{cuposController.selected.limitetotal}" title="#{myBundle.EditCuposTitle_limitetotal}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_limitetotal}">
+                             <f:convertNumber maxFractionDigits="2" />
+                        </p:inputText>
+
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_limiteconsumido}" for="limiteconsumido" />
+                        <p:inputText  id="limiteconsumido" readonly="true" value="#{cuposController.selected.limiteconsumido}" title="#{myBundle.EditCuposTitle_limiteconsumido}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_limiteconsumido}">
+                             <f:convertNumber maxFractionDigits="2" />
+                        </p:inputText>
+
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_moneda}" for="moneda" />
+                        <p:selectOneMenu id="moneda" value="#{cuposController.selected.moneda}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_moneda}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{monedasController.items}"
+                                           var="monedaItem"
+                                           itemValue="#{monedaItem}"
+                                           itemLabel="#{monedaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{monedasConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditCuposLabel_cliente}" for="cliente" />
+                        <p:selectOneMenu id="cliente" value="#{cuposController.selected.cliente}" required="true" requiredMessage="#{myBundle.EditCuposRequiredMessage_cliente}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clientesController.items}"
+                                           var="clienteItem"
+                                           itemValue="#{clienteItem}"
+                                           itemLabel="#{clienteItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{clientesConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuposController.save}" value="#{myBundle.Save}" update="display,:CuposListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,CuposEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CuposEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Estados Scan"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+         <h:form id="LimitesautorizadosListForm">
+ <p:panel header="Reporte Estados Scan Por Cliente">
+
+     <p:panelGrid columns="6" columnClasses="column" > 
+                  <p:outputLabel value="#{myBundle.CreateClientesLabel_nit}" for="nit" />
+                   <p:autoComplete id="nit"   size="30"         var="clienteItem" value="#{cuposController.clienteNit}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nit}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(1)}" >
+                       <p:ajax event="itemSelect"    listener="#{cuposController.clienteSeleccion(1)}"  update="LimitesautorizadosListForm"/> 
+                       <f:converter binding="#{clientesConverter}" />
+                   </p:autoComplete>  
+                    <p:outputLabel value="#{myBundle.CreateClientesLabel_nombre}" for="nombre" />
+                     <p:autoComplete id="nombre"   size="60"        var="clienteItem" value="#{cuposController.clienteNombre}" itemValue="#{clienteItem}"  itemLabel="#{clienteItem.nombre}" completeMethod="#{limitesautorizadosController.clientesAutocompletar(2)}" >
+                         <p:ajax event="itemSelect"  listener="#{cuposController.clienteSeleccion(2)}"  update="LimitesautorizadosListForm"/> 
+                         <f:converter binding="#{clientesConverter}" />
+                     </p:autoComplete> 
+     
+     <h:commandLink id="pdf" value ="" actionListener="#{clientesController.scan(2)}">
+                <p:graphicImage value="//img/pdf.png" />
+     </h:commandLink>    
+
+      <h:commandLink id="excel" action="#{clientesController.scan(1)}">
+                             <p:graphicImage value="//img/xls.png" />
+    </h:commandLink>   
+     </p:panelGrid>   
+     
+</p:panel>
+     
+
+    </h:form>
+
+    </ui:define>
+
+</ui:composition>

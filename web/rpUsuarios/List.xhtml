@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RpUsuariosListForm">
+
+        <p:panel header="#{myBundle.ListRpUsuariosTitle}">
+
+            <p:dataTable id="datalist" value="#{rpUsuariosController.usuarios}" var="item"
+                         selectionMode="single" selection="#{rpUsuariosController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpUsuariosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.rol.codigo}" filterBy="#{item.rol.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRpUsuariosTitle_rol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rol.nombre}"/>
+                </p:column>
+                
+                <p:column  >
+                    <f:facet name="header">
+                        <h:outputText value="Resetear Clave"/>
+                    </f:facet>
+                    <p:commandButton   value="Resetear Clave" update=":growl"   actionListener="#{rpUsuariosController.resetear(item)}"/>
+                </p:column>
+                
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Bloqueo Usuario"/>
+                    </f:facet>
+                    <p:commandButton  value="#{item.bloqueado?'Desbloquear Usuario':'Bloquear Usuario'}" update=":RpUsuariosListForm"   actionListener="#{rpUsuariosController.bloqueacionUsuario(item)}"/>
+                </p:column>
+                    
+                <p:column  >
+                    <f:facet name="header">
+                        <h:outputText value="Activacion Usuario"/>
+                    </f:facet>
+                    <p:commandButton   value="#{item.activado?'Desactivar Usuario':'Activar Usuario'}" update=":RpUsuariosListForm"   actionListener="#{rpUsuariosController.activacionUsuario(item)}"/>
+                </p:column>
+                
+                
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rpUsuariosController.prepareCreate}" update=":RpUsuariosCreateForm" oncomplete="PF('RpUsuariosCreateDialog').show()" />
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RpUsuariosViewForm" oncomplete="PF('RpUsuariosViewDialog').show()" disabled="#{empty rpUsuariosController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RpUsuariosEditForm" oncomplete="PF('RpUsuariosEditDialog').show()" disabled="#{empty rpUsuariosController.selected}" />
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rpUsuariosController.delete}" update=":growl,datalist" disabled="#{empty rpUsuariosController.selected}" >
+                     <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>    
+                </f:facet>
+
+            </p:dataTable>
+  <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

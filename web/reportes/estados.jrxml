@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estados" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41dd6ac2-7d36-43ee-a812-a8264a41c4d0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="url" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select *from historico_estadosclientes order by fecha asc]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="nit" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha" class="java.util.Date"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.Integer"/>
+	<group name="cliente">
+		<groupExpression><![CDATA[$F{nit}]]></groupExpression>
+		<groupHeader>
+			<band height="60">
+				<staticText>
+					<reportElement x="110" y="0" width="26" height="20" uuid="5e895384-5942-4c55-9de7-f83b48e5214e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NIT:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="136" y="0" width="100" height="20" uuid="71ae9e7d-2834-43ae-9873-0754e09c7dd8"/>
+					<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="110" y="20" width="54" height="20" uuid="6b6eb296-dab0-41c6-8d9c-8686ca2fa2ae"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NOMBRE:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="164" y="20" width="386" height="20" uuid="ee2fcc46-dc23-490f-a537-9dd19730ac49"/>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="110" y="40" width="145" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="ff8c9d22-6147-4492-9f8a-553ca9437fc5"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ESTADO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="255" y="40" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="b68f0b59-a08b-4b20-ac7c-8c5263ffb60f"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[FECHA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="355" y="40" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000" uuid="bc82ed07-09ed-49f5-86d2-4bd7b7eb3091"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[USUARIO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="97" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="260" height="60" uuid="fca15a49-7119-4b36-be3b-43dac37bba63"/>
+				<imageExpression><![CDATA[$P{url}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="180" y="60" width="310" height="23" uuid="78b4cc2a-a45a-4f3c-b0a3-36f187a61ced"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="110" y="0" width="145" height="20" uuid="3292bb60-40bd-46ff-8c7c-d614c7898f1a"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="255" y="0" width="100" height="20" uuid="efb4adc4-3c68-4db3-9e3c-0411129ffdec"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="100" height="20" uuid="14747f00-4f92-445d-bfda-053759983b88"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

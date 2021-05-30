@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModalidadesCreateDlg" widgetVar="ModalidadesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateModalidadesTitle}" closeOnEscape="true">
+
+            <h:form id="ModalidadesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{modalidadesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+                        <p:outputLabel value="#{myBundle.CreateModalidadesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{modalidadesController.selected.nombre}" title="#{myBundle.CreateModalidadesTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateModalidadesRequiredMessage_nombre}" size="100" maxlength="100"/>
+                        <p:outputLabel value="#{myBundle.CreateModalidadesLabel_consulta}" for="consulta" />
+                        <p:selectBooleanCheckbox id="consulta" value="#{modalidadesController.selected.consulta}" />
+                    </p:panelGrid> 
+                    <p:commandButton actionListener="#{modalidadesController.saveNew}" value="#{myBundle.Save}" update="display,:ModalidadesListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,ModalidadesCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ModalidadesCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

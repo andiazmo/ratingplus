@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!-- 
+ **************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Julio Beltran
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 16-07-2018
+ **************************************
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title><ui:insert name="title">Coopsoft</ui:insert></title>
+        <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
+        <h:outputScript library="scripts" name="util.js"/>
+    </h:head>
+    
+      <h:body>
+        <style type="text/css">
+            .ui-growl {
+                right: 30%;
+                top: 30%;
+                
+            }
+        </style>
+        <p:growl id="growl" life="10000"     />
+        
+        <p:layout fullPage="true">
+            <!--FIXPACK2 - inicio -->
+            <p:layoutUnit position="north" size="105" styleClass="head-titulo">
+                <!--<p:media value="//img/top-contacto.jpg" width="1400"  height="100" player="flash"></p:media>-->
+                <div class="titulo">
+                    <h1>#{myBundle.AppName}</h1>
+                    <h2>#{myBundle.AppSubTitle}</h2>
+                </div>
+                <div class="logo-top">
+                    <p:panelGrid columns="1" styleClass="infousu">                        
+                        <p:outputLabel value="Bienvenido(a), #{rescateSeccion.usuario}"></p:outputLabel>
+                        <p:outputLabel value="Su perfil es: #{rescateSeccion.perfil}"></p:outputLabel>
+                        <p:outputLabel value="Su último acceso fué: #{rescateSeccion.ultimoAcceso}"></p:outputLabel>
+                        <p:outputLabel value="Fecha del sistema: " ><p:clock pattern="dd/MM/yyyy HH:mm:ss" mode="server" /></p:outputLabel>
+                        <p:outputLabel value="Version: #{rescateSeccion.version}"></p:outputLabel>
+                    </p:panelGrid>
+                </div>
+                <!--FIXPACK2 - fin -->                
+            </p:layoutUnit>
+            <p:layoutUnit position="west" size="180" >
+                <p:panelMenu model="#{rescateSeccion.Model()}" id="menu"/>
+                <h:form> <p:commandButton value="Cerrar Sesión" actionListener="#{rpUsuariosController.cerrar()}"></p:commandButton></h:form> 
+            </p:layoutUnit>
+            
+            <!--FIXPACK2 - inicio -->
+            <!--<p:layoutUnit position="south" size="60">
+                <ui:insert name="footer"/>
+                <p:graphicImage url="//img/user.png" width="20px" height="30px"></p:graphicImage><p:outputLabel value="#{rescateSeccion.usuario}"></p:outputLabel>
+            </p:layoutUnit>-->
+            <!--FIXPACK2 - fin -->
+            
+            <p:layoutUnit position="center">
+                <ui:insert name="body"/>
+            </p:layoutUnit>
+            
+        </p:layout>
+        
+    </h:body>
+    
+</html>

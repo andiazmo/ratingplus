@@ -1,0 +1,621 @@
+* {
+font-family: 'Open Sans', sans-serif;
+	-webkit-transition: .3s all linear;
+	-moz-transition: .3s all linear;
+	-ms-transition: .3s all linear;
+	-o-transition: .3s all linear;
+	transition: .3s all linear;
+ }
+body  { 
+	background: #eaeaea;
+	 overflow-x: hidden;
+}
+
+#header {
+height: 51px;
+width: 100%;
+background: #ff0000;
+}
+
+#header .logo { 
+background: url('../../img/logo.jpg') no-repeat;
+display: inline-block;
+text-indent: -999px;
+height: 41px;
+width: 170px;
+margin-top: 7px;
+}
+
+#contabox {
+  border: 1px solid #D1D0D0;
+padding: 5%;
+border-radius: 11px;
+min-height: 130px;
+background: url(imagenes/santabg.jpg) no-repeat right bottom;
+}
+
+.container-header { width: 780px; margin: auto auto;}
+
+#container {
+	background: #FFF;
+	width: 780px;
+	margin: 0 auto;
+	padding-top: 10px;
+	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.23);
+-moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0.23);
+box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.23);
+position: relative;
+}
+
+.legales { 
+	display: block;
+	position: absolute;
+	bottom: 40%;
+	margin-left: -20px;
+}
+
+.botones {
+ list-style: none;
+border-radius: 5px;
+display: inline-block;
+margin: 10px;
+padding: 0;
+margin-bottom: 0;
+}
+.botones li { float: left; display:block; overflow:auto; }
+.botones li a { background: red; color:white; font-size: .7em; text-decoration: none; font-weight: bold; display: block; padding:5px 9px; }
+
+.botones li a.empresas { -webkit-border-top-left-radius: 20px;
+-webkit-border-bottom-left-radius: 20px;
+-moz-border-radius-topleft: 20px;
+-moz-border-radius-bottomleft: 20px;
+border-top-left-radius: 20px;
+border-bottom-left-radius: 20px; border-right: 1px solid #FFF;
+}
+
+.botones li a:hover {
+	background: rgb(207, 0, 0);
+}
+
+.botones li a.proveedores { -webkit-border-top-right-radius: 20px;
+-webkit-border-bottom-right-radius: 20px;
+-moz-border-radius-topright: 20px;
+-moz-border-radius-bottomright: 20px;
+border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;}
+
+#lateral {
+width: 29%;
+display: inline-block;
+float: left;
+text-align: center;
+}
+
+#menu-lateral {
+	padding: 0;
+	margin-left: 10px;
+	list-style: none;
+	position: relative;
+  z-index: 3000;
+}
+
+#menu-lateral > li > a {
+background: #ededed url('imagenes/botonMenu.jpg') repeat-x bottom;
+padding: 10px 15px;
+max-width: 170px;
+text-align: left;
+list-style: none;
+display: block;
+color: #656565;
+font-size: .8em;
+text-decoration: none;
+font-weight: bold;
+
+}
+
+#menu-lateral li a:hover {
+	background: #CCC;
+}
+
+#menu-lateral li a.productos {
+	-webkit-border-top-left-radius: 10px;
+-webkit-border-top-right-radius: 10px;
+-moz-border-radius-topleft: 10px;
+-moz-border-radius-topright: 10px;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+}
+
+#menu-lateral li a.mapa {
+	-webkit-border-bottom-left-radius: 10px;
+-webkit-border-bottom-right-radius: 10px;
+-moz-border-radius-bottomleft: 10px;
+-moz-border-radius-bottomright: 10px;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+}
+
+#main {
+	width: 71%;
+	display: inline-block;
+	background: #FFFFFF;
+	
+}
+
+.flexslider {
+	box-shadow: none !important;
+	margin: 0 0 33px !important;
+	background: #FFFFFF;
+}
+
+.flex-control-nav {
+	text-align: right !important;
+	font-size: 0;
+}
+
+.flex-control-paging li a.flex-active {
+background: #9a000f !important;
+}
+
+.flex-control-paging li a:hover {
+background: rgba(255, 137, 137, 0.7) !important;
+}
+
+.flex-control-paging li a {
+background: rgba(255, 79, 79, 1) !important;
+}
+
+.flex-control-nav {
+bottom: -18px !important;
+}
+
+/*Banners*/
+a.universia{
+display: block;
+margin-top: 36px;
+}
+
+a.fogafin{
+display: block;
+margin-top: 10px;
+margin-left: -22px;
+}
+
+.cover {
+        position: absolute;
+        border: none;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+
+
+#enlaces { list-style: inline; padding: 0; text-align: center;}
+#enlaces li { display: inline-block; width:154px; height: 120px;}
+
+#footer {
+	background: #d7d7d7;
+color: #6a6969;
+font-weight: bold;
+font-size: .7em;
+padding: 10px;
+overflow: hidden;
+width: 100%;
+box-sizing: border-box;
+}
+
+.direccion {
+	display: block;
+	width: 245px;
+	float: left;
+}
+
+.enl {
+	float: right;
+	text-align: right;
+}
+
+
+.enl li {
+	float:left;
+	list-style:none;
+	padding: 0px 5px;
+	border-right:1px solid #6a6969;
+}
+
+.enl li.consumidor {
+	border-right: none !important;
+}
+
+.enl li a {
+	color: #6a6969;
+	text-decoration: none;
+}
+
+a#pull {
+display: none;
+background: #C5C5C5 url('imagenes/nav-icon.png') no-repeat 90%;
+padding: 10px 15px;
+max-width: 170px;
+text-align: left;
+list-style: none;
+color: #4E4E4E;
+font-size: 1em;
+text-decoration: none;
+font-weight: bold;
+}
+
+a#pull , #menu-lateral {
+-webkit-transition: none;
+   -moz-transition: none;
+    -ms-transition: none;
+     -o-transition: none;
+        transition: none;
+}
+
+.legalesH {
+	display: none;
+}
+
+.flex-control-nav, .flex-control-nav li {
+	list-style: none !important;
+}
+
+.submenu {
+position: absolute;
+display: none;
+z-index: 1000;
+background: rgb(196, 196, 196);
+left: 200px;
+top: 0;
+padding: 0;
+margin: 0;
+-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.33);
+-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.33);
+box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.33);
+-webkit-transition: none;
+   -moz-transition: none;
+    -ms-transition: none;
+     -o-transition: none;
+        transition: none;
+}
+
+.interna h2 {
+  color: red;
+}
+
+.submenu-norma {
+	top: 35px;
+}
+
+.submenu-inversion {
+  top: 113px;
+}
+
+.submenu li  {
+	list-style: none;
+}
+
+.submenu li a {
+background: rgb(196, 196, 196);
+display: block;
+color: #535353;
+text-decoration: none;
+font-size: .7em;
+width: 290px;
+text-align: left;
+padding: 3px 2px 3px 10px;
+z-index: 999;
+position: relative;
+border-bottom: 1px dotted #A2A2A2;
+}
+
+/*Formulario*/
+form header {
+  margin: 0 0 20px 0; 
+}
+form header div {
+  font-size: 90%;
+  color: #999;
+}
+form header h2 {
+  margin: 0 0 5px 0;
+  color: rgb(206, 14, 14);
+}
+form > div {
+  clear: both;
+  overflow: hidden;
+  padding: 1px;
+  margin: 0 0 10px 0;
+}
+form > div > fieldset > div > div {
+  margin: 0 0 5px 0;
+}
+form > div > label,
+legend {
+	width: 25%;
+  float: left;
+  padding-right: 10px;
+}
+form > div > div,
+form > div > fieldset > div {
+  width: 70%;
+  float: right;
+}
+form > div > fieldset label {
+	font-size: 90%;
+}
+fieldset {
+	border: 0;
+  padding: 0;
+}
+
+input[type=text],
+input[type=email],
+input[type=url],
+input[type=password],
+textarea {
+	width: 95%;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+input[type=text],
+input[type=email],
+input[type=url],
+input[type=password] {
+  width: 50%;
+}
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=url]:focus,
+input[type=password]:focus,
+textarea:focus {
+  outline: 0;
+border-color: #E44646;
+}
+
+@media (max-width: 600px) {
+  form > div {
+    margin: 0 0 15px 0; 
+  }
+  form > div > label,
+  legend {
+	  width: 100%;
+    float: none;
+    margin: 0 0 5px 0;
+  }
+  form > div > div,
+  form > div > fieldset > div {
+    width: 100%;
+    float: none;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=url],
+  input[type=password],
+  textarea,
+  select {
+    width: 97%; 
+  }
+}
+@media (min-width: 1200px) {
+  form > div > label,
+	legend {
+  	text-align: right;
+  }
+}
+
+/*Pop.up*/
+#backgroundPopup {
+    z-index:1;
+    position: fixed;
+    display:none;
+    height:100%;
+    width:100%;
+    background:#000000;
+    top:0px;
+    left:0px;
+}
+#toPopup {
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 10px solid #ccc;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    display: none;
+    font-size: 14px;
+    left: 50%;
+    margin-left: -402px;
+    position: fixed;
+    top: 20%;
+    width: 800px;
+    z-index: 999;
+}
+div.loader {
+    background: url("imagene/loading.gif") no-repeat scroll 0 0 transparent;
+    height: 32px;
+    width: 32px;
+    display: none;
+    z-index: 9999;
+    top: 40%;
+    left: 50%;
+    position: absolute;
+    margin-left: -10px;
+}
+div.close {
+    background: url("imagenes/closebox.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 30px;
+    position: absolute;
+    right: -27px;
+    top: -24px;
+    width: 30px;
+}
+span.ecs_tooltip {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 11px;
+    height: 16px;
+    opacity: 0.7;
+    padding: 4px 3px 2px 5px;
+    position: absolute;
+    right: -62px;
+    text-align: center;
+    top: -51px;
+    width: 93px;
+}
+span.arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #000000;
+    display: block;
+    height: 1px;
+    left: 40px;
+    position: relative;
+    top: 3px;
+    width: 1px;
+}
+div#popup_content {
+    margin: 4px 7px;
+    min-height: 340px;
+    /* remove this comment if you want scroll bar
+    overflow-y:scroll;
+    height:200px
+    */
+}
+
+div#popup_content iframe {
+	width: 100%;
+}
+
+
+div#popup_content frameset {
+	height: 340px;
+}
+
+/*RESPONSIVE*/
+@media screen and (max-width:780px){  
+	#container {
+		padding-top: 0 !important;
+	}
+
+
+
+	#container, #lateral, #main, #enlaces, .container-header { 
+		width: 100%;
+	}
+
+	#header {
+		height: 65px;
+	}
+
+	#menu-lateral {
+		margin-left: 0;
+		display: none;
+		margin-bottom: 0;
+		margin-top: 0;
+	}
+
+	#header .logo {
+		margin-top: 12px;
+	}
+
+	#menu-lateral li a.mapa, #menu-lateral li a.productos {
+		border-radius: 0 !important;
+	}
+
+	a#pull {
+display: block;
+}
+
+	.botones {
+		width: 100%;
+    margin: 0;
+    margin-top: 10px;
+	}
+
+  .botones li {
+    width: 50%;
+  }
+
+  .botones li a {
+    border-radius: 0 !important;
+  }
+
+	#menu-lateral li a, a#pull  {
+		max-width: 100%;
+		text-align: center;
+		margin: auto;
+	}
+
+	.universia, .fogafin {
+		float: left;
+    margin-left: 10%;
+	}
+
+	#enlaces, .container-header {
+		text-align: center;
+	}
+
+	.enl {
+		text-align: center;
+		width: 100%;
+	}
+
+	.enl ul {
+		margin: 0;
+padding-top: 10px;
+padding-left: 0;
+	}
+
+	.enl li {
+		width: 100%;
+	}
+	.direccion {
+	width: 100%;
+	text-align: center;
+	}
+
+  #enlaces li {
+    margin: 10px;
+  }
+
+
+.legalesH {
+	display: block;
+	margin: 10px;
+}
+
+.submenu {
+	position: relative;
+margin: 0;
+clear: both;
+left: 0;
+top: 0;
+}
+
+.submenu li a {
+  width: 100%;
+  padding: 8px 2px 8px 10px;
+}
+
+}
+.interna {
+width: 67% !important;
+padding: 14px;
+font-size: 13px;
+}
+#foga{
+	margin-left:20px;
+}
+
+.class_ul {
+    width: 23%;
+    margin: auto;
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadosClienteCreateDlg" widgetVar="EstadosClienteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateEstadosClienteTitle}" closeOnEscape="true">
+
+            <h:form id="EstadosClienteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estadosClienteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{estadosClienteController.selected.id}" title="#{myBundle.CreateEstadosClienteTitle_id}" required="true" requiredMessage="#{myBundle.CreateEstadosClienteRequiredMessage_id}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{estadosClienteController.selected.descripcion}" title="#{myBundle.CreateEstadosClienteTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateEstadosClienteRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{estadosClienteController.selected.fecha}" title="#{myBundle.CreateEstadosClienteTitle_fecha}" required="true" requiredMessage="#{myBundle.CreateEstadosClienteRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{estadosClienteController.selected.idCliente}" required="true" requiredMessage="#{myBundle.CreateEstadosClienteRequiredMessage_idCliente}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clientesController.items}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"
+                                           itemLabel="#{idClienteItem.id.toString()}"
+                                           />
+                            <f:converter binding="#{clientesConverter}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{estadosClienteController.selected.idEstado}" required="true" requiredMessage="#{myBundle.CreateEstadosClienteRequiredMessage_idEstado}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosController.items}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"
+                                           itemLabel="#{idEstadoItem.id.toString()}"
+                                           />
+                            <f:converter binding="#{estadosConverter}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateEstadosClienteLabel_subestado}" for="subestado" />
+                        <p:selectOneMenu id="subestado" value="#{estadosClienteController.selected.subestado}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{subEstadoController.items}"
+                                           var="subestadoItem"
+                                           itemValue="#{subestadoItem}"
+                                           itemLabel="#{subestadoItem.id.toString()}"
+                                           />
+                            <f:converter binding="#{subEstadoConverter}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadosClienteController.saveNew}" value="#{myBundle.Save}" update="display,:EstadosClienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadosClienteCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('EstadosClienteCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

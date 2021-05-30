@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GestoresEditDlg" widgetVar="GestoresEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.EditGestoresTitle}">
+            <h:form id="GestoresEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{gestoresController.selected != null}">
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{gestoresController.selected.cedula}" title="#{myBundle.EditGestoresTitle_cedula}" required="true" requiredMessage="#{myBundle.EditGestoresRequiredMessage_cedula}"/>
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{gestoresController.selected.nombre}" title="#{myBundle.EditGestoresTitle_nombre}" required="true" requiredMessage="#{myBundle.EditGestoresRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_telefonoFijo}" for="telefonoFijo" />
+                        <p:inputText id="telefonoFijo" value="#{gestoresController.selected.telefonoFijo}" title="#{myBundle.EditGestoresTitle_telefonoFijo}" />
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_telefonoCelular}" for="telefonoCelular" />
+                        <p:inputText id="telefonoCelular" value="#{gestoresController.selected.telefonoCelular}" title="#{myBundle.EditGestoresTitle_telefonoCelular}" />
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{gestoresController.selected.direccion}" title="#{myBundle.EditGestoresTitle_direccion}" />
+                        <p:outputLabel value="#{myBundle.EditGestoresLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{gestoresController.selected.email}" title="#{myBundle.EditGestoresTitle_email}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{gestoresController.modificar()}" value="#{myBundle.Save}" update="display,:GestoresListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,GestoresEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="GestoresEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.consultaRatingTitle}"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        
+        <h:form id="formConsultaInicial">
+        
+            <p:panel header="#{myBundle.consultaRatingTitle}">
+                
+                <h:outputText value="Seleccione un criterio de consulta de clientes:"/>
+                
+                <br/><br/>
+
+                <p:selectOneRadio id="btnSeleccion" value="#{consultaRating.tipoConsulta}" 
+                                  layout="custom">
+                    <f:selectItem itemLabel="Consulta por Nit" itemValue="0"/>
+                    <f:selectItem itemLabel="Consulta por Nombre" itemValue="1"/>
+                    <p:ajax event="change" listener="#{consultaRating.reasignarControles}" 
+                            update=":formConsultaInicial:txtNit, :formConsultaInicial:txtNombre, 
+                            :formConsultaInicial:btnNit, :formConsultaInicial:btnNombre"/>
+                </p:selectOneRadio>
+
+                <h:panelGrid columns="9" cellpadding="5">
+                    <p:radioButton id="opt1" for="btnSeleccion" itemIndex="0"/>
+                    <h:outputLabel for="opt1" value="Consulta por Nit:"/>
+                    <p:inputText id="txtNit" requiredMessage="Nit. Error de validación, se necesita un valor" 
+                                 value="#{consultaRating.nitDiligenciado}" 
+                                 required="#{consultaRating.tipoConsulta == '0'}" 
+                                 disabled="#{consultaRating.tipoConsulta != '0'}"/>
+                    <p:commandButton actionListener="#{consultaRating.obtenerPeriodos}" 
+                                     update=":growl, :formConsultaInicial:lblPeriodo, 
+                                     :formConsultaInicial:sltPeriodo, :formTableClientes:cntTableClientes" 
+                                     icon="ui-icon-search" id="btnNit" title="Consultar por Nit" 
+                                     disabled="#{consultaRating.tipoConsulta != 0}"/>
+
+                    <p:radioButton id="opt2" for="btnSeleccion" itemIndex="1"/>
+                    <h:outputLabel for="opt2" value="Consulta por Nombre:"/>
+                    <p:inputText id="txtNombre" requiredMessage="Nombre. Error de validación, se necesita un valor" 
+                                 value="#{consultaRating.nombreDiligenciado}" 
+                                 required="#{consultaRating.tipoConsulta == '1'}" 
+                                 disabled="#{consultaRating.tipoConsulta != '1'}"/>
+                    <p:commandButton actionListener="#{consultaRating.obtenerPeriodos}" 
+                                     update=":growl, :formConsultaInicial:lblPeriodo, 
+                                     :formConsultaInicial:sltPeriodo, :formTableClientes:cntTableClientes" 
+                                     icon="ui-icon-search" 
+                                     id="btnNombre" title="Consultar por Nombre" 
+                                     disabled="#{consultaRating.tipoConsulta != 1}"/>
+                </h:panelGrid>
+                    
+                <h:panelGrid columns="9" cellpadding="5">
+                    <p:outputLabel id="lblPeriodo" for="sltPeriodo" value="Seleccione período fiscal: " 
+                                   style="display: #{consultaRating.listaPeriodos.size() &gt; 1 ? 'block' : 'none'};"/>    
+                    <p:selectOneMenu id="sltPeriodo"
+                                     value="#{consultaRating.periodoSeleccionado}"
+                                     required="#{consultaRating.listaPeriodos.size() &gt; 1}"
+                                     requiredMessage="Período fiscal. Error de validación, se necesita un valor"
+                                     style="display: #{consultaRating.listaPeriodos.size() &gt; 1 ? 'block' : 'none'};">
+                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                        <f:selectItems value="#{consultaRating.listaPeriodos}" var="periodo" itemLabel="#{periodo}" itemValue="#{periodo}"/>
+                        <p:ajax event="change" update=":formConsultaInicial:btnConsultaClientes" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                
+                <br/>
+                
+                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" 
+                                 actionListener="#{consultaRating.consultaClientes}" 
+                                 update=":growl, :formTableClientes:cntTableClientes, 
+                                 :formTableClientes:tableClientes"
+                                 disabled="#{consultaRating.tipoConsulta == null}"/>
+                
+            </p:panel>
+            
+        </h:form>
+        
+        <h:form id="formTableClientes">
+        
+            <p:outputPanel id="cntTableClientes" style="visibility: #{consultaRating.listaClientes.size() &gt; 0 ? 'visible' : 'hidden'};">
+            
+                <p:dataTable id="tableClientes" 
+                             emptyMessage="Cero registros encontrados"
+                             paginator="true"
+                             value="#{consultaRating.listaClientes}"
+                             selection="#{consultaRating.listaClientesSeleccionados}" 
+                             var="clientes"                         
+                             rows="10"
+                             rowKey="#{clientes.id}">
+                    
+                    <f:facet name="header">
+                        <h:outputText value="Información de clientes"/>                    
+                    </f:facet>
+
+                    <p:column selectionMode="multiple" style="width:30px;text-align:center;" headerText="Sel."/>
+                    
+                    <p:column headerText="Nit">
+                        <h:outputText value="#{clientes.nit}" style="width:30px;text-align:center;"/>
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{clientes.nombre}"/>
+                    </p:column>                
+
+                    <p:column headerText="Grupo">
+                        <h:outputText value="#{clientes.grupo}"/>
+                    </p:column>                
+
+                    <p:column headerText="Último Rating">
+                        <h:outputText value="#{clientes.valorRating}"/>
+                    </p:column>                
+
+                    <p:column headerText="Fecha Último Rating">
+                        <h:outputText value="#{clientes.fechaInsercion}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <br/>
+
+                <div style="width: 100%; text-align: center;">
+                    <p:commandButton value="Calcular Rating" id="btnCalculo" 
+                                     actionListener="#{consultaRating.calcularRating}" 
+                                     update=":growl, :formVariables:cntTableVariables"/>
+                
+                </div>
+                
+            </p:outputPanel>
+                
+        </h:form>
+        
+        <h:form id="formVariables">
+            <p:outputPanel id="cntTableVariables" 
+                           style="visibility: #{consultaRating.listVariablesRating.size() &gt; 0 ? 'visible' : 'hidden'};">
+                <p:growl id="msgs" showDetail="true"/>
+                <div style="width: 100%; text-align: center;">
+                    <p:dataTable var="rating" value="#{consultaRating.listaVariablesFrontResultado.get(0)}">
+                        <f:facet name="header">
+                                RESULTADO RATING
+                        </f:facet>
+                        <p:column headerText="Valor">
+                            <h:outputText value="#{rating.value}" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <div style="width: 100%; text-align: center;">
+                   
+                <p:accordionPanel id="accordionId">
+                    <p:tab title="Modulo Financiero">
+                        <p:dataTable id="variablesTbl" var="variable" 
+                                     value="#{consultaRating.listaVariables}">
+                            <f:facet name="header">
+                                Lista de Variables
+                            </f:facet>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{variable.nombre}" />
+                            </p:column>
+                            <p:column headerText="Valor">
+                                <h:outputText value="#{variable.value}" />
+                            </p:column>
+                        </p:dataTable>    
+                    </p:tab>
+                    <p:tab title="Modulo Comportamiento">
+                        <p:dataTable id="variablesCompTbl" var="variableComp" 
+                                     value="#{consultaRating.variablesRatingComportamiento}">
+                            <f:facet name="header">
+                                Lista de Variables
+                            </f:facet>
+                            <p:column headerText="Id">
+                                <h:outputText value="#{variableComp.nombre}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{variableComp.value}" />
+                            </p:column>
+                        </p:dataTable> 
+                        
+                    </p:tab>
+                    <p:tab title="Modulo Objetivo">
+                        <p:dataTable id="variablesObjTbl" var="variableObj" 
+                                     value="#{consultaRating.listaVariablesFrontObjetivo}">
+                            <f:facet name="header">
+                                Lista de Variables
+                            </f:facet>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{variableObj.nombre}" />
+                            </p:column>
+                            <p:column headerText="Valor">
+                                <h:outputText value="#{variableObj.value}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="Modulo Subjetivo">
+                        <p:dataTable id="variablesSubjTbl" var="variableSubj" 
+                                     value="#{consultaRating.listaVariablesFrontSubjetivo}">
+                            <f:facet name="header">
+                                Lista de Variables
+                            </f:facet>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{variableSubj.nombre}" />
+                            </p:column>
+                            <p:column headerText="Valor">
+                                <h:outputText value="#{variableSubj.value}" />
+                            </p:column>
+                        </p:dataTable>
+                        
+                    </p:tab>
+                    
+                </p:accordionPanel>
+            </div>
+            <p:outputPanel id="cntTableVariables1">    
+                 <div style="width: 100%; text-align: center;">
+                    <p:commandButton value="Confirmar Rating" id="btnCalculo2" 
+                                     actionListener="#{consultaRating.confirmarRating}" 
+                                     update=":growl, :formVariables:cntTableVariables"
+                                     styleClass="p-mr-2" icon="pi pi-check">
+                        <p:confirm header="Confirmación" message="¿Está seguro de proceder?"  
+                                   icon="pi pi-exclamation-triangle"/>   
+                    </p:commandButton>
+                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="350">
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" />
+                    </p:confirmDialog>
+                    <p:commandButton value="Modificación ajuste manual" id="btnCalculo1" 
+                                     actionListener="#{consultaRating.editDataValue}" 
+                                     update=":growl, :formResultadosRating:tableResultadosRatingEdit"
+                                     styleClass="p-mr-2" icon="pi pi-check"/>
+                   
+<!--                    <p:commandButton value="Limpiar resultados" actionListener="#{consultaRating.limpiarResultados}" 
+                                     update=":formConsultaInicial:txtNit, 
+                                     :formConsultaInicial:txtNombre, :formConsultaInicial:btnNit, 
+                                     :formConsultaInicial:btnNombre, :formConsultaInicial:btnSeleccion,
+                                     :formConsultaInicial:lblPeriodo, :formConsultaInicial:sltPeriodo
+                                     :formConsultaInicial:btnConsultaClientes, 
+                                     :formTableClientes:cntTableClientes, 
+                                     :formTableClientes:tableClientes,
+                                     :formVariables"/>-->
+                 </div>
+            </p:outputPanel>
+           </p:outputPanel>
+        </h:form>
+        
+        <h:form id="formResultadosRating">
+            
+            <p:dialog id="dlgResultados" widgetVar="resultadosRating" width="800">
+                
+                <p:dataTable id="tableResultadosRatingEdit"
+                             emptyMessage="Cero registros encontrados"
+                             value="#{consultaRating.listaVariablesFrontResultado.get(0)}"
+                             var="rating"
+                             editable="true">
+
+                    <p:ajax event="rowEdit" listener="#{consultaRating.onRowEdit}"/>
+                    <p:ajax event="rowEditCancel" listener="#{consultaRating.onCancel}"/>
+                    
+                    <f:facet name="header">
+                        <h:outputText value="Actualizar valor"/>                    
+                    </f:facet>
+
+                    <p:column headerText="Rating" style="width: 100%; text-align: center;">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rating.value}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{rating.value}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                     <p:column style="width:6rem; text-align: center;" headerText="Acciones">
+                        <p:rowEditor/>
+                    </p:column> 
+                    
+                    
+                </p:dataTable>
+
+                <br/>
+                
+                <div style="width: 100%; text-align: center;">
+                    
+                   <!--                    
+                    <p:commandButton value="Confirmar cambios de Rating" actionListener="#{consultaRating.definirRating}" update=":growl, :formVariables:cntTableVariables1"/>
+                   -->
+                    <p:commandButton value="Aceptar" actionListener="#{consultaRating.definirRating}" 
+                                     onclick="PF('resultadosRating').hide();" update=":growl, :formVariables:cntTableVariables"/>
+                </div>
+
+                
+                
+            </p:dialog>
+            
+            <p:dialog header="Confirmación cambio de Rating" 
+                      widgetVar="detalleCambio">
+                
+                <h:outputText value="Ingrese motivo del cambio"/>
+                <br/>                
+                <p:outputLabel for="txtCambio" value="Motivo del cambio: "/>
+                <p:inputText id="txtCambio" value="#{consultaRating.comentariosUsuario}"/>
+                <br/>
+                
+                <div style="text-align: center; width: 100%">
+                    <p:commandButton value="Confirmar" actionListener="#{consultaRating.confirmarCambioRating}" 
+                                     update=":formResultadosRating:tableResultadosRatingEdit"/>
+                </div>   
+            </p:dialog>
+            
+        </h:form>
+        
+       
+        
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EstadosClienteListForm">
+
+        <p:panel header="#{myBundle.ListEstadosClienteTitle}">
+            <p:contextMenu id="EstadosClienteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('EstadosClienteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('EstadosClienteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('EstadosClienteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('EstadosClienteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.EstadosClienteMenuItem_idCliente}" icon="ui-icon-search"  actionListener="#{estadosClienteController.prepareIdCliente}" update=":ClientesViewForm" oncomplete="PF('ClientesViewDialog').show()" disabled="#{empty estadosClienteController.selected.idCliente}"/>  
+                <p:menuitem value="#{myBundle.EstadosClienteMenuItem_idEstado}" icon="ui-icon-search"  actionListener="#{estadosClienteController.prepareIdEstado}" update=":EstadosViewForm" oncomplete="PF('EstadosViewDialog').show()" disabled="#{empty estadosClienteController.selected.idEstado}"/>  
+                <p:menuitem value="#{myBundle.EstadosClienteMenuItem_subestado}" icon="ui-icon-search"  actionListener="#{estadosClienteController.prepareSubestado}" update=":SubEstadoViewForm" oncomplete="PF('SubEstadoViewDialog').show()" disabled="#{empty estadosClienteController.selected.subestado}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{estadosClienteController.items}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{estadosClienteController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EstadosClienteListForm:createButton :EstadosClienteListForm:viewButton :EstadosClienteListForm:editButton :EstadosClienteListForm:deleteButton :EstadosClienteListForm:EstadosClienteDataTableContextMenu" listener="#{estadosClienteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EstadosClienteListForm:createButton :EstadosClienteListForm:viewButton :EstadosClienteListForm:editButton :EstadosClienteListForm:deleteButton :EstadosClienteListForm:EstadosClienteDataTableContextMenu" listener="#{estadosClienteController.resetParents}"/>
+                <p:ajax event="contextMenu" update=" :EstadosClienteListForm:createButton :EstadosClienteListForm:viewButton :EstadosClienteListForm:editButton :EstadosClienteListForm:deleteButton" listener="#{estadosClienteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EstadosClienteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idCliente.id}" filterBy="#{item.idCliente.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_idCliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCliente.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEstado.id}" filterBy="#{item.idEstado.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_idEstado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEstado.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.subestado.id}" filterBy="#{item.subestado.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEstadosClienteTitle_subestado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.subestado.id}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{estadosClienteController.prepareCreate}" update=":EstadosClienteCreateForm" oncomplete="PF('EstadosClienteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":EstadosClienteViewForm" oncomplete="PF('EstadosClienteViewDialog').show()" disabled="#{empty estadosClienteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":EstadosClienteEditForm" oncomplete="PF('EstadosClienteEditDialog').show()" disabled="#{empty estadosClienteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{estadosClienteController.delete}" update=":growl,datalist" disabled="#{empty estadosClienteController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

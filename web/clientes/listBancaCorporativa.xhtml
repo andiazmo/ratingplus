@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+
+    <ui:composition>
+        <p:dialog id="bancaCorporativaDialog" widgetVar="BancaCorporativaDialog" modal="true" resizable="true" appendTo="@(body)" header="#{myBundle.CreateClientesLabel_detalles_banca_corporativa}" closable="true" closeOnEscape="true" position="center">
+            <h:form id="BancaCorporativaForm">                
+                <p:panel>
+                        <p:dataTable id="datalist"
+                                     value="#{bancaCorporativaController.items}"
+                                     var="item"
+                                     rowKey="#{item.id}"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     selectionMode="single"
+                                     selection="#{bancaCorporativaController.selected}"
+                                     tableStyle="table-layout: fixed"
+                                     >
+
+                            <p:column sortBy="#{item.id}" filterBy="#{item.id}" style=" width:10px " >
+                                <f:facet name="header">
+                                    <h:outputText value="#{myBundle.Id_Detalles_banca_corporativa}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}" style=" width:60px " >
+                                <f:facet name="header">
+                                    <h:outputText value="#{myBundle.Nombre_Detalles_banca_corporativa}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}" style=" width:80px " >
+                                <f:facet name="header">
+                                    <h:outputText value="#{myBundle.Descripcion_Detalles_banca_corporativa}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcion}"/>
+                            </p:column>
+
+                        </p:dataTable>
+    <!--                <p:commandButton value="#{myBundle.Cancel}" onclick="PF('BancaCorporativaDialog').hide()"></p:commandButton>-->
+                </p:panel>                                
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

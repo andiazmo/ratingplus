@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="BandMxListForm">
+        <p:panel header="#{myBundle.ListBandMxTitle}">
+            <p:dataTable id="datalist" value="#{bandMxController.items}" 
+                         var="item"
+                         selectionMode="single" 
+                         selection="#{bandMxController.selected}"
+                         rowKey="#{item.idBand}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30">
+                <p:ajax event="rowSelect"   
+                        update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" 
+                        update="createButton viewButton editButton deleteButton"/>
+                <p:column sortBy="#{item.numeroBanda}" 
+                          filterBy="#{item.numeroBanda}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBandMxTitle_numero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroBanda}"/>
+                </p:column>
+                <p:column sortBy="#{item.timeBandMx.idTimeBand}" 
+                          filterBy="#{item.timeBandMx.idTimeBand}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBandMxTitle_nodo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.timeBandMx.nodo}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   
+                                     value="#{myBundle.Create}" 
+                                     actionListener="#{bandMxController.prepareCreate}" 
+                                     update=":BandMxCreateForm" 
+                                        oncomplete="PF('BandMxCreateDialog').show()"
+                                     style="visibility: #{bandMxController.crear}"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" 
+                                     value="#{myBundle.View}" 
+                                     update=":BandMxViewForm" 
+                                     oncomplete="PF('BandMxViewDialog').show()" 
+                                     disabled="#{empty bandMxController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" 
+                                     value="#{myBundle.Edit}" 
+                                     update=":BandMxEditForm"
+                                     oncomplete="PF('BandMxEditDialog').show()" 
+                                     disabled="true" 
+                                     style="visibility: #{bandMxController.modificar}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  
+                                     value="#{myBundle.Delete}"
+                                     actionListener="#{bandMxController.borrarParam}" 
+                                     update=":growl,datalist" 
+                                     disabled="#{empty bandMxController.selected}"
+                                     style="visibility: #{bandMxController.eliminar}">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" 
+                                   message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>                        
+                </f:facet>
+            </p:dataTable>
+            <ui:include src="/confirmation.xhtml"/>
+        </p:panel>
+    </h:form>
+</ui:composition>

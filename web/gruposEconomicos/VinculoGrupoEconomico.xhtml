@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="GruposEconomicosVinculoDlg" widgetVar="GruposEconomicosVinculoDialog" modal="true" resizable="false" appendTo="@(body)" header="Vinculacion de un cliente a un grupo" closeOnEscape="true">
+
+
+            <h:form id="GruposEconomicosVinculoForm">
+
+                <h:panelGroup id="display" rendered="#{clientesController.selected != null}">
+                    <p:panelGrid columns="4" columnClasses="column"  >
+
+                        <p:outputLabel value="Nombre: " for="nombre"/>
+                        <p:inputText disabled="true" id="nombre" value="#{clientesController.selected.nombre}"/>
+
+                        <p:outputLabel value="Nit: " for="nit"/>
+                        <p:inputText disabled="true" id="nit" value="#{clientesController.selected.nit}"/>
+
+                        <p:outputLabel value="Grupo Economico: "  for="grupos"/>
+                        <p:selectOneMenu id="grupos" value="#{clientesController.valorSelectTipoGrupoEco}" required="true" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItem itemLabel="Seleccione un grupo"/>
+                            <f:selectItems value="#{gruposEconomicosController.gruposAsignables()}" var="g" itemLabel="#{g.nombre}" itemValue="#{g.codigoGrupo}"/>
+                            <p:ajax update="grupos"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Tipo Vinculo: " for="vinculo"/>
+                        <p:selectOneMenu id="vinculo" value="#{clientesController.selected.relacionClienteGrupos.get(0).tipoVinculo}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoTipoVinculo)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Tipo Relacion: " for="relacion"/>
+                        <p:selectOneMenu id="relacion" value="#{clientesController.selected.relacionClienteGrupos.get(0).tipoRelacion}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoTipoRelacion)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Rol Jerarquico: " for="jerarquico"/>
+                        <p:selectOneMenu id="jerarquico" value="#{clientesController.selected.relacionClienteGrupos.get(0).rolJerarquico}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoRolJerarquico)}" var="p" itemLabel="#{p.datos}" itemValue="#{p.id.clave}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Porcentaje Participacion: " for="participacion"/>
+                        <pe:inputNumber required="true" id="participacion" value="#{clientesController.selected.relacionClienteGrupos.get(0).porcParticipacion}" symbol="%" symbolPosition="s" minValue="0" maxValue="100" decimalPlaces="0">
+                            <p:ajax update=":growl participacion" listener="#{clientesController.validarPorcentajeParticipacion(false)}"/>
+                        </pe:inputNumber>
+
+                        <p:outputLabel value="Facturacion: " for="factuacion"/>
+                        <pe:inputNumber required="true" id="factuacion" value="#{clientesController.selected.relacionClienteGrupos.get(0).facturacion}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                        <p:outputLabel value="Total Activo: " for="activo"/>
+                        <pe:inputNumber required="true" id="activo" value="#{clientesController.selected.relacionClienteGrupos.get(0).totalActivo}" decimalPlaces="0">
+                        </pe:inputNumber>
+
+                        <p:outputLabel value="Numero de Empleados: " for="empleados"/>
+                        <pe:inputNumber required="true" rendered="true" id="empleados" value="#{clientesController.selected.relacionClienteGrupos.get(0).cantidadEmpleado}" decimalPlaces="0">   
+                        </pe:inputNumber>
+                        <!--update=":GruposEconomicosListIntegrantesForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,GruposEconomicosVinculoForm);"-->
+                    </p:panelGrid>
+
+
+                    <p:commandButton id="guardar" action="#{gruposEconomicosController.reiniciarListGrupos()}" actionListener="#{clientesController.vincularClienteGrupo()}" value="Guardar" update=":GruposEconomicosListIntegrantesForm:datalist,:GruposEconomicosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,GruposEconomicosVinculoDialog);">
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" actionListener="#{clientesController.vaciarSelected()}" onclick="PF('GruposEconomicosVinculoDialog').hide()">
+                    </p:commandButton>
+                </h:panelGroup>
+
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

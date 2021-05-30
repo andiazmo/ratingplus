@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                >
+
+    <h:form id="ecuacionEditForm">
+        <p:panel header="#{myBundle.EcuacionNeteo}">
+            <p:panelGrid columns="8" columnClasses="column" > 
+                <h:panelGroup>
+                    <p:outputLabel value="NETEO= " 
+                                   style="font-size: 11px !important; font-weight: bold;"/>                        
+                </h:panelGroup>
+                <p:graphicImage value="//img/ecu_11.png" />
+                <pe:inputNumber id="const1" value="#{ecuacionMxController.ecuacionMx.constante1}"
+                                decimalPlaces="1"/>
+                <p:graphicImage value="//img/ecu_12.png" />
+                <pe:inputNumber id="const2"   
+                                value="#{ecuacionMxController.ecuacionMx.constante2}" 
+                                decimalPlaces="1"/> 
+                <p:graphicImage value="//img/ecu_13.png" />
+                    <p:commandButton id="guardar"
+                                     actionListener="#{ecuacionMxController.guardar}" 
+                                     value="#{myBundle.Save}" update=":ecuacionEditForm,:growl" /> 
+            </p:panelGrid>          
+        </p:panel>
+    </h:form>
+
+</ui:composition>

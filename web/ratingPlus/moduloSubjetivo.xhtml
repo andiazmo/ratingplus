@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.consultaRatingTitle}"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        
+        <h:form id="formConsultaInicial">
+        
+            <p:panel header="#{myBundle.consultaRatingTitle}">
+                
+                <h:outputText value="Seleccione un criterio de consulta de clientes:"/>
+                
+                <br/><br/>
+
+                <p:selectOneRadio id="btnSeleccion" value="#{moduloSubjetivo.tipoConsulta}" layout="custom">
+                    <f:selectItem itemLabel="Consulta por Nit" itemValue="0"/>
+                    <f:selectItem itemLabel="Consulta por Nombre" itemValue="1"/>
+                    <p:ajax event="change" listener="#{moduloSubjetivo.reasignarControles}" update="formConsultaInicial:txtNit, :formConsultaInicial:txtNombre,:formConsultaInicial:btnConsultaClientes"/>
+                </p:selectOneRadio>
+
+                <h:panelGrid columns="9" cellpadding="5">
+                    <p:radioButton id="opt1" for="btnSeleccion" itemIndex="0"/>
+                    <h:outputLabel for="opt1" value="Consulta por Nit:"/>
+                    <p:inputText id="txtNit" requiredMessage="Nit. Error de validación, se necesita un valor" value="#{moduloSubjetivo.nitDiligenciado}" required="#{moduloSubjetivo.tipoConsulta == '0'}" disabled="#{moduloSubjetivo.tipoConsulta != '0'}"/>
+                   <p:radioButton id="opt2" for="btnSeleccion" itemIndex="1"/>
+                    <h:outputLabel for="opt2" value="Consulta por Nombre:"/>
+                    <p:inputText id="txtNombre" requiredMessage="Nombre. Error de validación, se necesita un valor" value="#{moduloSubjetivo.nombreDiligenciado}" required="#{moduloSubjetivo.tipoConsulta == '1'}" disabled="#{moduloSubjetivo.tipoConsulta != '1'}"/>
+                </h:panelGrid>
+                    
+                <br/>
+                
+                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" disabled="#{moduloSubjetivo.tipoConsulta == null}" actionListener="#{moduloSubjetivo.consultaClientes}" update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>
+                
+            </p:panel>
+            
+        </h:form>
+        
+        <h:form id="formTableClientes">
+            <p:growl id="message" showDetail="true"/>
+            <p:outputPanel id="cntTableClientes" style="visibility: #{moduloSubjetivo.listaClientes.size() &gt; 0 ? 'visible' : 'hidden'};">
+            
+                <p:dataTable id="tableClientes" 
+                             emptyMessage="Cero registros encontrados"
+                             paginator="true"
+                             value="#{moduloSubjetivo.listaClientes}"
+                             selection="#{moduloSubjetivo.listaClientesSeleccionados}" 
+                             var="clientes"                         
+                             rows="10"
+                             rowKey="#{clientes.id}">
+                    
+                    <f:facet name="header">
+                        <h:outputText value="Información del cliente"/>                    
+                    </f:facet>
+  
+                    <p:column headerText="Nit">
+                        <h:outputText value="#{clientes.nit}" style="width:30px;text-align:center;"/>
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{clientes.nombre}"/>
+                    </p:column>                
+
+                    <p:column headerText="Grupo">
+                        <h:outputText value="#{clientes.grupo}"/>
+                    </p:column>                
+
+                    <p:column headerText="Último Rating">
+                        <h:outputText value="#{clientes.valorRating}"/>
+                    </p:column>                
+
+                    <p:column headerText="Fecha Último Rating">
+                        <h:outputText value="#{clientes.fechaInsercion}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <p:panel header="Variables Módulo Subjetivo">
+                    <div class="ui-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12 p-md-4">
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(0)}">
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column headerText="Valor">
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoProductoServicio}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(0).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(1).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(2).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(3)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gerenciaCapacidadProfesionalidad}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(3).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(4).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(5).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(6)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.abanicoBancario}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(6).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(7).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(8).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(9)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.mecanismosFinanciacion}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(9).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(10).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(11)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.estructuraCostos}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(11).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(12).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(13).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(14)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.capacidadAtenderCalendario}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(14).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(15).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(16).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(17)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gradoAutoFinanciacion}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(17).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(18).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(19).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(20).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(21)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.existenciaDeudas}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(21).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(22).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(23).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(24)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.perfilPago}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(24).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(25).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(26).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(27)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.calidadActivos}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(27).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(28).mapRespuesta}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="variable" value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivo.get(29)}">
+                                <p:column>
+                                    <h:outputText value="#{variable.nombre}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoAccionista}" label="Rangos variable" required="true" style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(29).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(30).mapRespuesta}" />
+                                        <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(31).mapRespuesta}" />
+                                        
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                    <p:panel>
+                        <p:commandButton value="Registrar" id="btnRegistrarCompirtamiento"  
+                                         actionListener="#{moduloSubjetivo.registrarSubjetivo}" 
+                                         update="message" styleClass="p-mr-2" icon="pi pi-check"
+                                         >
+                            <p:confirm header="Confirmación" message="¿Está seguro de proceder?"  icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:panel>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="350">
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" />
+                    </p:confirmDialog>
+                </p:panel>  
+                
+            </p:outputPanel>  
+        </h:form>
+         
+    </ui:define>
+
+</ui:composition>

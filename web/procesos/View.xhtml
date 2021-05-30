@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+**************************************
+ *Proyecto : Mejoras Cupos Web
+ *Programador: Wittman Gutiérrez
+ *Tag de cambio: FIXPACK2
+ *Fecha del cambio : 06-08-2018
+ ************************************** 
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcesosViewDlg" widgetVar="ProcesosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProcesosTitle}" closeOnEscape="true">
+
+            <h:form id="ProcesosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{procesosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProcesosLabel_identificador}"/>
+                        <h:outputText value="#{procesosController.selected.identificador}" title="#{myBundle.ViewProcesosTitle_identificador}"/>
+
+                        <h:outputText value="Ruta"/>
+                        <h:outputText value="#{procesosController.selected.nombre}" title="#{myBundle.ViewProcesosTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewProcesosLabel_cron}"/>
+                        <h:outputText value="#{procesosController.selected.cron}" title="#{myBundle.ViewProcesosTitle_cron}"/>
+
+                        <h:outputText value="#{myBundle.ViewProcesosLabel_estado}"/>
+                        <h:selectBooleanCheckbox id="estado" value="#{procesosController.selected.estado}" title="#{myBundle.EditProcesosTitle_estado}" required="true" requiredMessage="#{myBundle.EditProcesosRequiredMessage_estado}" disabled="true"/>
+                        
+                        <!--FIXPACK2 - inicio -->
+                        <p:outputLabel value="#{myBundle.EditProcesosLabel_automatico}" for="automatico" />
+                        <h:selectBooleanCheckbox id="automatico" value="#{procesosController.selected.automatico}" title="#{myBundle.EditProcesosTitle_automatico}" disabled="true"/>
+                        <!--FIXPACK2 - fin -->
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ProcesosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

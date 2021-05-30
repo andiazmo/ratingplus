@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BancasCreateDlg" widgetVar="BancasCreateDialog"
+                  modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateBancasTitle}" closeOnEscape="true">
+
+            <h:form id="BancasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{bancasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                     
+                        <p:outputLabel value="#{myBundle.CreateBancasLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{bancasController.selected.nombre}" title="#{myBundle.CreateBancasTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateBancasRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bancasController.saveNew}" 
+                                     value="#{myBundle.Save}" 
+                                     update="display,:BancasListForm:datalist,:growl" 
+                                     oncomplete="PF('handleSubmit(xhr,status,args,BancasCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('BancasCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

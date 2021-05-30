@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="CupoComentarioDlg" widgetVar="cupoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="COMENTARIO CUPO" >
+
+            <h:form id="CupoCreateForm">
+
+                <h:panelGroup id="displayCrear" >
+                    <p:panelGrid columns="2" columnClasses="column">
+                       
+                      
+                       <p:panel header="Comentarios Cupo">
+                        
+                            <p:outputLabel value="Plazo:" />
+                            <pe:inputNumber id="plazo" value="#{cuposController.selected.comentario_cupo.plazo}"/> 
+                            <p:outputLabel value="Tasa:" />
+                            <pe:inputNumber id="tasa" value="#{cuposController.selected.comentario_cupo.tasa}"/> 
+                            
+                            <p:outputLabel value="Amortizacion:" />
+                            <pe:inputNumber id="amortizacion" value="#{cuposController.selected.comentario_cupo.amortizacion}"/> 
+                            <p:outputLabel value="Costo Recursos:" />
+                            <pe:inputNumber id="costosrecursos" value="#{cuposController.selected.comentario_cupo.costo_recursos}"/> 
+                            <p:outputLabel value="Comision:" />
+                            <pe:inputNumber id="comision" value="#{cuposController.selected.comentario_cupo.comision}"/> 
+                          
+                        <p:panelGrid style="margin-bottom:0px; width:100%;">   
+
+                            <p:outputLabel value="Otros:" />
+
+                            <p:inputTextarea rows="5" cols="190" />
+                        </p:panelGrid>  
+
+                    </p:panel>
+                    </p:panelGrid>
+                    <p:commandButton  value="#{myBundle.Save}" actionListener="#{cuposController.llenar()}" onclick="PF('LimitesautorizadosCreateDialog').hide()" update=":CuposListForm:datalist" />
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</ui:composition>
+</html>

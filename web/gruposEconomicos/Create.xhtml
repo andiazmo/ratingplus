@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+        <p:dialog id="GruposEconomicosCreateDlg" widgetVar="GruposEconomicosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateGruposEconomicosTitle}" closeOnEscape="true">
+
+
+            <h:form id="GruposEconomicosCreateForm">
+
+                <h:panelGroup id="display" style="text-align: center" rendered="#{gruposEconomicosController.selected != null}">
+                    <p:panelGrid columnClasses="column"  >
+
+                        <p:row>
+                            <p:column colspan="7">Informacion de Grupo Economico</p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Nombre Grupo:" for="nombre"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:inputText  id="nombre" value="#{gruposEconomicosController.selected.nombre}" title="#{myBundle.CreateGruposEconomicosTitle_garantia_por_nombre_del_grupo}" required="true" requiredMessage="#{myBundle.CreateGruposEconomicosRequiredMessage_nombre}" size="20" maxlength="100">
+                                    <p:ajax listener="#{gruposEconomicosController.validarNombreReservadoGrupo()}" update="nombre ,:growl"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Pais Referencia" for="pais"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="pais" value="#{gruposEconomicosController.selected.codigoPaisReferencia}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoPais)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Codigo Grupo Consecutivo" for="consecutivo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneRadio required="true" id="consecutivo" value="#{gruposEconomicosController.selected.consecutivo}">
+                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                    <p:ajax event="valueChange" listener="#{gruposEconomicosController.opcionConsecutivo()}" update="codigo"/>
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Codigo Grupo" for="codigo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber rendered="true" id="codigo" disabled="#{gruposEconomicosController.renderedCodigo}" value="#{gruposEconomicosController.selected.codigoGrupo}" minValue="0" thousandSeparator="" decimalPlaces="0" maxValue="9999">
+                                    <p:ajax delay="1000" event="keyup" listener="#{gruposEconomicosController.validatedNoConsecutivo()}" update=":growl codigo"/>
+                                </pe:inputNumber>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Forma Juridica" for="juridica"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="juridica" value="#{gruposEconomicosController.selected.codigoFormaJuridica}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoFormaJuridica)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Tipo Grupo:" for="tipoGrupo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="tipoGrupo" value="#{gruposEconomicosController.selected.codigoTipoGrupo}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoGrupo)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Tipo Actividad" for="actividad"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="actividad" value="#{gruposEconomicosController.selected.codigoTipoActividad}" panelStyle="width:220px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoActivadad)}" var="d" itemLabel="#{gruposEconomicosController.concatCiiuCode(d)}" itemValue="#{d.id.clave}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Sucursal" for="sucursal"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="sucursal" value="#{gruposEconomicosController.selected.codigoSucursal}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoSucursal)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Sector Economico" for="sector"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="sector" value="#{gruposEconomicosController.selected.codigoSectorEconomico}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoSectorEconomico)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Modo Operacion" for="modo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="modo" value="#{gruposEconomicosController.selected.codigoModoOperacion}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{parametriaCWController.listTablaP(parametriaCWController.codigoOperacion)}" var="d" itemLabel="#{d.datos}" itemValue="#{d.id.clave}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Responsable Comcercial" for="responsable"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:selectOneMenu id="responsable" value="#{gruposEconomicosController.selected.codigoGestorComercial}" panelStyle="width:180px" effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{gestoresController.gestores}" var="g" itemLabel="#{g.nombre}" itemValue="#{g.cedula}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Valor Cupo" for="cupo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled="true" id="cupo" value="#{gruposEconomicosController.selected.cupo}" decimalPlaces="0"/>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Disponible" for="disponible"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled="true" id="disponible" value="#{gruposEconomicosController.selected.disponibleGrupo}" decimalPlaces="0"/>
+                            </p:column>
+
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Consumido" for="consumido"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber disabled="true" id="consumido" value="#{gruposEconomicosController.selected.consumido}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Empleados" for="empleados"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber id="empleados" required="true" value="#{gruposEconomicosController.selected.empleadosGrupo}" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Facturacion" for="facturacion" />
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber id="facturacion" required="true" value="#{gruposEconomicosController.selected.facturacionGrupo}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left">
+                                <p:outputLabel value="Total Activo" for="activo"/>
+                            </p:column>
+                            <p:column colspan="2" style="text-align: left">
+                                <pe:inputNumber id="activo" required="true" value="#{gruposEconomicosController.selected.totalActivo}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:commandButton  disabled="#{gruposEconomicosController.habilitarBoton}" id="guardar" action="#{gruposEconomicosController.limpiarSelected()}" actionListener="#{gruposEconomicosController.crearGrupo()}" value="#{myBundle.Save}" update="display,:GruposEconomicosListForm:datalist,:growl" oncomplete="PF('handleSubmit(xhr,status,args,GruposEconomicosCreateDialog);">
+                                    <p:poll interval="1" update="guardar" listener="#{gruposEconomicosController.validarCampos()}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column colspan="4">
+                                <p:commandButton value="#{myBundle.Cancel}" actionListener="#{gruposEconomicosController.limpiarSelected()}" update="GruposEconomicosCreateForm" onclick="PF('GruposEconomicosCreateDialog').hide()">
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

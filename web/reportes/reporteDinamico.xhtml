@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Detalles de Patrimonio Excedido"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="reporteDinamicoForm">
+            <p:panel header="Reporte Dinamico" class="panel-datos-cliente">
+                <p:panelGrid columns="2"  columnClasses="column">
+                    <p:outputLabel value="Filtros:"></p:outputLabel>                 
+                    <p:selectManyCheckbox id="filtro" value="#{reportesController.selectdFilters}">
+                        <f:selectItem itemLabel="Fechas " itemValue="1" />
+                        <f:selectItem itemLabel="Estado Cliente " itemValue="2" />
+                        <f:selectItem itemLabel="Estado FEVE " itemValue="3" />
+                        <f:selectItem itemLabel="Estado Reconduccion " itemValue="4"/>
+                        <f:selectItem itemLabel="Grupo economico" itemValue="5" />
+                        <f:selectItem itemLabel="Banca" itemValue="6" />
+                        <p:ajax update="reporteDinamicoForm,rango" process="@this"/>
+                    </p:selectManyCheckbox>
+
+                    <p:outputLabel for="fecha" value="Seleccione una opción:" rendered="#{reportesController.isFecha}" />
+                    <p:selectOneRadio id="fecha" value="#{reportesController.rango}" rendered="#{reportesController.isFecha}" >
+                        <f:selectItem itemLabel="Mes" itemValue="1"  />
+                        <f:selectItem itemLabel="Trimestre" itemValue="2" /> 
+                        <f:selectItem itemLabel="Semestre" itemValue="3" />
+                        <f:selectItem itemLabel="Anual" itemValue="4" />  
+                        <f:selectItem itemLabel="Libre" itemValue="5" />  
+                        <p:ajax update="reporteDinamicoForm" process="@this"/>
+                    </p:selectOneRadio >
+
+                    <p:outputLabel value="Seleccione:" for="rango" rendered="#{reportesController.isFecha}" />
+                    <p:selectOneMenu id="rango" value="#{reportesController.fechaSelected}" rendered="#{!reportesController.isOcultoCombo and reportesController.isFecha}">
+                        <f:selectItems value="#{reportesController.fechas}"/>                      
+                    </p:selectOneMenu>
+
+                    <p:panelGrid  id= "rangos" rendered="#{reportesController.isOcultoCombo and reportesController.isFecha}">                      
+                        <p:outputLabel value="Fecha Inicial: " for="fechaI" />
+                        <p:calendar id="fechaI" pattern="dd/MM/yyyy" value="#{reportesController.fechaInicio}" title="Fecha inicial de busqueda" showOn="button"/>
+                        <p:outputLabel value="Fecha Final: " for="fechaF" />
+                        <p:calendar id="fechaF" pattern="dd/MM/y    yyy" value="#{reportesController.fechaFin}" title="Fecha Final de busqueda" showOn="button"/>
+                    </p:panelGrid>
+
+
+                    <p:outputLabel for="eCliente" value="Estado Cliente:" rendered="#{reportesController.isEstadoCliente}" />
+                    <p:selectOneMenu id="eCliente" value="#{reportesController.estadoClienteSelected}" 
+                                     style="width:125px" rendered="#{reportesController.isEstadoCliente}" 
+                                     panelStyle="width:180px" effect="fade" var="t" filter="true" filterMatchMode="startsWith">
+
+                        <f:selectItems value="#{estadosController.items}"
+                                       var="estadoclienteItem"
+                                       itemValue="#{estadoclienteItem}"
+                                       itemLabel="#{estadoclienteItem.nombre.toString()}"/>                    
+                        <p:column>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+                        
+                        <f:converter binding="#{estadosConverter}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="eFeve" value="Estado FEVE:" rendered="#{reportesController.isEstadoFeve}" />
+                    <p:selectOneMenu id="eFeve" value="#{reportesController.feveSelected}"
+                                     style="width:125px" panelStyle="width:180px" effect="fade" var="t" 
+                                     filter="true" filterMatchMode="startsWith"
+                                     rendered="#{reportesController.isEstadoFeve}">
+
+                        <f:selectItems value="#{estadoFeveController.items}"
+                                       var="estadofeveItem"
+                                       itemValue="#{estadofeveItem}"
+                                       itemLabel="#{estadofeveItem.nombre.toString()}"/>
+                        <p:column>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+                        <f:converter binding="#{estadoFeveConverter}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="eReconduccion" value="Estado Reconduccion:" rendered="#{reportesController.isEstadoReconduccion}"/>
+                    <p:selectOneMenu id="eReconduccion" value="#{reportesController.reconduccionSelected}"  
+                                     style="width:125px" panelStyle="width:180px" 
+                                     effect="fade" var="t" filter="true" 
+                                     filterMatchMode="startsWith" 
+                                     rendered="#{reportesController.isEstadoReconduccion}">
+
+                        <f:selectItems value="#{estadosReconduccionController.reconduccionList}" 
+                                       var="theme" itemLabel="#{idClienteItem.nombre}"
+                                       itemValue="#{theme}" />
+
+                        <p:column>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+                        
+                        <f:converter binding="#{reconduccionConverter}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="grupo" value="Grupo Economico:" rendered="#{reportesController.isGrupo}"/>
+                    <p:selectOneMenu id="grupo" value="#{reportesController.grupoSelected}"
+                                     style="width:125px" panelStyle="width:180px" 
+                                     effect="fade" var="t" filter="true" 
+                                     filterMatchMode="startsWith"
+                                     rendered="#{reportesController.isGrupo}">
+
+                        <f:selectItems value="#{gruposEconomicosController.items}"
+                                       var="grupoItem"
+                                       itemValue="#{grupoItem}"
+                                       itemLabel="#{grupoItem.nombre.toString()}"/>
+                        <p:column>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+                        <f:converter binding="#{gruposEconomicosConverter}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="banca" value="Banca:" rendered="#{reportesController.isBanca}"/>
+                    <p:selectOneMenu id="banca" value="#{reportesController.bancaSelected}" 
+                                     style="width:125px" panelStyle="width:180px" 
+                                     effect="fade" var="t" filter="true" 
+                                     filterMatchMode="startsWith"
+                                     rendered="#{reportesController.isBanca}">
+
+                        <f:selectItems value="#{bancasController.items}"
+                                       var="bancaItem"
+                                       itemValue="#{bancaItem}"
+                                       itemLabel="#{bancaItem.nombre.toString()}" />
+                        <p:column>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+                        <f:converter binding="#{bancasConverter}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <h:commandLink id="excel" 
+                               action="#{reportesController.printReporte()}">
+                    <p:graphicImage value="//img/xls.png" />
+                </h:commandLink> 
+
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

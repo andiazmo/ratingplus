@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.ClientesTitle}"/>
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="EstadoSubStandarListForm" >
+
+            <h:panelGroup id="display">
+
+                <p:panel id="ClientePanel" header="Cliente">
+                    <h:panelGrid columns="5" cellpadding="10">
+
+                        <h:outputText value="Nit:" style="font-weight:bold"/>
+                        <h:outputText value="#{estadosSubStandarController.clientes.nit}" title="#{myBundle.ViewClientesTitle_digitochequeo}"/>
+
+                        <h:outputText value="Nombre:" style="font-weight:bold"/>
+                        <h:outputText value="#{estadosSubStandarController.clientes.nombre}" title="#{myBundle.ViewClientesTitle_nombre}"/>
+
+                        <p:link outcome="estadoSubStandarClienteReporte" value="Clic para solicitar Reporte" target="_blank" style="font-weight:bold">
+                                <f:param name="id" value="#{estadosSubStandarController.clientes.id}" />
+                        </p:link>
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="EstadoSubStandareCreatePanel" header="Crear nuevo estado SubStandar cliente">
+                    <h:panelGrid columns="11">
+
+                        <p:outputLabel value="Fecha" for="fecha" />
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm:ss" value="#{estadosSubStandarController.fecha}" title="Fecha" required="true" showOn="button"/>
+
+                        <p:outputLabel for="estadosSubStandar" value="Estado: " />
+                        <p:selectOneMenu id="estadosSubStandar" value="#{estadosSubStandarController.estadoSubStandar}" panelStyle="width:180px"
+                                         effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                            <f:selectItems value="#{estadosSubStandarController.listEstados}" var="estados" itemLabel="#{estados.nombre}" itemValue="#{estados}"/>
+                            <p:column>
+                                <h:outputText value="#{t.nombre}" />
+                            </p:column>
+
+                            <f:converter binding="#{estadoSubStandarConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Descripcion" for="descripcion2" />
+                        <p:inputTextarea rows="3" cols="50" id="descripcion2" value="#{estadosSubStandarController.descripcion}" title="#{myBundle.CreateEstadoClienteTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateEstadoClienteRequiredMessage_descripcion}"/>
+
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:commandButton actionListener="#{estadosSubStandarController.guardar()}" 
+                                         value="#{myBundle.Save}" update="display: datalist, :growl">
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+
+
+                <p:panel header="Lista estados SubStandar cliente"> 
+
+                    <p:dataTable
+                        value="#{estadosSubStandarController.list}"
+                        var="item"
+                        rowKey="#{item.id}"
+                        paginator="true"
+                        rows="10"
+                        rowsPerPageTemplate="10,20,30,40,50"
+                        id="datalist" 
+                        selection="#{estadosSubStandarController.selectedRow}" selectionMode="single"
+                        >
+
+                        <p:ajax event="rowSelect"   update=" deleteButton "/>
+                        <p:ajax event="rowUnselect" update=" deleteButton "/>
+
+
+                        <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}" style="width:30px ">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+
+                            <h:outputText value="#{item.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+
+                        </p:column>
+
+                        <p:column sortBy="#{item.estadoSubstandar.nombre}" filterBy="#{item.estadoSubstandar.nombre}" style=" width:30px ">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estadoSubstandar.nombre}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}" style=" width:40px " >
+                            <f:facet name="header">
+                                <h:outputText value="Descripcion"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <div class="footer-section">
+                                <p:commandButton id="deleteButton" value="Delete" icon="ui-icon-trash" action="#{estadosClienteController.borrar}" update="datalist"  disabled="#{empty estadosSubStandarController.selectedRow}"> 
+                                    <p:ajax listener="#{estadosSubStandarController.borrar()}" update="datalist, :growl" />
+                                </p:commandButton>
+                            </div>
+                        </f:facet>
+                        
+                    </p:dataTable>
+
+
+                </p:panel>
+
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

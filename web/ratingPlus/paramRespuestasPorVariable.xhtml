@@ -20,30 +20,38 @@
             <p:panel header="#{myBundle.respuestasPorVariableTitle}">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="modulo" value="Modulo:"/>
-                    <p:selectOneMenu id="modulo" value="#{respuestaRating.moduloSeleccionado}">
-                        <p:ajax listener="#{respuestaRating.onModuleChange}" update="variable"/>
-                        <f:selectItem itemLabel="Seleccione un Módulo" itemValue="" />
+                    <p:selectOneMenu id="modulo" 
+                                     value="#{respuestaRating.moduloSeleccionado}">
+                        <p:ajax listener="#{respuestaRating.onModuleChange}" 
+                                update="variable"/>
+                        <f:selectItem itemLabel="Seleccione un Módulo" 
+                                      itemValue="" />
                         <f:selectItems value="#{respuestaRating.modulos}" />
                     </p:selectOneMenu>
                     
                     <p:outputLabel for="variable" value="Variable: "/>
-                    <p:selectOneMenu id="variable" value="#{respuestaRating.variableSeleccionada}" style="width:150px">
-                        <f:selectItem itemLabel="Seleccione una Variable" itemValue="" noSelectionOption="true"/>
+                    <p:selectOneMenu id="variable" 
+                                     value="#{respuestaRating.variableSeleccionada}" 
+                                     style="width:150px">
+                        <f:selectItem itemLabel="Seleccione una Variable" 
+                                      itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{respuestaRating.variables}"/>
                     </p:selectOneMenu>
-                    
                 </h:panelGrid>
-                
-                <p:commandButton value="Consultar"  action="#{respuestaRating.displayDataTable}"
-                             icon="pi pi-check" update=":formTableRespuesta:cntTableRespuestas, :formTableRespuesta:tableParamModulo"/>
+                <p:commandButton value="Consultar"  
+                                 action="#{respuestaRating.displayDataTable}"
+                             icon="pi pi-check" 
+                             update=":formTableRespuesta:cntTableRespuestas, 
+                             :formTableRespuesta:tableParamModulo"/>
             </p:panel>
-            
         </h:form>
         
         <h:form id="formTableRespuesta">
-            
             <p:growl id="msgs" showDetail="true"/>
-            <p:outputPanel id="cntTableRespuestas" style="visibility: #{respuestaRating.listaRespuestasRatingFinancieras.size() &gt; 0 ? 'visible' : 'hidden'};">
+            <p:outputPanel id="cntTableRespuestas" 
+                           style="visibility: 
+                           #{respuestaRating.listaRespuestasRatingFinancieras.size() 
+                             &gt; 0 ? 'visible' : 'hidden'};">
                 <p:dataTable id="tableParamModulo" 
                              emptyMessage="Cero registros encontrados"
                              paginator="true"
@@ -52,10 +60,11 @@
                              var="betas"
                              rowKey="betas.nombre"
                              rows="10">
-                
-                
-                    <p:ajax event="rowEdit" listener="#{respuestaRating.onRowEdit}" update=":formTableRespuesta:msgs"/>
-                    <p:ajax event="rowEditCancel" listener="#{respuestaRating.onRowCancel}" update=":formTableRespuesta:msgs"/>
+                    <p:ajax event="rowEdit" listener="#{respuestaRating.onRowEdit}" 
+                            update=":formTableRespuesta:msgs"/>
+                    <p:ajax event="rowEditCancel" 
+                            listener="#{respuestaRating.onRowCancel}" 
+                            update=":formTableRespuesta:msgs"/>
 
                     <p:column headerText="Módulo">
                         <h:outputText value="#{betas.nombreModulo}"/>
@@ -80,7 +89,10 @@
                         </p:cellEditor>
                     </p:column>
                 
-                    <p:column headerText="Min">
+                    <p:column headerText="Min" 
+                              style="visibility: 
+                              #{respuestaRating.listaRespuestasRatingFinancieras.size() 
+                                &gt; 0 ? 'visible' : 'hidden'};">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{betas.min}" />
@@ -91,7 +103,10 @@
                         </p:cellEditor>
                     </p:column>
                 
-                    <p:column headerText="Max">
+                    <p:column headerText="Max" 
+                              style="visibility: 
+                              #{respuestaRating.listaRespuestasRatingFinancieras.size() 
+                                &gt; 0 ? 'visible' : 'hidden'};">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{betas.max}" />
@@ -101,69 +116,18 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-
-<!--                <p:column headerText="Acciones" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-pencil" actionListener="#{betaModuloCaso.preseleccionarRegistro}" onsuccess="PF('actualizarParametro').show();" update=":formActualizarParametro:dlgActualizaParametro">
-                        <f:attribute name="registroSeleccionado" value="#{betas}"/>
-                    </p:commandButton>    
-                </p:column>-->
-
                     <p:column style="width:6rem">
                         <p:rowEditor/>
                     </p:column>
-
                 </p:dataTable>
-                
                 <br/>
-                
-                <p:commandButton value="Actulizar Valores" id="btnActualizarValoresRespuesta"  actionListener="#{respuestaRating.updateVariablesValuesFront}" />
-<!--                
-                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" disabled="#{consultaRating.tipoConsulta == null &amp;&amp; consultaRating.periodoSeleccionado == null}" actionListener="#{consultaRating.consultaClientes}" update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>-->
-                
-            </p:outputPanel>
-        </h:form>
-        
-        <h:form id="formActualizarParametro">
-            
-            <p:dialog id="dlgActualizaParametro"
-                      widgetVar="actualizarParametro">
-                
-                <h:outputText value="Número de caso: #{betaModuloCaso.registroSeleccionado.numCaso}"/>
-                <h:outputText value="Categoría: #{betaModuloCaso.registroSeleccionado.categoria.categoria}"/>
-                
-                <p:outputLabel value="Valor del beta:"/>
-                <p:inputText id="txtValor" value="#{betaModuloCaso.registroSeleccionado.valor}" required="true"/>
-                
-                <div style="text-align: center">
-                    <p:commandButton value="Actualizar beta" update=":growl" actionListener="#{betaModuloCaso.actualizarParametro}" onsuccess="PF('actualizarParametro').hide();"/>                
-                </div>
-                
-            </p:dialog>
-            
-        </h:form>
-
-        <h:form id="eliminaParametro">
-            
-            <p:dialog id="dlgEliminaParametro"
-                      widgetVar="eliminarParametro">
-                
-                
-                <h:outputText value="Esta acción eliminará el beta seleccionado. ¿Desea continuar?"/>
-                
-                <hr/>
-                <br/>
-                
-                <div style="text-align: center">
-                    <p:commandButton value="Si" update=":growl" actionListener="#{betaModuloCaso.eliminarParametro}" onsuccess="PF('eliminarParametro').hide();"/>                
-                    <p:commandButton value="No" onclick="PF('eliminarParametro').hide();"/>                
-                </div>
-                
-            </p:dialog>
-            
+                <p:commandButton value="Actulizar Valores" 
+                                 id="btnActualizarValoresRespuesta"  
+                                 actionListener="#{respuestaRating.
+                                                   updateVariablesValuesFront}" />
+           </p:outputPanel>
         </h:form>        
-        
     </ui:define>
-
 </ui:composition>
 
 

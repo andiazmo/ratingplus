@@ -13,7 +13,7 @@ import entidades.VariablesRating;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -224,7 +224,7 @@ public class ConsultaComportamientoFacade extends AbstractFacade {
     
     public List<VariablesRating> listarVariablesResultado
         (List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesResultado = new ArrayList<VariablesRating>();
+        List<VariablesRating> listaVariablesResultado = new ArrayList<>();
         
         for (int i = 0; i < listaVariables.size(); i++) {
             if (listaVariables.get(i).getIdModulo() == 5) {

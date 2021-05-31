@@ -6,18 +6,7 @@
 
 package fachadas;
 
-import entidades.ClientesRating;
 import entidades.GruposClientes;
-import entidades.Modulo;
-import entidades.VariablesRating;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

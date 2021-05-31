@@ -116,7 +116,7 @@ public class ConsultaResultadosRatingController extends AbstractController imple
 
     @PostConstruct
     public void init(){
-      //  this.precargaListaVariables();
+    
         this.nitSeleccionado = "";
         this.nombreDiligenciado = "";
         this.grupoDiligenciado = "";
@@ -137,29 +137,18 @@ public class ConsultaResultadosRatingController extends AbstractController imple
     }
     
     public void displayDataTable() throws ParseException {
-        System.out.println("Metodo displayTabla");
-        System.out.println("Nit seleccionado:::"+this.nitSeleccionado);
-        System.out.println("Nombre diligenciado:::"+this.nombreDiligenciado);
-        System.out.println("Grupo seleccionado:::"+this.grupoDiligenciado);
-        System.out.println("Fecha Inicial Min seleccionada:::"+this.minDate);
-        System.out.println("Fecha Final Max seleccionada:::"+this.maxDate);
         this.listaResultadosRatingFiltro = new ArrayList<>();
         
         this.finalDate = new Date();
         
-        
-//        Calendar tmp = Calendar.getInstance();
-//        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-          DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        
+       DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+       
         if (!this.nitSeleccionado.isEmpty()) {
             for (int i = 0; i < this.listaResultadosRating.size(); i++) {
                 String nit = this.listaResultadosRating.get(i).getNit();
-                System.out.println("Nit:::"+nit);
                 if (nit != null) {
                     if (nit.equals(this.nitSeleccionado)) {
-                    System.out.println("va a insertar en la lista");
-                    this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
+                        this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
                     }
                 }
             }
@@ -168,11 +157,9 @@ public class ConsultaResultadosRatingController extends AbstractController imple
         if (!this.nombreDiligenciado.isEmpty()) {
             for (int i = 0; i < this.listaResultadosRating.size(); i++) {
                 String razonSocial = this.listaResultadosRating.get(i).getRazonSocial();
-                System.out.println("Razon Social:::"+razonSocial);
                 if (razonSocial != null) {
                     if (razonSocial.equals(this.nombreDiligenciado)) {
-                    System.out.println("va a insertar en la lista");
-                    this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
+                        this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
                     }
                 }
             }
@@ -181,11 +168,9 @@ public class ConsultaResultadosRatingController extends AbstractController imple
         if (!this.grupoDiligenciado.isEmpty()) {
             for (int i = 0; i < this.listaResultadosRating.size(); i++) {
                 String grupo = this.listaResultadosRating.get(i).getGrupoEconomico();
-                System.out.println("Grupo Diligenciado:::"+grupo);
                 if (grupo != null) {
                     if (grupo.equals(this.grupoDiligenciado)) {
-                    System.out.println("va a insertar en la lista");
-                    this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
+                        this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));   
                     }
                 }
             }
@@ -216,41 +201,14 @@ public class ConsultaResultadosRatingController extends AbstractController imple
                 if(resultCompareInit < 0 && resultCompareEnd > 0){
                     this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));
                 }
-            
-            
             }
-           
-                      
-//            for (int i = 0; i < this.listaResultadosRating.size(); i++) {
-//                Date dateInsert = new SimpleDateFormat("dd/MM/yyyy").parse(this.getListaResultadosRating().get(i).getFechaInsercion());
-//                strDateList = dateFormat.format(dateInsert);
-//                //-----------
-//                System.out.println("Fecha en la lista:::"+strDateList);
-//                if(strDateList != null) {
-//                    System.out.println("Entro a la validacion nula");
-//                    int result = strDateMin.compareTo(strDateList);
-//                    System.out.println("Result:::"+result);
-//                    
-//                    
-//                    if((strDateMin.compareTo(strDateList) == 0) || (strDateMin.compareTo(strDateList) < 0)) {
-//                        System.out.println("La fecha en la lista es igual y mayor a la fecha inicial:::"+strDateList);
-//                       if((strDateMax.compareTo(strDateList) == 0) || (strDateMax.compareTo(strDateList) > 0)) {
-//                           System.out.println("La fecha en la lista es menor o igual a la maxima:::"+strDateList);
-//                           this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));
-//                       }
-//                    }   
-//                }   
-//            }   
-                    
-            System.out.println("Tamaño:::"+this.listaResultadosRatingFiltro.size());
             this.lazyModelFiltro = new ResultadoLazyDataModel(this.getListaResultadosRatingFiltro());  
         }
         
         if (this.minDate != null && this.maxDate == null) {
             strDateMin = dateFormat.format(this.minDate);
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date initDate = format.parse(strDateMin); 
-//            strDateMax = dateFormat.format(this.maxDate);
+            Date initDate = format.parse(strDateMin);
             System.out.println("strDateMin:::"+strDateMin);
             System.out.println("strDateMax:::"+strDateMax);
                       
@@ -267,24 +225,6 @@ public class ConsultaResultadosRatingController extends AbstractController imple
                         this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));
                     }
                 }
-                
-                
-                
-                //-----------
-//                System.out.println("Fecha en la lista:::"+strDateList);
-//                int result = strDateMin.compareTo(strDateList);
-//                System.out.println("result:::"+result);
-//                if(strDateList != null) {
-//                    if((strDateMin.compareTo(strDateList) == 0)) {
-//                        System.out.println("La fecha en la lista es iguala la fecha inicial:::"+strDateList);
-//                        this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));
-//                    }
-//                    
-//                    if((strDateMin.compareTo(strDateList) < 0)) {
-//                        System.out.println("La fecha en la lista es mayor a la fecha inicial ingresada:::"+strDateList);
-//                        this.listaResultadosRatingFiltro.add(this.listaResultadosRating.get(i));
-//                    }   
-                //}   
             }   
                     
             System.out.println("Tamaño:::"+this.listaResultadosRatingFiltro.size());
@@ -322,16 +262,7 @@ public class ConsultaResultadosRatingController extends AbstractController imple
         for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
             header.getCell(i).setCellStyle(cellStyle);
         }
-        
-        
     }
-    
-    public void precargaListaVariables(){
-        
-       this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
-       
-    }
-    
     
     /**
      * @return the ejbFacade

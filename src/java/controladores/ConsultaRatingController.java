@@ -11,11 +11,8 @@ import entidades.Modulo;
 import entidades.RatingInfo;
 import entidades.VariablesRating;
 import fachadas.ConsultaRatingFacade;
-import static java.lang.Boolean.TRUE;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -25,11 +22,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import session.UsuarioSeccion;
@@ -47,7 +39,7 @@ public class ConsultaRatingController extends AbstractController{
     
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
-    private List<ClientesRating> listaClientesSeleccionados = new ArrayList<ClientesRating>();
+    private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
     private List<RatingInfo> informacionRating;
     private List<VariablesRating> listaVariables;
     private List<VariablesRating> listaVariablesFinanciero;
@@ -71,7 +63,6 @@ public class ConsultaRatingController extends AbstractController{
     private List<String> listaPeriodos;
     private List<Modulo> listaModulos;
     private String periodoSeleccionado;
-    private String fileName = "ResultadosRating_" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "-" + new SimpleDateFormat("HHmmss").format(new Date()) + ".xls";
     private List<VariablesRating> variablesRating;
     private List<List<VariablesRating>> listVariablesRating;
     private List<VariablesRating> variablesRatingComportamiento;
@@ -80,6 +71,7 @@ public class ConsultaRatingController extends AbstractController{
     private String periodo;
 
     @PostConstruct
+    @Override
     public void init(){
         this.precargaInformacion();
         this.precargaListaVariables();
@@ -94,46 +86,212 @@ public class ConsultaRatingController extends AbstractController{
 
     public void precargaInformacion(){
         this.setListaGrupos(getEjbFacade().listarGruposCliente());
-       // this.setListaVariables(getEjbFacade().listarVariablesRating());
-        
     }
     
     public void precargaListaVariables(){
-        
        this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
-       
     }
     
     
     public List<VariablesRating> precargaListaFinanciera(){
-       
        this.setListaVariablesFinanciero(this.getListaVariablesModulo().get(0));
        
        return listaVariablesFinanciero;
     }
     
     public List<VariablesRating> precargaListaComportamiento(){
-        
        this.setListaVariablesComportamiento(this.getListaVariablesModulo().get(1));
        
        return listaVariablesComportamiento;
-    
     }
     
      public List<VariablesRating> precargaListaObjetivo(){
-        
        this.setListaVariablesObjetivo(this.getListaVariablesModulo().get(2));
        
        return listaVariablesObjetivo;
-    
     }
      
       public List<VariablesRating> precargaListaSubjetivo(){
-        
        this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
        
        return listaVariablesSubjetivo;
+    }
     
+    public void reasignarControles(){
+        switch(Integer.parseInt(tipoConsulta)){
+            case 0:
+                this.nombreDiligenciado = "";
+                break;
+                
+            case 1:
+                this.nitDiligenciado = "";
+                break;
+        }
+        this.listaPeriodos = new ArrayList<>();
+    }
+
+    public void limpiarResultados(ActionEvent event){
+        this.listaClientes = new ArrayList<>();
+        this.tipoConsulta = null;
+        this.nitDiligenciado = "";
+        this.nombreDiligenciado = "";
+        this.listaPeriodos = new ArrayList<>();
+    }
+    
+    public void consultaClientes(ActionEvent event){
+        String parametroConsulta = 
+                tipoConsulta.equals("0") ? this.nitDiligenciado : 
+                this.nombreDiligenciado;
+        
+        this.listaClientes = 
+                ejbFacade.consultaClienteGrupoResultadoRating
+        (tipoConsulta, parametroConsulta, periodoSeleccionado);
+        
+        if(listaClientes.isEmpty()){
+            FacesContext.getCurrentInstance().
+                        addMessage(":growl", new FacesMessage
+        (FacesMessage.SEVERITY_INFO,
+                "No se ha encontrado información de clientes con los criterios "
+                        + "de búsqueda", ""));
+        }   
+    }
+
+    public void calcularRating(ActionEvent event) throws Exception{
+        if(listaClientesSeleccionados.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(":growl", 
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, 
+                            "Debe seleccionar por lo menos un cliente para "
+                                    + "calcular el Rating", ""));
+        } 
+        else {
+            String [] listaNits = new String[listaClientesSeleccionados.size()];
+            
+            for(int i = 0; i < listaNits.length; i++){
+                listaNits[i] = listaClientesSeleccionados.get(i).getNit();
+            }
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession)facesContext.
+                    getExternalContext().getSession(true);
+            UsuarioSeccion seccion = (UsuarioSeccion)session.
+                    getAttribute("seccion");                         
+            
+            String usuario = seccion.getUsuario().getCodigo();
+            this.setPeriodo(this.getPeriodoSeleccionado());
+            
+            if (this.getPeriodo().length() == 0) {
+                this.listVariablesRating = ejbFacade.
+                        calcularRating(listaNits, null, usuario);
+                this.setListaVariables(this.listVariablesRating.get(0));
+                this.setVariablesRatingComportamiento(this.listVariablesRating.
+                        get(1));
+                this.setListaVariablesFrontObjetivo(this.listVariablesRating.
+                        get(2));
+                this.setListaVariablesFrontSubjetivo(this.listVariablesRating.
+                        get(3));
+                this.setListaVariablesFrontResultado(this.listVariablesRating.
+                        get(4));
+            }
+            else {
+                this.listVariablesRating = ejbFacade.
+                        calcularRating(listaNits, this.getPeriodo(), usuario);
+     
+                this.setListaVariables(this.listVariablesRating.get(0));
+                this.setVariablesRatingComportamiento(this.listVariablesRating.
+                        get(1));
+                this.setListaVariablesFrontObjetivo(this.listVariablesRating.
+                        get(2));
+                this.setListaVariablesFrontSubjetivo(this.listVariablesRating.
+                        get(3));
+                this.setListaVariablesFrontResultado(this.listVariablesRating.
+                        get(4));
+            
+                this.getListaVariablesFrontResultado().get(0).getValue();
+                listaClientesSeleccionados.get(0).
+                        setValorRating(this.getListaVariablesFrontResultado().
+                                get(0).getValue());
+            }
+        }  
+    }
+    
+    public void editDataValue(ActionEvent event){
+        this.listaClientesSeleccionados.get(0).getNombre();
+        RequestContext.getCurrentInstance().
+                execute("PF('resultadosRating').show();");
+    }
+    
+    public void addDataValue(){
+        this.getListaVariablesFinanciero();
+        this.getListaVariablesFront();
+    }
+     
+    public void onRowEdit(RowEditEvent event){
+        this.getListaVariablesFrontResultado().get(0).
+                setValue(this.getListaVariablesFrontResultado().get(0).
+                        getValue());
+        RequestContext.getCurrentInstance().
+                execute("PF('detalleCambio').show();");
+    }
+    
+    public void onCancel(RowEditEvent event){
+        setValorRatingAnterior(informacionRating.get(0).getValorRatingFinal());
+        RequestContext.getCurrentInstance().
+                execute("PF('detalleCambio').show();");
+    }
+
+    public void confirmarCambioRating(ActionEvent event){
+        RequestContext.getCurrentInstance().execute("PF('detalleCambio').hide();");
+    }
+    
+    public void obtenerPeriodos(ActionEvent event){
+        listaPeriodos = ejbFacade.obtenerPeriodos(tipoConsulta, 
+                tipoConsulta.equals("0") ? nitDiligenciado : nombreDiligenciado);
+        
+        if(listaPeriodos.isEmpty()){
+            this.listaClientes = 
+                    ejbFacade.consultaClienteGrupoResultadoSinResRating
+        (tipoConsulta, tipoConsulta.equals("0") ? 
+                nitDiligenciado : nombreDiligenciado);
+            
+            if(this.listaClientes.isEmpty()){
+                FacesContext.getCurrentInstance().
+                        addMessage(":growl", 
+                                new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                                        "No se han encontrado clientes con los "
+                                                + "criterios de búsqueda", ""));
+            }
+            FacesContext.getCurrentInstance().
+                    addMessage(":growl", 
+                            new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                                    "No se han encontrado períodos fiscales con "
+                                            + "los criterios de búsqueda", ""));
+        }
+    }
+    
+    public void definirRating(ActionEvent event){
+        this.setRatingUpdate(this.listaVariablesFrontResultado);
+    }
+    
+    public void confirmarRating(ActionEvent event){
+        this.setRatingUpdate(this.listaVariablesFrontResultado);
+        
+        if(ejbFacade.confirmarRating(
+                new BigDecimal(this.getListaVariablesFrontResultado().
+                        get(0).getValue()), 
+                new BigDecimal(this.getListaVariablesFrontResultado().
+                        get(0).getValue()), 
+                new BigDecimal(this.getListaVariablesFrontResultado().
+                        get(1).getValue()), getComentariosUsuario())){
+            FacesContext.getCurrentInstance().addMessage(":growl", 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                            "Registro actualizado satisfactoriamente.", ""));
+        }
+        else {
+            FacesContext.getCurrentInstance().addMessage(":growl", 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Ha ocurrido un error al actualizar la "
+                                    + "información del rating, por favor "
+                                    + "intente más tarde.", ""));
+        }
     }
     
     /**
@@ -331,8 +489,8 @@ public class ConsultaRatingController extends AbstractController{
     public void setListaPeriodos(List<String> listaPeriodos) {
         this.listaPeriodos = listaPeriodos;
     }
-
-    /**
+    
+     /**
      * @return the periodoSeleccionado
      */
     public String getPeriodoSeleccionado() {
@@ -347,265 +505,6 @@ public class ConsultaRatingController extends AbstractController{
     public void setPeriodoSeleccionado(String periodoSeleccionado) {
         this.periodoSeleccionado = periodoSeleccionado;
     }
-
-    /**
-     * @return the fileName
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * @param fileName the fileName to set
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-    
-    public void reasignarControles(){
-    
-        switch(Integer.parseInt(tipoConsulta)){
-        
-            case 0:
-                this.nombreDiligenciado = "";
-                break;
-                
-            case 1:
-                this.nitDiligenciado = "";
-                break;
-        
-        }
-    
-        this.listaPeriodos = new ArrayList<String>();
-        
-    }
-
-    public void limpiarResultados(ActionEvent event){
-        
-        this.listaClientes = new ArrayList<ClientesRating>();
-        this.tipoConsulta = null;
-        this.nitDiligenciado = "";
-        this.nombreDiligenciado = "";
-        this.listaPeriodos = new ArrayList<String>();
-        
-    }
-    
-    public void consultaClientes(ActionEvent event){
-        
-        String parametroConsulta = tipoConsulta.equals("0") ? this.nitDiligenciado : this.nombreDiligenciado;
-        System.out.println("tipoConsulta:::"+tipoConsulta);
-        System.out.println("this.nitDiligenciado:::"+this.nitDiligenciado);
-        System.out.println("periodoSeleccionado:::"+periodoSeleccionado);
-        System.out.println("parametroConsulta:::"+parametroConsulta);
-        //this.listaClientes = ejbFacade.consultaClientes(tipoConsulta, parametroConsulta, periodoSeleccionado);
-        this.listaClientes = ejbFacade.consultaClienteGrupoResultadoRating(tipoConsulta, parametroConsulta, periodoSeleccionado);
-        
-        
-        if(listaClientes.size() == 0){
-            this.listaClientes = ejbFacade.consultaClienteGrupo(tipoConsulta, parametroConsulta);
-            if(listaClientes.size() == 0){
-                FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "No se ha encontrado información de clientes con los criterios de búsqueda", ""));
-            }
-        }
-        
-    }
-
-    public void calcularRating(ActionEvent event) throws Exception{
-        
-        if(listaClientesSeleccionados.isEmpty()){
-            FacesContext.getCurrentInstance().addMessage(":growl", 
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                            "Debe seleccionar por lo menos un cliente para "
-                                    + "calcular el Rating", ""));
-        } else {
-            String [] listaNits = new String[listaClientesSeleccionados.size()];
-            
-            for(int i = 0; i < listaNits.length; i++){
-                listaNits[i] = listaClientesSeleccionados.get(i).getNit();
-            }
-            
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-            UsuarioSeccion seccion = (UsuarioSeccion) session.getAttribute("seccion");                         
-            
-            String usuario = seccion.getUsuario().getCodigo();
-            //String periodo = this.getPeriodoSeleccionado();
-            this.setPeriodo(this.getPeriodoSeleccionado());
-            
-            System.out.println("usuario:::"+usuario);
-            System.out.println("periodo:::"+this.getPeriodo().length());
-            System.out.println("usuario:::"+listaNits[0]);
-            
-            if (this.getPeriodo().length() == 0) {
-                System.out.println("Va a calcular el rating sin periodo");
-               // this.listVariablesRating = ejbFacade.calcular_rating_sinfin_fn(listaNits, usuario);
-                this.listVariablesRating = ejbFacade.calcularRating(listaNits, null, usuario);
-                System.out.println("Tamano lista varaibles rating controlador sin resfin:::"+this.listVariablesRating.size());
-                this.setListaVariables(this.listVariablesRating.get(0));
-                this.setVariablesRatingComportamiento(this.listVariablesRating.get(1));
-                this.setListaVariablesFrontObjetivo(this.listVariablesRating.get(2));
-                this.setListaVariablesFrontSubjetivo(this.listVariablesRating.get(3));
-                this.setListaVariablesFrontResultado(this.listVariablesRating.get(4));
-            }
-            
-            else {
-                this.listVariablesRating = ejbFacade.calcularRating(listaNits, this.getPeriodo(), usuario);
-                System.out.println("Tamano lista varaibles rating controlador:::"+this.listVariablesRating.size());
-                this.setListaVariables(this.listVariablesRating.get(0));
-                this.setVariablesRatingComportamiento(this.listVariablesRating.get(1));
-                this.setListaVariablesFrontObjetivo(this.listVariablesRating.get(2));
-                this.setListaVariablesFrontSubjetivo(this.listVariablesRating.get(3));
-                this.setListaVariablesFrontResultado(this.listVariablesRating.get(4));
-            
-                this.getListaVariablesFrontResultado().get(0).getValue();
-                listaClientesSeleccionados.get(0).setValorRating(this.getListaVariablesFrontResultado().get(0).getValue());
-                System.out.println("lista financiera:::"+this.getListaVariables().size());
-                System.out.println("lista comportamiento:::"+this.getVariablesRatingComportamiento().size());
-                System.out.println("Fecha Seleccionada:::"+this.getPeriodoSeleccionado());
-            }
-
-
-            
-            //RequestContext.getCurrentInstance().execute("PF('resultadosRating').show();");
-            
-        }
-        
-    }
-    
-    public void editDataValue(ActionEvent event){
-        
-        
-        this.listaClientesSeleccionados.get(0).getNombre();
-        RequestContext.getCurrentInstance().execute("PF('resultadosRating').show();");
-    }
-    
-    public void addDataValue(){
-        this.getListaVariablesFinanciero();
-        this.getListaVariablesFront();
-    }
-    
-    
-    public void obtenerVariables(ActionEvent event) throws Exception{
-        String version = FacesContext.class.getPackage().getImplementationVersion();
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        UsuarioSeccion seccion = (UsuarioSeccion) session.getAttribute("seccion");
-        
-        
-        String usuario = seccion.getUsuario().getCodigo();
-        
-        System.out.println("Version:::"+version);
-        
-        FacesContext contex = FacesContext.getCurrentInstance();
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        contex.getExternalContext().redirect("/cupos/cupos/ratingPlus/variablesRating.xhtml?v=qfdtjg8d-9271-46b7-b383-cb24340b7f13");
-        
-    }
-    
-    public void onRowEdit(RowEditEvent event){
-                
-        System.out.println("Metodo onRowEdit");
-        System.out.println("rating cambiado:::"+this.getListaVariablesFrontResultado().get(0).getValue());
-       // this.listaClientesSeleccionados.get(0).setValorRating(fileName);
-        this.getListaVariablesFrontResultado().get(0).setValue(this.getListaVariablesFrontResultado().get(0).getValue());
-       // setValorRatingAnterior(informacionRating.get(0).getValorRatingFinal());
-        RequestContext.getCurrentInstance().execute("PF('detalleCambio').show();");
-                
-    }
-    
-    public void onCancel(RowEditEvent event){
-                
-        System.out.println("Metodo onRowEdit");
-       // this.listaClientesSeleccionados.get(0).setValorRating(fileName);
-        setValorRatingAnterior(informacionRating.get(0).getValorRatingFinal());
-        RequestContext.getCurrentInstance().execute("PF('detalleCambio').show();");
-                
-    }
-
-    public void confirmarCambioRating(ActionEvent event){
-            
-        System.out.println("Comentario:::"+getComentariosUsuario());
-        RequestContext.getCurrentInstance().execute("PF('detalleCambio').hide();");
-        
-    }
-    
-    public void obtenerPeriodos(ActionEvent event){
-    
-        listaPeriodos = ejbFacade.obtenerPeriodos(tipoConsulta, tipoConsulta.equals("0") ? nitDiligenciado : nombreDiligenciado);
-        System.out.println("tipoConsulta:::"+tipoConsulta);
-        
-        if(listaPeriodos.isEmpty()){
-            
-            //this.listaClientes = ejbFacade.consultaClienteGrupoResultadoRating(tipoConsulta, parametroConsulta, periodoSeleccionado);
-            this.listaClientes = ejbFacade.consultaClienteGrupoResultadoSinResRating(tipoConsulta, tipoConsulta.equals("0") ? nitDiligenciado : nombreDiligenciado);
-//            System.out.println("listaClientes:::"+listaClientes.get(0).getNombre());
-            
-            if(this.listaClientes.isEmpty()){
-                FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "No se han encontrado clientes con los criterios de búsqueda", ""));
-            }
-         
-            FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "No se han encontrado períodos fiscales con los criterios de búsqueda", ""));
-        }
-        
-    }
-    
-    public void definirRating(ActionEvent event){
-        
-        System.out.println("rating cambiado:::"+this.getListaVariablesFrontResultado().get(0).getValue());
-        System.out.println("Lista Resultado"+this.listaVariablesFrontResultado.get(0).getValue());
-        System.out.println("Lista Resultado Id:::"+this.listaVariablesFrontResultado.get(1).getValue());
-        System.out.println("Ccomentario en definirRating:::"+getComentariosUsuario());
-        System.out.println("Id:::"+ this.getListaVariablesFrontResultado().get(1).getNombre() + " "+this.getListaVariablesFrontResultado().get(1).getValue());
-        
-        this.setRatingUpdate(this.listaVariablesFrontResultado);
-       
-    }
-    
-    
-     public void confirmarRating(ActionEvent event){
-         
-          
-        System.out.println("rating cambiado confirmar:::"+this.getListaVariablesFrontResultado().get(0).getValue());
-        System.out.println("Lista Resultado confirmar"+this.listaVariablesFrontResultado.get(0).getValue());
-        System.out.println("Lista Resultado Id confirmar:::"+this.listaVariablesFrontResultado.get(1).getValue());
-        System.out.println("Ccomentario en definirRating confirmar:::"+getComentariosUsuario());
-        System.out.println("Id:::"+ this.getListaVariablesFrontResultado().get(1).getNombre() + " "+this.getListaVariablesFrontResultado().get(1).getValue());
-        
-        this.setRatingUpdate(this.listaVariablesFrontResultado);
-        
-        if(ejbFacade.confirmarRating(new BigDecimal(this.getListaVariablesFrontResultado().get(0).getValue()), new BigDecimal(this.getListaVariablesFrontResultado().get(0).getValue()), new BigDecimal(this.getListaVariablesFrontResultado().get(1).getValue()), getComentariosUsuario())){
-            FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado satisfactoriamente.", ""));
-        }
-        else {
-            FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ha ocurrido un error al actualizar la información del rating, por favor intente más tarde.", ""));
-        }
-        
-     }
-    
-    
-     public void definirRating1(ActionEvent event){
-        System.out.println("rating cambiado:::"+this.getListaVariablesFrontResultado().get(0).getValue());    
-    }
-
-    public void redimensionarArchivo(Object document) {
-        
-        HSSFWorkbook wb = (HSSFWorkbook) document;
-        HSSFSheet sheet = wb.getSheetAt(0);
-        HSSFRow header = sheet.getRow(0);
-        HSSFCellStyle cellStyle = wb.createCellStyle();  
-        cellStyle.setFillForegroundColor(HSSFColor.RED.index);
-        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        sheet.autoSizeColumn(16);
-        
-        for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
-            header.getCell(i).setCellStyle(cellStyle);
-        }
-        
-    }
-    
     
     public List<VariablesRating> getListaVariables() {
         return listaVariables;
@@ -749,6 +648,5 @@ public class ConsultaRatingController extends AbstractController{
 
     public void setPeriodo(String periodo) {
         this.periodo = periodo;
-    }
-    
+    }  
 }

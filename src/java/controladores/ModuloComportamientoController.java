@@ -7,15 +7,10 @@ package controladores;
 
 import entidades.ClientesRating;
 import entidades.GruposClientes;
-import entidades.Modulo;
 import entidades.RatingInfo;
 import entidades.VariablesRating;
 import fachadas.ConsultaComportamientoFacade;
-import static java.lang.Boolean.TRUE;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +22,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import session.UsuarioSeccion;
 
 /**
@@ -69,14 +57,6 @@ public class ModuloComportamientoController extends AbstractController{
     private String nitDiligenciado;
     private String nombreDiligenciado;
     private Integer grupoSeleccionado;
-    private BigDecimal valorRatingModificado;
-    private String comentariosUsuario;
-    private RatingInfo objetoRatingInfo;
-    private BigDecimal valorRatingAnterior;
-    private List<String> listaPeriodos;
-    private List<Modulo> listaModulos;
-    private String periodoSeleccionado;
-    private String fileName = "ResultadosRating_" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "-" + new SimpleDateFormat("HHmmss").format(new Date()) + ".xls";
     private List<VariablesRating> variablesRating;
     private List<List<VariablesRating>> listVariablesRating;
     private List<VariablesRating> variablesRatingComportamiento;
@@ -93,14 +73,15 @@ public class ModuloComportamientoController extends AbstractController{
     private String respuestaMarcacionReestructuracion;
 
     @PostConstruct
+    @Override
     public void init(){
         this.precargaInformacion();
         this.precargaListaVariables();
         this.precargaListaRespuestasVariables();
        
         listaVariablesFrontComportamiento = this.precargaListaComportamiento();
-        listaRespuestasVariablesComportamientoFront = this.precargaRespuestaListaComportamiento();
-        
+        listaRespuestasVariablesComportamientoFront = 
+                this.precargaRespuestaListaComportamiento();
     }
 
     public void precargaInformacion(){
@@ -108,62 +89,113 @@ public class ModuloComportamientoController extends AbstractController{
     }
     
     public void precargaListaVariables(){
-        
-       this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
-       
+        this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
     }
     
     public void precargaListaRespuestasVariables(){
-        
-       this.setListaRespuestasVariablesModulo(getEjbFacade().listarRespuestasVariablesRating());
-       System.out.println("Listas en la lista de respuestas:::"+this.getListaRespuestasVariablesModulo().size());
-       
+        this.setListaRespuestasVariablesModulo
+        (getEjbFacade().listarRespuestasVariablesRating());
     }
      
     public List<VariablesRating> precargaRespuestaListaComportamiento(){
-       
-       this.setListaRespuestasVariablesComportamiento(this.getListaRespuestasVariablesModulo().get(0));
-       
-        for (int i = 0; i < this.getListaRespuestasVariablesComportamiento().size(); i++) {
-            System.out.println("idModulo:::"+this.getListaRespuestasVariablesComportamiento().get(i).getIdModulo());
-            System.out.println("Respuesta:::"+this.getListaRespuestasVariablesComportamiento().get(i).getRespuesta());
-            System.out.println("Nombre variable:::"+this.getListaRespuestasVariablesComportamiento().get(i).getNombre());
-           // respComp
-        }
+       this.setListaRespuestasVariablesComportamiento
+        (this.getListaRespuestasVariablesModulo().get(0));
        
         return listaRespuestasVariablesComportamiento;
     }
     
     
     public List<VariablesRating> precargaListaFinanciera(){
-       
        this.setListaVariablesFinanciero(this.getListaVariablesModulo().get(0));
        
        return listaVariablesFinanciero;
     }
     
     public List<VariablesRating> precargaListaComportamiento(){
-        
        this.setListaVariablesComportamiento(this.getListaVariablesModulo().get(1));
        
        return listaVariablesComportamiento;
-    
     }
     
     public List<VariablesRating> precargaListaObjetivo(){
-        
        this.setListaVariablesObjetivo(this.getListaVariablesModulo().get(2));
        
        return listaVariablesObjetivo;
-    
     }
      
     public List<VariablesRating> precargaListaSubjetivo(){
+        this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
         
-       this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
-       
-       return listaVariablesSubjetivo;
+        return listaVariablesSubjetivo;
+    }
     
+    public void reasignarControles(){
+        switch(Integer.parseInt(tipoConsulta)){
+            case 0:
+                this.nombreDiligenciado = "";
+                break;
+                
+            case 1:
+                this.nitDiligenciado = "";
+                break;
+        }
+    }
+
+    public void limpiarResultados(ActionEvent event){
+        this.listaClientes = new ArrayList<>();
+        this.tipoConsulta = null;
+        this.nitDiligenciado = "";
+        this.nombreDiligenciado = "";
+    }
+    
+    public void consultaClientes(ActionEvent event){
+        String parametroConsulta = tipoConsulta.equals("0") ? 
+                this.nitDiligenciado : this.nombreDiligenciado;
+        this.listaClientes = ejbFacade.
+                consultaClienteGrupoResultadoSinResRating(tipoConsulta, 
+                        parametroConsulta);
+        
+        if(listaClientes.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(":growl", 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                            "No se ha encontrado información de clientes con "
+                                    + "los criterios de búsqueda", ""));
+        }
+        else {
+            this.setNitDiligenciado(this.listaClientes.get(0).getNit());
+        }
+    }
+    
+    public void registrarComportamiento(ActionEvent event) throws Exception{
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().
+                getSession(true);
+        UsuarioSeccion seccion = (UsuarioSeccion) session.getAttribute("seccion");
+        
+        String usuario = seccion.getUsuario().getCodigo();
+            
+        Boolean result = ejbFacade.registrarComportamiento(
+                this.respuestaCalificacion, 
+                this.respuestaGarantias, this.respuestaIndMora, 
+                this.respuestaNumeroBancos, 
+                this.respuestaMarcacionReestructuracion, 
+                this.nitDiligenciado, usuario);
+        
+        if(result) {
+            addMessage("Registro Exitoso", 
+                    "Se registro la información en el Módulo Objetivable al "
+                            + "usuaio: "
+                            +this.nitDiligenciado);
+        }
+        else {
+            addMessage("Registro Fallido", "Por favor intente de nuevo: "
+                    +this.nitDiligenciado);
+        }
+    }
+    
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
     /**
@@ -292,231 +324,12 @@ public class ModuloComportamientoController extends AbstractController{
         this.grupoSeleccionado = grupoSeleccionado;
     }
 
-    /**
-     * @return the valorRatingModificado
-     */
-    public BigDecimal getValorRatingModificado() {
-        return valorRatingModificado;
-    }
-
-    /**
-     * @param valorRatingModificado the valorRatingModificado to set
-     */
-    public void setValorRatingModificado(BigDecimal valorRatingModificado) {
-        this.valorRatingModificado = valorRatingModificado;
-    }    
-
-    /**
-     * @return the comentariosUsuario
-     */
-    public String getComentariosUsuario() {
-        return comentariosUsuario;
-    }
-
-    /**
-     * @param comentariosUsuario the comentariosUsuario to set
-     */
-    public void setComentariosUsuario(String comentariosUsuario) {
-        this.comentariosUsuario = comentariosUsuario;
-    }
-
-        /**
-     * @return the objetoRatingInfo
-     */
-    public RatingInfo getObjetoRatingInfo() {
-        return objetoRatingInfo;
-    }
-
-    /**
-     * @param objetoRatingInfo the objetoRatingInfo to set
-     */
-    public void setObjetoRatingInfo(RatingInfo objetoRatingInfo) {
-        this.objetoRatingInfo = objetoRatingInfo;
-    }
-
-    /**
-     * @return the valorRatingAnterior
-     */
-    public BigDecimal getValorRatingAnterior() {
-        return valorRatingAnterior;
-    }
-
-    /**
-     * @param valorRatingAnterior the valorRatingAnterior to set
-     */
-    public void setValorRatingAnterior(BigDecimal valorRatingAnterior) {
-        this.valorRatingAnterior = valorRatingAnterior;
-    }
-
-    /**
-     * @return the listaPeriodos
-     */
-    public List<String> getListaPeriodos() {
-        return listaPeriodos;
-    }
-
-    /**
-     * @param listaPeriodos the listaPeriodos to set
-     */
-    public void setListaPeriodos(List<String> listaPeriodos) {
-        this.listaPeriodos = listaPeriodos;
-    }
-
-    /**
-     * @return the periodoSeleccionado
-     */
-    public String getPeriodoSeleccionado() {
-        return periodoSeleccionado;
-    }
-    
-    
-
-    /**
-     * @param periodoSeleccionado the periodoSeleccionado to set
-     */
-    public void setPeriodoSeleccionado(String periodoSeleccionado) {
-        this.periodoSeleccionado = periodoSeleccionado;
-    }
-
-    /**
-     * @return the fileName
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * @param fileName the fileName to set
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-    
-    public void reasignarControles(){
-    
-        switch(Integer.parseInt(tipoConsulta)){
-        
-            case 0:
-                this.nombreDiligenciado = "";
-                break;
-                
-            case 1:
-                this.nitDiligenciado = "";
-                break;
-        
-        }
-    
-        this.listaPeriodos = new ArrayList<String>();
-        
-    }
-
-    public void limpiarResultados(ActionEvent event){
-        
-        this.listaClientes = new ArrayList<ClientesRating>();
-        this.tipoConsulta = null;
-        this.nitDiligenciado = "";
-        this.nombreDiligenciado = "";
-        this.listaPeriodos = new ArrayList<String>();
-        
-    }
-    
-    public void consultaClientes(ActionEvent event){
-        
-        String parametroConsulta = tipoConsulta.equals("0") ? this.nitDiligenciado : this.nombreDiligenciado;
-        System.out.println("tipoConsulta:::"+tipoConsulta);
-        System.out.println("this.nitDiligenciado:::"+this.nitDiligenciado);
-        System.out.println("periodoSeleccionado:::"+periodoSeleccionado);
-        System.out.println("parametroConsulta:::"+parametroConsulta);
-        this.listaClientes = ejbFacade.consultaClienteGrupoResultadoSinResRating(tipoConsulta, parametroConsulta);
-        
-        
-        
-        if(listaClientes.isEmpty()){
-            FacesContext.getCurrentInstance().addMessage(":growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "No se ha encontrado información de clientes con los criterios de búsqueda", ""));
-        }
-        else {
-            this.setNitDiligenciado(this.listaClientes.get(0).getNit());
-        }
-       
-    }
-    
-    public void registrarComportamiento(ActionEvent event) throws Exception{
-        System.out.println("registrar Comportamiento:::"+this.respuestaCalificacion);
-        System.out.println("Nit diligenciado:::"+this.nitDiligenciado);
-        System.out.println("Nombre diligenciado:::"+this.nombreDiligenciado);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        UsuarioSeccion seccion = (UsuarioSeccion) session.getAttribute("seccion");
-        Boolean result = false;
-            
-        String usuario = seccion.getUsuario().getCodigo();
-            
-        System.out.println("usuario:::"+usuario);
-        
-        
-        
-        result = ejbFacade.registrarComportamiento(this.respuestaCalificacion, 
-                this.respuestaGarantias, this.respuestaIndMora, this.respuestaNumeroBancos, 
-                this.respuestaMarcacionReestructuracion, this.nitDiligenciado, usuario);
-        
-        if(result) {
-            addMessage("Registro Exitoso", "Se registro la información en el Módulo Objetivable al usuaio: "+this.nitDiligenciado);
-        }
-        else {
-            addMessage("Registro Fallido", "Por favor intente de nuevo: "+this.nitDiligenciado);
-        }
-        
-    }
-    
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    
-    public void editDataValue(ActionEvent event){
-        
-        
-        this.listaClientesSeleccionados.get(0).getNombre();
-        RequestContext.getCurrentInstance().execute("PF('resultadosRating').show();");
-    }
-    
-    
-    public void obtenerVariables(ActionEvent event) throws Exception{
-        String version = FacesContext.class.getPackage().getImplementationVersion();
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        UsuarioSeccion seccion = (UsuarioSeccion) session.getAttribute("seccion");
-        
-        
-        String usuario = seccion.getUsuario().getCodigo();
-        
-        System.out.println("Version:::"+version);
-        
-        FacesContext contex = FacesContext.getCurrentInstance();
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        System.out.println("******************************************");
-        contex.getExternalContext().redirect("/cupos/cupos/ratingPlus/variablesRating.xhtml?v=qfdtjg8d-9271-46b7-b383-cb24340b7f13");
-        
-    }
-    
-            
     public List<VariablesRating> getListaVariables() {
         return listaVariables;
     }
 
     public void setListaVariables(List<VariablesRating> listaVariables) {
         this.listaVariables = listaVariables;
-    }
-    
-    public List<Modulo> getListaModulos() {
-        return listaModulos;
-    }
-
-    public void setListaModulos(List<Modulo> listaModulos) {
-        this.listaModulos = listaModulos;
     }
     
     public List<VariablesRating> getListaVariablesFinanciero() {

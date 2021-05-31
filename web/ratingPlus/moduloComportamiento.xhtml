@@ -12,45 +12,54 @@
     </ui:define>
     
     <ui:define name="body">
-        
-        <h:form id="formConsultaInicial">
-        
+        <h:form id="formConsultaInicial">      
             <p:panel header="Módulo Comportamiento">
-                
-                <h:outputText value="Seleccione un criterio de consulta de clientes:"/>
-                
+                <h:outputText 
+                    value="Seleccione un criterio de consulta de clientes:"/>
                 <br/><br/>
-
-                <p:selectOneRadio id="btnSeleccion" value="#{moduloComportamiento.tipoConsulta}" layout="custom">
+                <p:selectOneRadio id="btnSeleccion" 
+                                  value="#{moduloComportamiento.tipoConsulta}" 
+                                  layout="custom">
                     <f:selectItem itemLabel="Consulta por Nit" itemValue="0"/>
                     <f:selectItem itemLabel="Consulta por Nombre" itemValue="1"/>
-                    <p:ajax event="change" listener="#{moduloComportamiento.reasignarControles}" update="formConsultaInicial:txtNit, :formConsultaInicial:txtNombre,:formConsultaInicial:btnConsultaClientes"/>
+                    <p:ajax event="change" 
+                            listener="#{moduloComportamiento.reasignarControles}" 
+                            update="formConsultaInicial:txtNit, 
+                            :formConsultaInicial:txtNombre,
+                            :formConsultaInicial:btnConsultaClientes"/>
                 </p:selectOneRadio>
 
                 <h:panelGrid columns="9" cellpadding="5">
                     <p:radioButton id="opt1" for="btnSeleccion" itemIndex="0"/>
                     <h:outputLabel for="opt1" value="Consulta por Nit:"/>
-                    <p:inputText id="txtNit" requiredMessage="Nit. Error de validación, se necesita un valor" value="#{moduloComportamiento.nitDiligenciado}" required="#{moduloComportamiento.tipoConsulta == '0'}" disabled="#{moduloComportamiento.tipoConsulta != '0'}"/>
+                    <p:inputText id="txtNit" 
+                                 requiredMessage="Nit. Error de validación, se necesita un valor" 
+                                 value="#{moduloComportamiento.nitDiligenciado}" 
+                                 required="#{moduloComportamiento.tipoConsulta == '0'}" 
+                                 disabled="#{moduloComportamiento.tipoConsulta != '0'}"/>
                    <p:radioButton id="opt2" for="btnSeleccion" itemIndex="1"/>
                     <h:outputLabel for="opt2" value="Consulta por Nombre:"/>
-                    <p:inputText id="txtNombre" requiredMessage="Nombre. Error de validación, se necesita un valor" value="#{moduloComportamiento.nombreDiligenciado}" required="#{moduloComportamiento.tipoConsulta == '1'}" disabled="#{moduloComportamiento.tipoConsulta != '1'}"/>
+                    <p:inputText id="txtNombre" 
+                                 requiredMessage="Nombre. Error de validación, se necesita un valor" 
+                                 value="#{moduloComportamiento.nombreDiligenciado}" 
+                                 required="#{moduloComportamiento.tipoConsulta == '1'}" 
+                                 disabled="#{moduloComportamiento.tipoConsulta != '1'}"/>
                 </h:panelGrid>
-                    
                 <br/>
-                
                 <p:commandButton value="Consultar clientes" id="btnConsultaClientes" 
                                  disabled="#{moduloComportamiento.tipoConsulta == null}" 
                                  actionListener="#{moduloComportamiento.consultaClientes}" 
                                  update=":growl, :formTableClientes:cntTableClientes, 
                                  :formTableClientes:tableClientes"/>
-                
             </p:panel>
             
         </h:form>
         
         <h:form id="formTableClientes">
         
-            <p:outputPanel id="cntTableClientes" style="visibility: #{moduloComportamiento.listaClientes.size() &gt; 0 ? 'visible' : 'hidden'};">
+            <p:outputPanel id="cntTableClientes" 
+                           style="visibility: 
+                           #{moduloComportamiento.listaClientes.size() &gt; 0 ? 'visible' : 'hidden'};">
             
                 <p:dataTable id="tableClientes" 
                              emptyMessage="Cero registros encontrados"

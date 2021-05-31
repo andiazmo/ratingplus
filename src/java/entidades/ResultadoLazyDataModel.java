@@ -45,20 +45,16 @@ public class ResultadoLazyDataModel extends LazyDataModel<RatingInfo> {
     public List<RatingInfo> load(int first, int pageSize, final String sortField, final SortOrder sortOrder, Map<String, Object> filters) {
         
         List<RatingInfo> data = new ArrayList<>();
-        System.out.println("Metodo load ResultadoLazyDataModel");
+  
         for(RatingInfo result : dataSource) {
             boolean match = true;
 
             for(String filterProperty : filters.keySet()) {
                 try {
-                    System.out.println("filterProperty:::"+filterProperty);
+                    
                     String filterValue = (String)filters.get(filterProperty);
-                    System.out.println("filterValue:::"+filterValue);
                     String fieldValue = String.valueOf(result.getClass().getField(filterProperty).get(result));
                     
-                    
-                    System.out.println("fieldValue:::"+fieldValue);
-
                     if(filterValue == null || fieldValue.startsWith(filterValue)) {
                         match = true;
                     }
@@ -112,5 +108,4 @@ public class ResultadoLazyDataModel extends LazyDataModel<RatingInfo> {
             return data;
         }
     }
-    
 }

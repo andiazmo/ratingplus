@@ -93,12 +93,12 @@ public class ModuloComportamientoController extends AbstractController{
     }
     
     public void precargaListaVariables(){
-        this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
+        this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
     }
     
     public void precargaListaRespuestasVariables(){
         this.setListaRespuestasVariablesModulo
-        (getEjbFacade().listarRespuestasVariablesRating());
+        (getEjbFacadeCliente().listarRespuestasVariablesRating());
     }
      
     public List<VariablesRating> precargaRespuestaListaComportamiento(){

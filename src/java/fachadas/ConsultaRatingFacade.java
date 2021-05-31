@@ -7,7 +7,6 @@
 package fachadas;
 
 import dao.ConnectionFactory;
-import entidades.ClientesRating;
 import entidades.GruposClientes;
 import entidades.Modulo;
 import entidades.RatingInfo;

@@ -8,6 +8,7 @@ package controladores;
 import entidades.ClientesRating;
 import entidades.GruposClientes;
 import entidades.VariablesRating;
+import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaSubjetivoFacade;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class ModuloSubjetivoController extends AbstractController{
 
     @EJB
     private ConsultaSubjetivoFacade ejbFacade;
+    @EJB
+    private ConsultaClientesRatingFacade ejbFacadeCliente;
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
     private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
@@ -85,21 +88,21 @@ public class ModuloSubjetivoController extends AbstractController{
     }
 
     public void precargaListaVariables(){
-       this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());  
+       this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());  
     }
     
     public void precargaListaRespuestasVariables(){
-       this.setListaRespuestasVariablesModulo(getEjbFacade().listarRespuestasVariablesRating());
+       this.setListaRespuestasVariablesModulo(getEjbFacadeCliente().listarRespuestasVariablesRating());
     }
      
     public List<VariablesRating> precargaRespuestaListaSubjetivo(){
-       this.setListaRespuestasVariablesSubjetivo(this.getListaRespuestasVariablesModulo().get(0));
+       this.setListaRespuestasVariablesSubjetivo(this.getListaRespuestasVariablesModulo().get(1));
        
        return listaRespuestasVariablesSubjetivo;
     }
     
     public List<VariablesRating> precargaListaSubjetivo(){
-       this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(0));
+       this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
        
        return listaVariablesSubjetivo;
     }
@@ -128,7 +131,7 @@ public class ModuloSubjetivoController extends AbstractController{
         
         String parametroConsulta = tipoConsulta.equals("0") ? 
                 this.nitDiligenciado : this.nombreDiligenciado;
-        this.listaClientes = ejbFacade.
+        this.listaClientes = ejbFacadeCliente.
                 consultaClienteGrupoResultadoSinResRating(tipoConsulta, 
                         parametroConsulta);
         
@@ -539,5 +542,13 @@ public class ModuloSubjetivoController extends AbstractController{
 
     public void setListaRespuestasVariablesSubjetivo(List<VariablesRating> listaRespuestasVariablesSubjetivo) {
         this.listaRespuestasVariablesSubjetivo = listaRespuestasVariablesSubjetivo;
+    }
+    
+    public ConsultaClientesRatingFacade getEjbFacadeCliente() {
+        return ejbFacadeCliente;
+    }
+
+    public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
+        this.ejbFacadeCliente = ejbFacadeCliente;
     }
 }

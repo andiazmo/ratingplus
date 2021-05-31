@@ -89,11 +89,11 @@ public class ConsultaRatingController extends AbstractController{
     }
 
     public void precargaInformacion(){
-        this.setListaGrupos(getEjbFacade().listarGruposCliente());
+        this.setListaGrupos(getEjbFacadeCliente().listarGruposCliente());
     }
     
     public void precargaListaVariables(){
-       this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
+       this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
     }
     
     

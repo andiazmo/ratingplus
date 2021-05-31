@@ -114,6 +114,9 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
         listaRespuestasVariablesModulo.
                 add(listarRespuestasVariablesSubjetivo
         (listaRespuestasVariables));
+        listaRespuestasVariablesModulo.
+                add(listarRespuestasVariablesObjetivo
+        (listaRespuestasVariables));
         
         return listaRespuestasVariablesModulo;
     }
@@ -197,6 +200,31 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
             
         }
         return listaRespuestasVariablesComportamiento;    
+    }
+        
+   public List<VariablesRating> listarRespuestasVariablesObjetivo
+        (List<VariablesRating> listaRespuestasVariables){
+        List<VariablesRating> listaRespuestasVariablesObjetivo = 
+                new ArrayList<>();
+        
+        for (int i = 0; i < listaRespuestasVariables.size(); i++) {
+            if (listaRespuestasVariables.get(i).getIdModulo() == 3) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                Map<String, String> resp = new HashMap<>();
+                objetoAgregado.setIdModulo(listaRespuestasVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestasVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestasVariables.get(i).
+                        getRespuesta());
+                resp.put(listaRespuestasVariables.get(i).getRespuesta(), 
+                        listaRespuestasVariables.get(i).getRespuesta());
+                objetoAgregado.setMapRespuesta(resp);
+                listaRespuestasVariablesObjetivo.add(objetoAgregado);
+            }
+            
+        }
+        return listaRespuestasVariablesObjetivo;    
     }
     
     public List<VariablesRating> listarVariablesObjetivo(

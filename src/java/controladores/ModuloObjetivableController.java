@@ -10,6 +10,7 @@ import entidades.GruposClientes;
 import entidades.Modulo;
 import entidades.RatingInfo;
 import entidades.VariablesRating;
+import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaObjetivableFacade;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class ModuloObjetivableController extends AbstractController{
 
     @EJB
     private ConsultaObjetivableFacade ejbFacade;
+    @EJB
+    private ConsultaClientesRatingFacade ejbFacadeCliente;
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
     private List<ClientesRating> listaClientesSeleccionados = 
@@ -102,54 +105,29 @@ public class ModuloObjetivableController extends AbstractController{
     }
 
     public void precargaInformacion(){
-        this.setListaGrupos(getEjbFacade().listarGruposCliente()); 
+        this.setListaGrupos(getEjbFacadeCliente().listarGruposCliente()); 
     }
     
     public void precargaListaVariables(){
-       this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
+       this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
     }
     
     public void precargaListaRespuestasVariables(){
-       this.setListaRespuestasVariablesModulo(getEjbFacade().
+       this.setListaRespuestasVariablesModulo(getEjbFacadeCliente().
                listarRespuestasVariablesRating());
     }
      
-    public List<VariablesRating> precargaRespuestaListaComportamiento(){     
-       this.setListaRespuestasVariablesComportamiento
-        (this.getListaRespuestasVariablesModulo().get(0));
-     
-       return listaRespuestasVariablesComportamiento;
-    }
-    
     public List<VariablesRating> precargaRespuestaListaObjetivable(){ 
        this.setListaRespuestasVariablesObjetivable(this.
-               getListaRespuestasVariablesModulo().get(0));
+               getListaRespuestasVariablesModulo().get(2));
       
         return listaRespuestasVariablesObjetivable;
-    }
-    
-    public List<VariablesRating> precargaListaFinanciera(){
-       this.setListaVariablesFinanciero(this.getListaVariablesModulo().get(0));
-       
-       return listaVariablesFinanciero;
-    }
-    
-    public List<VariablesRating> precargaListaComportamiento(){
-       this.setListaVariablesComportamiento(this.getListaVariablesModulo().get(1));
-       
-       return listaVariablesComportamiento;
     }
     
     public List<VariablesRating> precargaListaObjetivo(){
        this.setListaVariablesObjetivo(this.getListaVariablesModulo().get(2));
        
        return listaVariablesObjetivo;
-    }
-     
-    public List<VariablesRating> precargaListaSubjetivo(){
-       this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
-       
-       return listaVariablesSubjetivo;
     }
     
    public void reasignarControles(){
@@ -175,12 +153,12 @@ public class ModuloObjetivableController extends AbstractController{
         String parametroConsulta = tipoConsulta.equals("0") ? 
                 this.nitDiligenciado : this.nombreDiligenciado;
         
-        this.listaClientes = ejbFacade.
+        this.listaClientes = ejbFacadeCliente.
                 consultaClienteGrupoResultadoSinResRating(tipoConsulta, 
                         parametroConsulta);
         
         if(listaClientes.isEmpty()){
-            this.listaClientes = ejbFacade.
+            this.listaClientes = ejbFacadeCliente.
                     consultaClienteGrupoResultadoSinResRating(
                             tipoConsulta, parametroConsulta);
             if(listaClientes.isEmpty()){
@@ -721,5 +699,13 @@ public class ModuloObjetivableController extends AbstractController{
 
     public void setTipoAccionista(String tipoAccionista) {
         this.tipoAccionista = tipoAccionista;
+    }
+    
+    public ConsultaClientesRatingFacade getEjbFacadeCliente() {
+        return ejbFacadeCliente;
+    }
+
+    public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
+        this.ejbFacadeCliente = ejbFacadeCliente;
     }
 }

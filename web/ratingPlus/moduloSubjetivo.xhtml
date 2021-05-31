@@ -21,24 +21,35 @@
                 
                 <br/><br/>
 
-                <p:selectOneRadio id="btnSeleccion" value="#{moduloSubjetivo.tipoConsulta}" layout="custom">
+                <p:selectOneRadio id="btnSeleccion" value="#{moduloSubjetivo.tipoConsulta}" 
+                                  layout="custom">
                     <f:selectItem itemLabel="Consulta por Nit" itemValue="0"/>
                     <f:selectItem itemLabel="Consulta por Nombre" itemValue="1"/>
-                    <p:ajax event="change" listener="#{moduloSubjetivo.reasignarControles}" update="formConsultaInicial:txtNit, :formConsultaInicial:txtNombre,:formConsultaInicial:btnConsultaClientes"/>
+                    <p:ajax event="change" listener="#{moduloSubjetivo.reasignarControles}" 
+                            update="formConsultaInicial:txtNit, :formConsultaInicial:txtNombre,:formConsultaInicial:btnConsultaClientes"/>
                 </p:selectOneRadio>
 
                 <h:panelGrid columns="9" cellpadding="5">
                     <p:radioButton id="opt1" for="btnSeleccion" itemIndex="0"/>
                     <h:outputLabel for="opt1" value="Consulta por Nit:"/>
-                    <p:inputText id="txtNit" requiredMessage="Nit. Error de validación, se necesita un valor" value="#{moduloSubjetivo.nitDiligenciado}" required="#{moduloSubjetivo.tipoConsulta == '0'}" disabled="#{moduloSubjetivo.tipoConsulta != '0'}"/>
+                    <p:inputText id="txtNit" requiredMessage="Nit. Error de validación, se necesita un valor" 
+                                 value="#{moduloSubjetivo.nitDiligenciado}" 
+                                 required="#{moduloSubjetivo.tipoConsulta == '0'}" 
+                                 disabled="#{moduloSubjetivo.tipoConsulta != '0'}"/>
                    <p:radioButton id="opt2" for="btnSeleccion" itemIndex="1"/>
                     <h:outputLabel for="opt2" value="Consulta por Nombre:"/>
-                    <p:inputText id="txtNombre" requiredMessage="Nombre. Error de validación, se necesita un valor" value="#{moduloSubjetivo.nombreDiligenciado}" required="#{moduloSubjetivo.tipoConsulta == '1'}" disabled="#{moduloSubjetivo.tipoConsulta != '1'}"/>
+                    <p:inputText id="txtNombre" requiredMessage="Nombre. Error de validación, se necesita un valor" 
+                                 value="#{moduloSubjetivo.nombreDiligenciado}" 
+                                 required="#{moduloSubjetivo.tipoConsulta == '1'}" 
+                                 disabled="#{moduloSubjetivo.tipoConsulta != '1'}"/>
                 </h:panelGrid>
                     
                 <br/>
                 
-                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" disabled="#{moduloSubjetivo.tipoConsulta == null}" actionListener="#{moduloSubjetivo.consultaClientes}" update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>
+                <p:commandButton value="Consultar clientes" id="btnConsultaClientes" 
+                                 disabled="#{moduloSubjetivo.tipoConsulta == null}" 
+                                 actionListener="#{moduloSubjetivo.consultaClientes}" 
+                                 update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>
                 
             </p:panel>
             
@@ -62,7 +73,8 @@
                     </f:facet>
   
                     <p:column headerText="Nit">
-                        <h:outputText value="#{clientes.nit}" style="width:30px;text-align:center;"/>
+                        <h:outputText value="#{clientes.nit}" 
+                                      style="width:30px;text-align:center;"/>
                     </p:column>
 
                     <p:column headerText="Nombre">
@@ -90,8 +102,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column headerText="Valor">
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoProductoServicio}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoProductoServicio}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(0).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(1).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(2).mapRespuesta}" />
@@ -103,8 +119,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gerenciaCapacidadProfesionalidad}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gerenciaCapacidadProfesionalidad}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(3).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(4).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(5).mapRespuesta}" />
@@ -116,8 +136,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.abanicoBancario}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.abanicoBancario}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(6).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(7).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(8).mapRespuesta}" />
@@ -129,8 +153,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.mecanismosFinanciacion}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.mecanismosFinanciacion}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(9).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(10).mapRespuesta}" />
                                     </p:selectOneMenu>
@@ -141,8 +169,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.estructuraCostos}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.estructuraCostos}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(11).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(12).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(13).mapRespuesta}" />
@@ -154,7 +186,10 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.capacidadAtenderCalendario}" label="Rangos variable" required="true" style="width: 100% !important">
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.capacidadAtenderCalendario}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
                                         <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(14).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(15).mapRespuesta}" />
@@ -167,7 +202,10 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gradoAutoFinanciacion}" label="Rangos variable" required="true" style="width: 100% !important">
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.gradoAutoFinanciacion}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
                                         <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(17).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(18).mapRespuesta}" />
@@ -181,8 +219,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.existenciaDeudas}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.existenciaDeudas}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(21).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(22).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(23).mapRespuesta}" />
@@ -194,8 +236,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.perfilPago}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.perfilPago}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(24).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(25).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(26).mapRespuesta}" />
@@ -207,8 +253,12 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.calidadActivos}" label="Rangos variable" required="true" style="width: 100% !important">
-                                        <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.calidadActivos}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
+                                        <f:selectItem itemLabel="Seleccione Uno" 
+                                                      itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(27).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(28).mapRespuesta}" />
                                     </p:selectOneMenu>
@@ -219,7 +269,10 @@
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoAccionista}" label="Rangos variable" required="true" style="width: 100% !important">
+                                    <p:selectOneMenu id="labeled" value="#{moduloSubjetivo.tipoAccionista}" 
+                                                     label="Rangos variable" 
+                                                     required="true" 
+                                                     style="width: 100% !important">
                                         <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(29).mapRespuesta}" />
                                         <f:selectItems value="#{moduloSubjetivo.listaRespuestasVariablesSubjetivoFront.get(30).mapRespuesta}" />
@@ -233,14 +286,20 @@
                     <p:panel>
                         <p:commandButton value="Registrar" id="btnRegistrarCompirtamiento"  
                                          actionListener="#{moduloSubjetivo.registrarSubjetivo}" 
-                                         update="message" styleClass="p-mr-2" icon="pi pi-check"
-                                         >
-                            <p:confirm header="Confirmación" message="¿Está seguro de proceder?"  icon="pi pi-exclamation-triangle"/>
+                                         update="message" styleClass="p-mr-2" 
+                                         icon="pi pi-check">
+                            <p:confirm header="Confirmación" 
+                                       message="¿Está seguro de proceder?"  
+                                       icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:panel>
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="350">
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
-                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" />
+                    <p:confirmDialog global="true" showEffect="fade" 
+                                     hideEffect="fade" 
+                                     width="350">
+                        <p:commandButton value="No" type="button" 
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Si" type="button" 
+                                         styleClass="ui-confirmdialog-yes" />
                     </p:confirmDialog>
                 </p:panel>  
                 

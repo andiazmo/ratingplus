@@ -32,7 +32,7 @@ import javax.persistence.Query;
  * @author x356167
  */
 @Stateless
-public class ConsultaRatingFacade extends AbstractFacade {
+public class ConsultaClientesRatingFacade extends AbstractFacade {
     @PersistenceContext(unitName = "cuposPU")
     private EntityManager em;
 
@@ -41,7 +41,7 @@ public class ConsultaRatingFacade extends AbstractFacade {
         return em;
     }
 
-    public ConsultaRatingFacade() {
+    public ConsultaClientesRatingFacade() {
         super(GruposClientes.class);
     }
     
@@ -265,7 +265,108 @@ public class ConsultaRatingFacade extends AbstractFacade {
         }
         return listaModulos;
     }
-     
+    
+    public List<ClientesRating> consultaClienteGrupoResultadoRating
+        (String tipoConsulta, String parametro, String periodoFiscal){
+        String query = "SELECT id, nit, valor_rating, valor_rating_final, "
+                + "razon_social, nombre_grupo, fecha_calculo "
+                + "FROM ri.informacion_cliente_grupo_resultado_rating_vw WHERE ";
+        List listaProvisional;
+        List<ClientesRating> listaClientes = new ArrayList<>();
+        Iterator i;
+        Iterator j;
+        
+        switch(Integer.parseInt(tipoConsulta)){    
+            case 0:
+                query += " nit = ?";
+                break;
+            case 1:
+                query += " razon_social = ?";
+                break;
+        }
+        query += " ORDER BY fecha_calculo desc LIMIT 1";
+        listaProvisional = em.createNativeQuery(query).setParameter(1, 
+                tipoConsulta.equals("2") ? Integer.parseInt(parametro) : 
+                        parametro).getResultList();
+        
+        i = listaProvisional.iterator();
+        
+        while(i.hasNext()){
+            Object[] object = (Object[]) i.next();
+            BigDecimal valorProvisional = object[3] == null ? new BigDecimal("0"): 
+                    ((BigDecimal) object[3]);
+            Timestamp fechaProvisional = object[6] == null ? null : 
+                    ((Timestamp) object[6]);
+            
+        ClientesRating objetoAgregado = new ClientesRating();
+            objetoAgregado.setId(String.valueOf(object[0]));
+            objetoAgregado.setNit((String) object[1]);
+            objetoAgregado.setValorRating(valorProvisional.toString());
+            objetoAgregado.setNombre((String) object[4]);
+            objetoAgregado.setGrupo((String) object[5]);
+            if(fechaProvisional != null){
+                objetoAgregado.
+                        setFechaInsercion(
+                                new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss aa")
+                                        .format(fechaProvisional));
+            } else {
+                objetoAgregado.setFechaInsercion("No disponible");
+            }             
+            listaClientes.add(objetoAgregado);
+        }
+        return listaClientes;
+    }
+    
+    public List<ClientesRating> consultaClienteGrupoResultadoSinResRating
+        (String tipoConsulta, String parametro){
+        String query = "SELECT id, nit, nombre, nombre_grupo, valor_rating, "
+                + "valor_rating_final, fecha_insercion "
+                + "FROM ri.informacion_cliente_grupo_resultado_sinref_rating_vw "
+                + "WHERE ";
+        List listaProvisional;
+        List<ClientesRating> listaClientes = new ArrayList<>();
+        Iterator i;
+      
+        switch(Integer.parseInt(tipoConsulta)){
+            case 0:
+                query += " nit = ?";
+                break;
+            case 1:
+                query += " nombre = ?";
+                break;
+        }
+        query += " ORDER BY fecha_insercion desc LIMIT 1";
+        listaProvisional = em.createNativeQuery(query).
+                setParameter(1, tipoConsulta.equals("2") ? 
+                        Integer.parseInt(parametro) : parametro).getResultList();
+        
+        i = listaProvisional.iterator();
+        
+        while(i.hasNext()){
+            Object[] object = (Object[]) i.next();
+            BigDecimal valorProvisional = 
+                    object[5] == null ? 
+                    new BigDecimal("0"): ((BigDecimal) object[5]);
+            Timestamp fechaProvisional = 
+                    object[6] == null ? null : ((Timestamp) object[6]);
+            
+            ClientesRating objetoAgregado = new ClientesRating();
+            objetoAgregado.setId(String.valueOf(object[0]));
+            objetoAgregado.setNit((String) object[1]);
+            objetoAgregado.setNombre((String) object[2]);
+            objetoAgregado.setGrupo((String) object[3]);
+            objetoAgregado.setValorRating(valorProvisional.toString());
+            
+            if(fechaProvisional != null){
+                objetoAgregado.setFechaInsercion(new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss aa").format(fechaProvisional));
+            } else {
+                objetoAgregado.setFechaInsercion("No disponible");
+            } 
+            listaClientes.add(objetoAgregado);
+        }
+        return listaClientes;
+    }
+    
     public List<List<VariablesRating>> calcularRating(String[] listaNits, 
             String periodo, String usuario) throws SQLException{
         List<List<VariablesRating>> listVariablesRatingTotal;

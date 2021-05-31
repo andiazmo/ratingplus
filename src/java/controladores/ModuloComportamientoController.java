@@ -9,6 +9,7 @@ import entidades.ClientesRating;
 import entidades.GruposClientes;
 import entidades.RatingInfo;
 import entidades.VariablesRating;
+import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaComportamientoFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +36,12 @@ public class ModuloComportamientoController extends AbstractController{
     @EJB
     private ConsultaComportamientoFacade ejbFacade;
     
+    @EJB
+    private ConsultaClientesRatingFacade ejbFacadeCliente;
+
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
-    private List<ClientesRating> listaClientesSeleccionados = new ArrayList<ClientesRating>();
+    private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
     private List<RatingInfo> informacionRating;
     private List<VariablesRating> listaVariables;
     private List<VariablesRating> listaVariablesFinanciero;
@@ -85,7 +89,7 @@ public class ModuloComportamientoController extends AbstractController{
     }
 
     public void precargaInformacion(){
-        this.setListaGrupos(getEjbFacade().listarGruposCliente()); 
+        this.setListaGrupos(getEjbFacadeCliente().listarGruposCliente()); 
     }
     
     public void precargaListaVariables(){
@@ -151,7 +155,7 @@ public class ModuloComportamientoController extends AbstractController{
     public void consultaClientes(ActionEvent event){
         String parametroConsulta = tipoConsulta.equals("0") ? 
                 this.nitDiligenciado : this.nombreDiligenciado;
-        this.listaClientes = ejbFacade.
+        this.listaClientes = ejbFacadeCliente.
                 consultaClienteGrupoResultadoSinResRating(tipoConsulta, 
                         parametroConsulta);
         
@@ -548,4 +552,11 @@ public class ModuloComportamientoController extends AbstractController{
         this.respuestaMarcacionReestructuracion = respuestaMarcacionReestructuracion;
     }
     
+    public ConsultaClientesRatingFacade getEjbFacadeCliente() {
+        return ejbFacadeCliente;
+    }
+
+    public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
+        this.ejbFacadeCliente = ejbFacadeCliente;
+    }
 }

@@ -7,9 +7,7 @@ package controladores;
 
 import entidades.BetaModuloCasoUso;
 import entidades.BetaModuloCategoria;
-import entidades.VariablesRating;
 import fachadas.ParamBetaModuloCasoFacade;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,10 +98,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         String variable = this.listaCasos.get(0).getCategoria().getCategoria();
         for (int i = 1; i < this.listaBetas.size(); i++) {
             String variableLista = this.listaBetas.get(i).getCategoria().getCategoria();
-            System.out.println("variableLista:::"+variableLista);
-            System.out.println("variableMap:::"+variables.get(variableLista));
             if(variables.get(variableLista) == null) {
-                System.out.println("variable a insertar en el Map:::"+this.listaBetas.get(i).getCategoria().getCategoria());
                 variables.put(this.listaBetas.get(i).getCategoria().getCategoria(),
                         this.listaBetas.get(i).getCategoria().getCategoria());
             }
@@ -112,18 +107,12 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     }
     
     public void onCaseChange() {
-        System.out.println("Metodo onCaseChange");
-        System.out.println("Caso seleccionado:::"+this.casoSeleccionado);
-        
-        
-        
         if(this.casoSeleccionado != null && !this.casoSeleccionado.equals("")) {
             
             for(int i=0; i < this.listaBetas.size(); i++) {
                 
                 if (this.casoSeleccionado.equals("1") && this.listaBetas.get(i).
                         getNumCaso() == 1) {
-                    System.out.println("Va a adicionar");
                     this.listaBetasFiltrado.add(this.listaBetas.get(i));
                 }
                 
@@ -140,32 +129,20 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         }
     }
     
-    
     public void displayDataTable() {
-        
-        System.out.println("Metodo displayTabla");
-        System.out.println("Variable selecconada:::"+this.variableSeleccionada + " " + this.variableSeleccionada.length());
-        System.out.println("Caso seleccionado:::"+this.casoSeleccionado);
-        
         this.listaBetasFiltradoFront = new ArrayList<BetaModuloCasoUso>();
         
         if(variableSeleccionada != null && !variableSeleccionada.equals("")) {
-            System.out.println("Primer filtro:::");
-            System.out.println("Tamaño lista caso:::"+this.listaBetasFiltrado);
             for(int i=0; i<this.listaBetasFiltrado.size();i++) {
-                System.out.println("Variable en la lista:::"+this.listaBetasFiltrado.get(i).getCategoria().getCategoria());
                 String casoStr = String.valueOf(this.listaBetasFiltrado.get(i).getNumCaso());
                 if(this.listaBetasFiltrado.get(i).getCategoria().getCategoria().
                         equals(this.variableSeleccionada) && casoStr.equals(this.casoSeleccionado)) {
                     this.listaBetasFiltradoFront.add(this.listaBetasFiltrado.get(i));
-                    System.out.println("Tamaño lista:::"+this.listaBetasFiltrado.size());
                 }
             }
         }
         
         if((variableSeleccionada.length() == 0) && (casoSeleccionado.length() == 0)) {
-            System.out.println("Lista filtrada"+listaBetasFiltrado.size());
-         //   this.listaBetasFiltradoFront = this.listaBetasFiltrado;
             this.listaBetasFiltradoFront.addAll(this.listaBetas);
         }
         
@@ -173,15 +150,6 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     
     
     public void updateVariablesValuesFront() {
-        System.out.println("Metodo updateVariablesValuesFront");
-        
-//        for (int i = 0; i < this.getListaRespuestasEditadas().size(); i++) {
-//            System.out.println("Valores editados:::"+this.getListaRespuestasEditadas().get(i).getWoe());
-//            System.out.println("Valores editados:::"+this.getListaRespuestasEditadas().get(i).getMax());
-//            System.out.println("Valores editados:::"+this.getListaRespuestasEditadas().get(i).getMin());
-//        }
-//       
-//        this.setUpdateVariableResult(this.getEjbFacade().updateVarablesRespuesta(this.getListaRespuestasEditadas()));
          this.setUpdateVariableResult(this.getEjbFacade().actualizarParametro(this.listaBetasEditados));
         
     }
@@ -191,29 +159,16 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         BetaModuloCasoUso betaModuloCasoUso = new BetaModuloCasoUso();
         
         BetaModuloCasoUso variable = (BetaModuloCasoUso)event.getObject();
-        FacesMessage msg = new FacesMessage("Valores Actualizados", String.valueOf(variable.getCategoria().getCategoria()+ " " + "Caso: " + " " + String.valueOf(variable.getNumCaso())));
+        FacesMessage msg = new FacesMessage("Valores Actualizados", 
+                String.valueOf(variable.getCategoria().getCategoria()+ " " + "Caso: " + " " + String.valueOf(variable.getNumCaso())));
         FacesContext.getCurrentInstance().addMessage(null, msg);
         
-        System.out.println("Id:::"+String.valueOf(variable.getCodigo()));
-        System.out.println("numcaso:::"+String.valueOf(variable.getNumCaso()));
-        System.out.println("categoria:::"+variable.getCategoria().getCategoria());
-         System.out.println("valor:::"+variable.getValor());
         
         betaModuloCasoUso.setCodigo(variable.getCodigo());
         betaModuloCasoUso.setNumCaso(variable.getNumCaso());
         betaModuloCasoUso.setCategoria(variable.getCategoria());
         betaModuloCasoUso.setValor(variable.getValor());
-//        System.out.println("WOE:::"+String.valueOf(respuesta.getWoe()));
-//        System.out.println("Min:::"+String.valueOf(respuesta.getMin()));
-//        System.out.println("Max:::"+String.valueOf(respuesta.getMax()));
-//        variableRespuesta.setId(respuesta.getId());
-//        variableRespuesta.setWoe(String.valueOf(respuesta.getWoe()));
-//        variableRespuesta.setMin(String.valueOf(respuesta.getMin()));
-//        variableRespuesta.setMax(String.valueOf(respuesta.getMax()));
-        
-      //  this.listaRespuestasEditadas.add(variableRespuesta);
       this.listaBetasEditados.add(betaModuloCasoUso);
-        
     }
      
      public void onRowCancel(RowEditEvent event) {
@@ -362,8 +317,6 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         setRegistroSeleccionado((BetaModuloCasoUso) event.getComponent().getAttributes().get("registroSeleccionado"));
         
     }
-    
-  
     
     /**
      * @return the registroSeleccionado

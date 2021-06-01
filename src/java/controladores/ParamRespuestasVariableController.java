@@ -5,8 +5,6 @@
  */
 package controladores;
 
-import entidades.BetaModuloCasoUso;
-import entidades.BetaModuloCategoria;
 import entidades.VariablesRating;
 import entidades.Modulo;
 import fachadas.ParamRespuestaVariableFacade;
@@ -27,13 +25,6 @@ public class ParamRespuestasVariableController extends AbstractController<Object
     @EJB
     private ParamRespuestaVariableFacade ejbFacade;
     
-    private List<BetaModuloCasoUso> listaBetas;
-    private List<BetaModuloCategoria> listaCategorias;
-    private String codigoBeta;
-    private int categoriaSeleccionada = 0;
-    private String valor;
-    private BetaModuloCasoUso registroSeleccionado = null;
-    
     private List<List<VariablesRating>> listaVariablesModulo;
     private List<Modulo> listaModulos;
     private List<Modulo> listaModulosFront;
@@ -51,23 +42,15 @@ public class ParamRespuestasVariableController extends AbstractController<Object
     }
     
     public void precargaInformacion(){
-        //setListaCategorias(ejbFacade.listarCategorias());
-       // setListaBetas(ejbFacade.listarBetasModulo());
         setListaVariablesModulo(ejbFacade.listarRespuestasVariablesRating());
         setListaModulos(ejbFacade.listarModulo());
-        
-        System.out.println("Tamaño lista modulos:::"+this.getListaModulos());
-        
     }
     
-    public void precargaListaVariables(){
-        
+    public void precargaListaVariables(){ 
        this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
-       
     }
     
     public List<VariablesRating> precargaListaFinanciera(){
-       
        this.setListaVariablesFinanciero(this.getListaVariablesModulo().get(0));
        
        return listaVariablesFinanciero;
@@ -127,6 +110,5 @@ public class ParamRespuestasVariableController extends AbstractController<Object
 
     public void setListaVariablesFront(List<VariablesRating> listaVariablesFront) {
         this.listaVariablesFront = listaVariablesFront;
-    }
-    
+    } 
 }

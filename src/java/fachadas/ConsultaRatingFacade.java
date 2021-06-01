@@ -550,37 +550,6 @@ public class ConsultaRatingFacade extends AbstractFacade {
         return listVariablesRatingTotal;
     }
      
-    public List<String> obtenerPeriodos(String tipoConsulta, String parametro){
-        String query = "SELECT aniobalance FROM ri.resumeneeff ";
-        
-        switch(Integer.parseInt(tipoConsulta)){
-            case 0:
-                query += "WHERE nit = ?";
-                break;
-                
-            case 1:
-                System.out.println("case 1");
-                query += "WHERE nombreempresa = ?";
-                break;
-        }
-      
-        Query q = em.createNativeQuery(query);
-        List listaProvisional = q.setParameter(1, parametro).getResultList();
-        
-        List<String> listaPeriodos = new ArrayList<String>();
-        Iterator i = listaProvisional.iterator();
-        
-        while(i.hasNext()){
-        
-            java.sql.Date fechaPeriodo = (java.sql.Date) i.next();
-            String dateAgregado = new SimpleDateFormat("yyyy-MM-dd").
-                    format(fechaPeriodo);
-            
-            listaPeriodos.add(dateAgregado);   
-        }
-        return listaPeriodos;
-    }
-    
     public boolean confirmarRating(BigDecimal valorRatingAnterior, 
             BigDecimal valorRatingDefinitivo, BigDecimal id, String comentario){
         Query q = em.createNativeQuery("UPDATE ri.resultados_rating_plus SET "

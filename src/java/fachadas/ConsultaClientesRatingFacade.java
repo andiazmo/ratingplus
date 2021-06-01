@@ -222,7 +222,6 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
                 objetoAgregado.setMapRespuesta(resp);
                 listaRespuestasVariablesObjetivo.add(objetoAgregado);
             }
-            
         }
         return listaRespuestasVariablesObjetivo;    
     }

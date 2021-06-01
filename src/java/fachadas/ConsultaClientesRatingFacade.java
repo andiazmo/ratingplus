@@ -426,7 +426,6 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
                 break;
                 
             case 1:
-                System.out.println("case 1");
                 query += "WHERE nombreempresa = ?";
                 break;
         }
@@ -434,7 +433,7 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
         Query q = em.createNativeQuery(query);
         List listaProvisional = q.setParameter(1, parametro).getResultList();
         
-        List<String> listaPeriodos = new ArrayList<String>();
+        List<String> listaPeriodos = new ArrayList<>();
         Iterator i = listaProvisional.iterator();
         
         while(i.hasNext()){

@@ -9,7 +9,7 @@
                 xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="title">
-        <h:outputText value="#{myBundle.respuestasPorVariableTitle}"/>
+        <h:outputText value="#{myBundle.respuestasPorBetaModuloTitle}"/>
     </ui:define>
     
     <ui:define name="body">
@@ -17,7 +17,7 @@
         <h:form id="formParamModulo">
             <p:growl id="msgs" showDetail="true"/>
             
-            <p:panel header="#{myBundle.respuestasPorVariableTitle}">
+            <p:panel header="#{myBundle.respuestasPorBetaModuloTitle}">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="casoUso" value="Caso No:"/>
                     <p:selectOneMenu id="casoUso" value="#{betaModuloCaso.casoSeleccionado}" style="width:100% !important">

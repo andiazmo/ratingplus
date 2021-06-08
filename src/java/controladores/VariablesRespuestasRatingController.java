@@ -7,6 +7,7 @@ package controladores;
 
 import entidades.Modulo;
 import entidades.VariablesRating;
+import fachadas.ConsultaClientesRatingFacade;
 import fachadas.VariablesRespuestasRatingFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,10 @@ public class VariablesRespuestasRatingController extends AbstractController {
 
     @EJB
     private VariablesRespuestasRatingFacade ejbFacade;
+    
+    @EJB
+    private ConsultaClientesRatingFacade ejbFacadeCliente;
+    
     private List<VariablesRating> listaVariables;
     private List<VariablesRating> listaVariablesFinanciero;
     private List<VariablesRating> listaVariablesComportamiento;
@@ -75,7 +80,8 @@ public class VariablesRespuestasRatingController extends AbstractController {
 
     public void precargaInformacion(){
         this.setRespuestasRating(getEjbFacade().listarRespuestasRating());
-        this.setRespuestasModuloRating(getEjbFacade().listarModulo());
+        this.setRespuestasModuloRating(getEjbFacadeCliente().listarModulo());
+        
         
         modulos = new HashMap<>();
         for (int i = 0; i < this.getRespuestasModuloRating().size() - 1; i++) {
@@ -186,7 +192,7 @@ public class VariablesRespuestasRatingController extends AbstractController {
     }
     
     public void precargaListaVariables(){
-        this.setListaVariablesModulo(getEjbFacade().listarVariablesRating());
+        this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
     }
     
     public void onModuleChange() {
@@ -521,6 +527,14 @@ public class VariablesRespuestasRatingController extends AbstractController {
 
     public void setVariables(Map<String, String> variables) {
         this.variables = variables;
+    }
+    
+    public ConsultaClientesRatingFacade getEjbFacadeCliente() {
+        return ejbFacadeCliente;
+    }
+
+    public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
+        this.ejbFacadeCliente = ejbFacadeCliente;
     }
     
 }

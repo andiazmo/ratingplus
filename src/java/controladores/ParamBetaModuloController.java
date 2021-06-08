@@ -96,7 +96,6 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     public void iniciarListaVariables(){
         variables.put(this.listaBetas.get(0).getCategoria().getCategoria(), 
                 this.listaBetas.get(0).getCategoria().getCategoria());
-        String variable = this.listaCasos.get(0).getCategoria().getCategoria();
         for (int i = 1; i < this.listaBetas.size(); i++) {
             String variableLista = this.listaBetas.get(i).getCategoria().getCategoria();
             if(variables.get(variableLista) == null) {

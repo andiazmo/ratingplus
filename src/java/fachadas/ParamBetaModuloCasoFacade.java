@@ -38,15 +38,14 @@ public class ParamBetaModuloCasoFacade extends AbstractFacade<BetaModuloCasoUso>
     
     public List<BetaModuloCategoria> listarCategorias(){
         
-        List<BetaModuloCategoria> listaCategorias = new ArrayList<BetaModuloCategoria>();
-        BetaModuloCategoria objetoAgregado = null;
+        List<BetaModuloCategoria> listaCategorias = new ArrayList<>();
         
         List listaProvisional = em.createNativeQuery("select codigo, info_categoria from rp_categoria_beta_modulo").getResultList();
         Iterator i = listaProvisional.iterator();
         
         while(i.hasNext()){
             Object[] object = (Object[]) i.next();
-            objetoAgregado = new BetaModuloCategoria();
+            BetaModuloCategoria objetoAgregado = new BetaModuloCategoria();
             objetoAgregado.setCodigo((Integer) object[0]);
             objetoAgregado.setCategoria((String) object[1]);
             listaCategorias.add(objetoAgregado);
@@ -60,14 +59,15 @@ public class ParamBetaModuloCasoFacade extends AbstractFacade<BetaModuloCasoUso>
     public List<BetaModuloCasoUso> listarBetasModulo(){
     
         List<BetaModuloCategoria> listaCategorias = this.listarCategorias();
-        List<BetaModuloCasoUso> listaBetas = new ArrayList<BetaModuloCasoUso>();
-        BetaModuloCasoUso objetoAgregado = null;
-        List listaProvisional = em.createNativeQuery("select codigo, num_caso, categoria_beta, valor from ri.rp_beta_modulo_caso order by num_caso asc").getResultList();
+        List<BetaModuloCasoUso> listaBetas = new ArrayList<>();
+        List listaProvisional = em.createNativeQuery("select codigo, num_caso, "
+                + "categoria_beta, valor from ri.rp_beta_modulo_caso "
+                + "order by num_caso asc").getResultList();
         Iterator i = listaProvisional.iterator();
         
         while(i.hasNext()){
             Object[] object = (Object[]) i.next();
-            objetoAgregado = new BetaModuloCasoUso();
+            BetaModuloCasoUso objetoAgregado = new BetaModuloCasoUso();
             objetoAgregado.setCodigo((Integer) object[0]);
             objetoAgregado.setNumCaso((Integer) object[1]);
             

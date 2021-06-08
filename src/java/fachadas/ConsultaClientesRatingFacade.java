@@ -136,7 +136,6 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
         return listaVariablesFinanciero;
     }
     
-    
     public List<VariablesRating> listarRespuestasVariablesFinanciero
         (List<VariablesRating> listaRespuestaVariables){
         List<VariablesRating> listaRespuestaVariablesFinanciero = 

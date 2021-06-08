@@ -20,15 +20,18 @@
             <p:panel header="#{myBundle.respuestasPorBetaModuloTitle}">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="casoUso" value="Caso No:"/>
-                    <p:selectOneMenu id="casoUso" value="#{betaModuloCaso.casoSeleccionado}" style="width:100% !important">
+                    <p:selectOneMenu id="casoUso" value="#{betaModuloCaso.casoSeleccionado}" 
+                                     style="width:100% !important">
                         <p:ajax listener="#{betaModuloCaso.onCaseChange}" update="variable"/>
                         <f:selectItem itemLabel="Seleccione un Caso" itemValue="" />
                         <f:selectItems value="#{betaModuloCaso.casos}" />
                     </p:selectOneMenu>
                     
                     <p:outputLabel for="variable" value="Variable: "/>
-                    <p:selectOneMenu id="variable" value="#{betaModuloCaso.variableSeleccionada}" style="width:100% !important">
-                        <f:selectItem itemLabel="Seleccione una Variable" itemValue="" noSelectionOption="true"/>
+                    <p:selectOneMenu id="variable" value="#{betaModuloCaso.variableSeleccionada}" 
+                                     style="width:100% !important">
+                        <f:selectItem itemLabel="Seleccione una Variable" itemValue="" 
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{betaModuloCaso.variables}"/>
                     </p:selectOneMenu>
                     
@@ -43,7 +46,8 @@
         <h:form id="formTableModulo">
             
             <p:growl id="msgs" showDetail="true"/>
-            <p:outputPanel id="cntTableCaso" style="visibility: #{betaModuloCaso.listaBetasFiltradoFront.size() &gt; 0 ? 'visible' : 'hidden'};">
+            <p:outputPanel id="cntTableCaso" 
+                           style="visibility: #{betaModuloCaso.listaBetasFiltradoFront.size() &gt; 0 ? 'visible' : 'hidden'};">
                 <p:dataTable id="tableParamCaso" 
                              emptyMessage="Cero registros encontrados"
                              paginator="true"
@@ -54,8 +58,10 @@
                              rows="10">
                 
                 
-                    <p:ajax event="rowEdit" listener="#{betaModuloCaso.onRowEdit}" update=":formTableModulo:msgs"/>
-                    <p:ajax event="rowEditCancel" listener="#{betaModuloCaso.onRowCancel}" update=":formTableModulo:msgs"/>
+                    <p:ajax event="rowEdit" listener="#{betaModuloCaso.onRowEdit}" 
+                            update=":formTableModulo:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{betaModuloCaso.onRowCancel}" 
+                            update=":formTableModulo:msgs"/>
 
                     <p:column headerText="Caso No.">
                         <h:outputText value="#{betas.numCaso}"/>
@@ -78,18 +84,11 @@
                     <p:column style="width:6rem">
                         <p:rowEditor/>
                     </p:column>
-
                 </p:dataTable>
-                
                 <br/>
-                
-                <p:commandButton value="Actulizar Valores" id="btnActualizarValoresRespuesta"  actionListener="#{betaModuloCaso.updateVariablesValuesFront}" />
-                
+                <p:commandButton value="Actulizar Valores" id="btnActualizarValoresRespuesta"  
+                                 actionListener="#{betaModuloCaso.updateVariablesValuesFront}" />
             </p:outputPanel>
         </h:form>
-       
     </ui:define>
-
 </ui:composition>
-
-

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import javax.faces.context.FacesContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 

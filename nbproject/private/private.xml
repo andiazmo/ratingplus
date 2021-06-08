@@ -3,10 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/moduloComportamiento.xhtml</file>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/moduloSubjetivo.xhtml</file>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/moduloObjetivable.xhtml</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/ClientesRating.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/RatingInfo.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/Variable.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/Modulo.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/ResultadoLazyDataModel.java</file>
             <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/MyBundle.properties</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/fachadas/ConsultaResultadosRatingFacade.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/LazyRespuestaDataModel.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/VariablesRating.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/ParamRespuestaVariable.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/fachadas/ConsultaClientesRatingFacade.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/fachadas/ParamBetaModuloCasoFacade.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/fachadas/ConsultaRatingFacade.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/Bundle.properties</file>
         </group>
     </open-files>
 </project-private>

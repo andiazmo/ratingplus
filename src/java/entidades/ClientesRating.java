@@ -23,9 +23,7 @@ public class ClientesRating {
         super();
     }
     
-  //   public ClientesRating(String nombre) {
-  //      this.nombre = nombre;
-  //  }
+ 
     
     /**
      * @return the id

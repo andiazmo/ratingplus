@@ -49,6 +49,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     private Boolean updateVariableResult;
 
     @PostConstruct
+    @Override
     public void init(){
         this.precargaInformacion();
     }
@@ -58,8 +59,8 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         setListaBetas(ejbFacade.listarBetasModulo());
         iniciarListaCasos();
         iniciarListaVariables();
-        this.listaBetasFiltrado = new ArrayList<BetaModuloCasoUso>();
-        this.listaBetasEditados = new ArrayList<BetaModuloCasoUso>();
+        this.listaBetasFiltrado = new ArrayList<>();
+        this.listaBetasEditados = new ArrayList<>();
         this.variableSeleccionada = null;
     }
     
@@ -72,7 +73,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     }
     
     public void iniciarListaCasos(){
-        this.listaCasos = new ArrayList<BetaModuloCasoUso>();
+        this.listaCasos = new ArrayList<>();
         this.listaCasos.add(this.listaBetas.get(0));
         casos.put(String.valueOf(this.listaBetas.get(0).getNumCaso()), 
                 String.valueOf(this.listaBetas.get(0).getNumCaso()));
@@ -80,7 +81,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         variables.put(this.listaBetas.get(0).getCategoria().getCategoria(), 
                 this.listaBetas.get(0).getCategoria().getCategoria());
         int caso = this.listaCasos.get(0).getNumCaso();
-        String variable = this.listaCasos.get(0).getCategoria().getCategoria();
+        
         for (int i = 1; i < this.listaBetas.size(); i++) {
             
             if(this.listaBetas.get(i).getNumCaso() != caso) {
@@ -130,7 +131,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     }
     
     public void displayDataTable() {
-        this.listaBetasFiltradoFront = new ArrayList<BetaModuloCasoUso>();
+        this.listaBetasFiltradoFront = new ArrayList<>();
         
         if(variableSeleccionada != null && !variableSeleccionada.equals("")) {
             for(int i=0; i<this.listaBetasFiltrado.size();i++) {
@@ -220,7 +221,7 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
     }
 
     /**
-     * @param codigo the codigo to set
+     * @param codigoBeta
      */
     public void setCodigoBeta(String codigoBeta) {
         this.codigoBeta = codigoBeta;

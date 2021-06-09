@@ -97,8 +97,7 @@
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-4">
                             <p:dataTable var="variable" 
-                                         value="#{moduloObjetivable.
-                                                  listaRespuestasVariablesObjetivable.get(0)}">
+                                         value="#{moduloObjetivable.listaRespuestasVariablesObjetivable.get(1)}">
                                 <p:column headerText="Nombre">
                                     <h:outputText value="#{variable.nombre}" />
                                 </p:column>
@@ -111,10 +110,8 @@
                                         <f:selectItem itemLabel="Seleccione Uno" 
                                                       itemValue="" />
                                         <f:selectItems 
-                                            value="#{moduloObjetivable.listaRespuestasVariablesObjetivableFront.get(0).mapRespuesta}" />
-                                        <f:selectItems 
-                                            value="#{moduloObjetivable.listaRespuestasVariablesObjetivableFront.get(1).mapRespuesta}" />
-                                        <f:selectItems 
+                                            value="#{moduloObjetivable.listaRespuestasVariablesObjetivableFront.get(1).mapRespuesta}" />  
+                                        <f:selectItems
                                             value="#{moduloObjetivable.listaRespuestasVariablesObjetivableFront.get(2).mapRespuesta}" />
                                     </p:selectOneMenu>
                                 </p:column>

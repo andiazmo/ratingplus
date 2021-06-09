@@ -15,7 +15,9 @@ import fachadas.ConsultaObjetivableFacade;
 import fachadas.ConsultaVariablesRatingFacade;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -96,15 +98,25 @@ public class ModuloObjetivableController extends AbstractController{
     private String perfilPago;
     private String calidadActivos;
     private String tipoAccionista;
+    private Map<String, String> mapRespuestasEvolucion = new HashMap<>();
+    private Map<String, String> mapRespuestasPosicion = new HashMap<>();
+    private Map<String, String> mapRespuestasDependencia = new HashMap<>();
+    private Map<String, String> mapRespuestasConcentracion = new HashMap<>();
+    private Map<String, String> mapRespuestasVoluntad = new HashMap<>();
+    private Map<String, String> mapRespuestasGarantias= new HashMap<>();
+    private Map<String, String> mapRespuestasCalidad = new HashMap<>();
+    private Map<String, String> mapRespuestasInforme = new HashMap<>();
 
     @PostConstruct
+    @Override
     public void init(){
         this.precargaInformacion();
         this.precargaListaVariables();
         this.precargaListaRespuestasVariables();
-       
+        
+        listaVariablesFrontObjetivo = this.precargaListaObjetivo();
         listaRespuestasVariablesObjetivableFront = 
-                this.precargaRespuestaListaObjetivable(); 
+                this.precargaRespuestaListaObjetivable();
     }
 
     public void precargaInformacion(){
@@ -113,6 +125,7 @@ public class ModuloObjetivableController extends AbstractController{
     
     public void precargaListaVariables(){
        this.setListaVariablesModulo(getEjbFacadeVariables().listarVariablesRating());
+  
     }
     
     public void precargaListaRespuestasVariables(){
@@ -124,7 +137,125 @@ public class ModuloObjetivableController extends AbstractController{
        this.setListaRespuestasVariablesObjetivable(this.
                getListaRespuestasVariablesModulo().get(2));
       
-        return listaRespuestasVariablesObjetivable;
+        return this.getListaRespuestasVariablesObjetivable();
+    }
+    
+
+    
+    public List<VariablesRating> respuestasPorVariableObjetivo(){
+        
+        mapRespuestasEvolucion.
+                        put(listaRespuestasVariablesObjetivable.get(0).
+                                getRespuesta(),
+                                listaRespuestasVariablesObjetivable.
+                                        get(0).getRespuesta());
+        
+        for (int i = 1; i < listaRespuestasVariablesObjetivable.size(); i++) {
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    contains("Evolucion")){
+                mapRespuestasEvolucion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                
+                mapRespuestasEvolucion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    contains("Posicion")){
+                mapRespuestasPosicion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasPosicion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Dependencia")){
+                mapRespuestasDependencia.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasDependencia.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Concentracion")){
+                mapRespuestasConcentracion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasConcentracion.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Voluntad")){
+                mapRespuestasVoluntad.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasVoluntad.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Garantias")){
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Calidad")){
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesObjetivable.get(i).getNombre().contains("Informe")){
+                mapRespuestasCalidad.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesObjetivable.get(i).getNombre().
+                    equals(listaRespuestasVariablesObjetivable.get(i-1).getNombre())) {
+                mapRespuestasCalidad.
+                        put(listaRespuestasVariablesObjetivable.get(i).getRespuesta(),
+                                listaRespuestasVariablesObjetivable.get(i).getRespuesta());
+                }
+            }
+        }
+       
+       return listaRespuestasVariablesObjetivable;
     }
     
     public List<VariablesRating> precargaListaObjetivo(){
@@ -718,5 +849,69 @@ public class ModuloObjetivableController extends AbstractController{
 
     public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
         this.ejbFacadeVariables = ejbFacadeVariables;
+    }
+    
+    public Map<String, String> getMapRespuestasEvolucion() {
+        return mapRespuestasEvolucion;
+    }
+
+    public void setMapRespuestasEvolucion(Map<String, String> mapRespuestasEvolucion) {
+        this.mapRespuestasEvolucion = mapRespuestasEvolucion;
+    }
+
+    public Map<String, String> getMapRespuestasPosicion() {
+        return mapRespuestasPosicion;
+    }
+
+    public void setMapRespuestasPosicion(Map<String, String> mapRespuestasPosicion) {
+        this.mapRespuestasPosicion = mapRespuestasPosicion;
+    }
+
+    public Map<String, String> getMapRespuestasDependencia() {
+        return mapRespuestasDependencia;
+    }
+
+    public void setMapRespuestasDependencia(Map<String, String> mapRespuestasDependencia) {
+        this.mapRespuestasDependencia = mapRespuestasDependencia;
+    }
+
+    public Map<String, String> getMapRespuestasConcentracion() {
+        return mapRespuestasConcentracion;
+    }
+
+    public void setMapRespuestasConcentracion(Map<String, String> mapRespuestasConcentracion) {
+        this.mapRespuestasConcentracion = mapRespuestasConcentracion;
+    }
+
+    public Map<String, String> getMapRespuestasVoluntad() {
+        return mapRespuestasVoluntad;
+    }
+
+    public void setMapRespuestasVoluntad(Map<String, String> mapRespuestasVoluntad) {
+        this.mapRespuestasVoluntad = mapRespuestasVoluntad;
+    }
+
+    public Map<String, String> getMapRespuestasGarantias() {
+        return mapRespuestasGarantias;
+    }
+
+    public void setMapRespuestasGarantias(Map<String, String> mapRespuestasGarantias) {
+        this.mapRespuestasGarantias = mapRespuestasGarantias;
+    }
+
+    public Map<String, String> getMapRespuestasCalidad() {
+        return mapRespuestasCalidad;
+    }
+
+    public void setMapRespuestasCalidad(Map<String, String> mapRespuestasCalidad) {
+        this.mapRespuestasCalidad = mapRespuestasCalidad;
+    }
+
+    public Map<String, String> getMapRespuestasInforme() {
+        return mapRespuestasInforme;
+    }
+
+    public void setMapRespuestasInforme(Map<String, String> mapRespuestasInforme) {
+        this.mapRespuestasInforme = mapRespuestasInforme;
     }
 }

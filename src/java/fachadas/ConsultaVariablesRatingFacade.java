@@ -63,12 +63,7 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         
             listaVariables.add(objetoAgregado);
         }
-//        listaVariablesModulo.add(listarVariablesFinanciero(listaVariables));
-//        listaVariablesModulo.add(listarVariablesComportamiento(listaVariables));
-//        listaVariablesModulo.add(listarVariablesObjetivo(listaVariables));
-//        listaVariablesModulo.add(listarVariablesSubjetivo(listaVariables));
-//        listaVariablesModulo.add(listarVariablesResultado(listaVariables));
-
+       
         this.listarVariables(listaVariables);
         
         listaVariablesModulo.add(this.getListaVariablesFinanciero());
@@ -104,23 +99,14 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         }
         
         this.listarRespuestasVariables(listaRespuestasVariables);
-       // listaRespuestasVariablesModulo.
-       //         add(listarRespuestasVariablesComportamiento
-       // (listaRespuestasVariables));
-       // listaRespuestasVariablesModulo.
-       //         add(listarRespuestasVariablesSubjetivo
-       // (listaRespuestasVariables));
-       // listaRespuestasVariablesModulo.
-       //         add(listarRespuestasVariablesObjetivo
-       // (listaRespuestasVariables));
         listaRespuestasVariablesModulo.add(
                 this.getListaRespuestasVariablesFinanciero());
         listaRespuestasVariablesModulo.add(
                 this.getListaRespuestasVariablesComportamiento());
-        listaRespuestasVariablesModulo.add(listarRespuestasVariablesSubjetivo
+        listaRespuestasVariablesModulo.add(listarRespuestasVariablesObjetivo
         (listaRespuestasVariables));
         listaRespuestasVariablesModulo.
-                add(listarRespuestasVariablesObjetivo
+                add(listarRespuestasVariablesSubjetivo
         (listaRespuestasVariables));
         
         return listaRespuestasVariablesModulo;
@@ -152,6 +138,8 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
                 objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
                 objetoAgregado.setNombre(listaVariables.get(i).getNombre());
                 listaVariablesObjetivo.add(objetoAgregado);
+                System.out.println("Id del modulo:::"+objetoAgregado.getIdModulo());
+                System.out.println("Nombre de la :::"+objetoAgregado.getNombre());
             }
             if (listaVariables.get(i).getIdModulo() == 4) {
                 VariablesRating objetoAgregado = new VariablesRating();
@@ -217,58 +205,6 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
                 listaRespuestasVariablesSubjetivo.add(objetoAgregado);
             }
         }
-    }
-    
-    public List<VariablesRating> listarRespuestasVariablesFinanciero
-        (List<VariablesRating> listaRespuestaVariables){
-        listaRespuestasVariablesFinanciero = new ArrayList<>();
-        listaVariablesComportamiento = new ArrayList<>();
-        listaVariablesObjetivo = new ArrayList<>();
-        listaVariablesSubjetivo = new ArrayList<>();
-        
-        for (int i = 0; i < listaRespuestaVariables.size(); i++) {
-            if (listaRespuestaVariables.get(i).getIdModulo() == 1) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
-                        getIdModulo());
-                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
-                        getNombre());
-                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
-                        getRespuesta());
-                listaRespuestasVariablesFinanciero.add(objetoAgregado);
-            }
-            if (listaRespuestaVariables.get(i).getIdModulo() == 2) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
-                        getIdModulo());
-                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
-                        getNombre());
-                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
-                        getRespuesta());
-                listaVariablesComportamiento.add(objetoAgregado);
-            }
-            if (listaRespuestaVariables.get(i).getIdModulo() == 3) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
-                        getIdModulo());
-                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
-                        getNombre());
-                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
-                        getRespuesta());
-                listaVariablesObjetivo.add(objetoAgregado);
-            }
-            if (listaRespuestaVariables.get(i).getIdModulo() == 4) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
-                        getIdModulo());
-                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
-                        getNombre());
-                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
-                        getRespuesta());
-                listaVariablesSubjetivo.add(objetoAgregado);
-            }
-        }
-        return listaRespuestasVariablesFinanciero;
     }
     
     public List<VariablesRating> listarRespuestasVariablesComportamiento

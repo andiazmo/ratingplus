@@ -12,6 +12,7 @@ import entidades.RatingInfo;
 import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaRatingFacade;
+import fachadas.ConsultaVariablesRatingFacade;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ public class ConsultaRatingController extends AbstractController{
     
     @EJB
     private ConsultaClientesRatingFacade ejbFacadeCliente;
+    
+    @EJB
+    private ConsultaVariablesRatingFacade ejbFacadeVariables;
 
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
@@ -93,7 +97,7 @@ public class ConsultaRatingController extends AbstractController{
     }
     
     public void precargaListaVariables(){
-       this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
+       this.setListaVariablesModulo(getEjbFacadeVariables().listarVariablesRating());
     }
     
     
@@ -660,6 +664,14 @@ public class ConsultaRatingController extends AbstractController{
 
     public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
         this.ejbFacadeCliente = ejbFacadeCliente;
+    }
+    
+    public ConsultaVariablesRatingFacade getEjbFacadeVariables() {
+        return ejbFacadeVariables;
+    }
+
+    public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
+        this.ejbFacadeVariables = ejbFacadeVariables;
     }
     
 }

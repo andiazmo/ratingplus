@@ -10,6 +10,7 @@ import entidades.GruposClientes;
 import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaSubjetivoFacade;
+import fachadas.ConsultaVariablesRatingFacade;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class ModuloSubjetivoController extends AbstractController{
     private ConsultaSubjetivoFacade ejbFacade;
     @EJB
     private ConsultaClientesRatingFacade ejbFacadeCliente;
+    @EJB
+    private ConsultaVariablesRatingFacade ejbFacadeVariables;
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
     private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
@@ -88,11 +91,11 @@ public class ModuloSubjetivoController extends AbstractController{
     }
 
     public void precargaListaVariables(){
-       this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());  
+       this.setListaVariablesModulo(getEjbFacadeVariables().listarVariablesRating());  
     }
     
     public void precargaListaRespuestasVariables(){
-       this.setListaRespuestasVariablesModulo(getEjbFacadeCliente().listarRespuestasVariablesRating());
+       this.setListaRespuestasVariablesModulo(getEjbFacadeVariables().listarRespuestasVariablesRating());
     }
      
     public List<VariablesRating> precargaRespuestaListaSubjetivo(){
@@ -550,5 +553,13 @@ public class ModuloSubjetivoController extends AbstractController{
 
     public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
         this.ejbFacadeCliente = ejbFacadeCliente;
+    }
+    
+     public ConsultaVariablesRatingFacade getEjbFacadeVariables() {
+        return ejbFacadeVariables;
+    }
+
+    public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
+        this.ejbFacadeVariables = ejbFacadeVariables;
     }
 }

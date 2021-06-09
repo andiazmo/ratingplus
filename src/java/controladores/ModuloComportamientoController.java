@@ -11,6 +11,7 @@ import entidades.RatingInfo;
 import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaComportamientoFacade;
+import fachadas.ConsultaVariablesRatingFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,22 +39,20 @@ public class ModuloComportamientoController extends AbstractController{
     
     @EJB
     private ConsultaClientesRatingFacade ejbFacadeCliente;
+    
+    @EJB
+    private ConsultaVariablesRatingFacade ejbFacadeVariables;
 
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
     private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
     private List<RatingInfo> informacionRating;
     private List<VariablesRating> listaVariables;
-    private List<VariablesRating> listaVariablesFinanciero;
     private List<VariablesRating> listaVariablesComportamiento;
     private List<VariablesRating> listaRespuestasVariablesComportamiento;
-    private List<VariablesRating> listaVariablesObjetivo;
-    private List<VariablesRating> listaVariablesSubjetivo;
     private List<VariablesRating> listaVariablesFront;
     private List<VariablesRating> listaVariablesFrontComportamiento;
     private List<VariablesRating> listaRespuestasVariablesFrontComportamiento;
-    private List<VariablesRating> listaVariablesFrontObjetivo;
-    private List<VariablesRating> listaVariablesFrontSubjetivo;
     private List<VariablesRating> listaVariablesFrontResultado;
     private List<List<VariablesRating>> listaVariablesModulo;
     private List<List<VariablesRating>> listaRespuestasVariablesModulo;
@@ -65,7 +64,6 @@ public class ModuloComportamientoController extends AbstractController{
     private List<List<VariablesRating>> listVariablesRating;
     private List<VariablesRating> variablesRatingComportamiento;
     private List<VariablesRating> variablesRatingResultado;
-    private List<VariablesRating> ratingUpdate;
     private Map<String, String> respComp = new HashMap<>();
     private Map<String, String> respFrontComp = new HashMap<>();
     private List<VariablesRating> listaRespuestasVariablesComportamientoFront;
@@ -93,12 +91,12 @@ public class ModuloComportamientoController extends AbstractController{
     }
     
     public void precargaListaVariables(){
-        this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
+        this.setListaVariablesModulo(getEjbFacadeVariables().listarVariablesRating());
     }
     
     public void precargaListaRespuestasVariables(){
         this.setListaRespuestasVariablesModulo
-        (getEjbFacadeCliente().listarRespuestasVariablesRating());
+        (getEjbFacadeVariables().listarRespuestasVariablesRating());
     }
      
     public List<VariablesRating> precargaRespuestaListaComportamiento(){
@@ -108,29 +106,10 @@ public class ModuloComportamientoController extends AbstractController{
         return listaRespuestasVariablesComportamiento;
     }
     
-    
-    public List<VariablesRating> precargaListaFinanciera(){
-       this.setListaVariablesFinanciero(this.getListaVariablesModulo().get(0));
-       
-       return listaVariablesFinanciero;
-    }
-    
     public List<VariablesRating> precargaListaComportamiento(){
        this.setListaVariablesComportamiento(this.getListaVariablesModulo().get(1));
        
        return listaVariablesComportamiento;
-    }
-    
-    public List<VariablesRating> precargaListaObjetivo(){
-       this.setListaVariablesObjetivo(this.getListaVariablesModulo().get(2));
-       
-       return listaVariablesObjetivo;
-    }
-     
-    public List<VariablesRating> precargaListaSubjetivo(){
-        this.setListaVariablesSubjetivo(this.getListaVariablesModulo().get(3));
-        
-        return listaVariablesSubjetivo;
     }
     
     public void reasignarControles(){
@@ -336,14 +315,6 @@ public class ModuloComportamientoController extends AbstractController{
         this.listaVariables = listaVariables;
     }
     
-    public List<VariablesRating> getListaVariablesFinanciero() {
-        return listaVariablesFinanciero;
-    }
-
-    public void setListaVariablesFinanciero(List<VariablesRating> listaVariablesFinanciero) {
-        this.listaVariablesFinanciero = listaVariablesFinanciero;
-    }
-
     public List<VariablesRating> getListaVariablesComportamiento() {
         return listaVariablesComportamiento;
     }
@@ -352,22 +323,6 @@ public class ModuloComportamientoController extends AbstractController{
         this.listaVariablesComportamiento = listaVariablesComportamiento;
     }
 
-    public List<VariablesRating> getListaVariablesObjetivo() {
-        return listaVariablesObjetivo;
-    }
-
-    public void setListaVariablesObjetivo(List<VariablesRating> listaVariablesObjetivo) {
-        this.listaVariablesObjetivo = listaVariablesObjetivo;
-    }
-
-    public List<VariablesRating> getListaVariablesSubjetivo() {
-        return listaVariablesSubjetivo;
-    }
-
-    public void setListaVariablesSubjetivo(List<VariablesRating> listaVariablesSubjetivo) {
-        this.listaVariablesSubjetivo = listaVariablesSubjetivo;
-    }
-    
      public List<VariablesRating> getListaVariablesFront() {
         return listaVariablesFront;
     }
@@ -392,22 +347,6 @@ public class ModuloComportamientoController extends AbstractController{
         this.listaVariablesFrontComportamiento = listaVariablesFrontComportamiento;
     }
 
-    public List<VariablesRating> getListaVariablesFrontObjetivo() {
-        return listaVariablesFrontObjetivo;
-    }
-
-    public void setListaVariablesFrontObjetivo(List<VariablesRating> listaVariablesFrontObjetivo) {
-        this.listaVariablesFrontObjetivo = listaVariablesFrontObjetivo;
-    }
-
-    public List<VariablesRating> getListaVariablesFrontSubjetivo() {
-        return listaVariablesFrontSubjetivo;
-    }
-
-    public void setListaVariablesFrontSubjetivo(List<VariablesRating> listaVariablesFrontSubjetivo) {
-        this.listaVariablesFrontSubjetivo = listaVariablesFrontSubjetivo;
-    }
-    
     public List<VariablesRating> getVariablesRating() {
         return variablesRating;
     }
@@ -446,14 +385,6 @@ public class ModuloComportamientoController extends AbstractController{
 
     public void setListaVariablesFrontResultado(List<VariablesRating> listaVariablesFrontResultado) {
         this.listaVariablesFrontResultado = listaVariablesFrontResultado;
-    }
-    
-     public List<VariablesRating> getRatingUpdate() {
-        return ratingUpdate;
-    }
-
-    public void setRatingUpdate(List<VariablesRating> ratingUpdate) {
-        this.ratingUpdate = ratingUpdate;
     }
     
      public List<List<VariablesRating>> getListaRespuestasVariablesModulo() {
@@ -558,5 +489,13 @@ public class ModuloComportamientoController extends AbstractController{
 
     public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
         this.ejbFacadeCliente = ejbFacadeCliente;
+    }
+    
+    public ConsultaVariablesRatingFacade getEjbFacadeVariables() {
+        return ejbFacadeVariables;
+    }
+
+    public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
+        this.ejbFacadeVariables = ejbFacadeVariables;
     }
 }

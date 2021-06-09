@@ -8,6 +8,7 @@ package controladores;
 import entidades.Modulo;
 import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
+import fachadas.ConsultaVariablesRatingFacade;
 import fachadas.VariablesRespuestasRatingFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class VariablesRespuestasRatingController extends AbstractController {
     @EJB
     private ConsultaClientesRatingFacade ejbFacadeCliente;
     
+    @EJB
+    private ConsultaVariablesRatingFacade ejbFacadeVariables;
     private List<VariablesRating> listaVariables;
     private List<VariablesRating> listaVariablesFinanciero;
     private List<VariablesRating> listaVariablesComportamiento;
@@ -80,7 +83,7 @@ public class VariablesRespuestasRatingController extends AbstractController {
 
     public void precargaInformacion(){
         this.setRespuestasRating(getEjbFacade().listarRespuestasRating());
-        this.setRespuestasModuloRating(getEjbFacadeCliente().listarModulo());
+        this.setRespuestasModuloRating(getEjbFacadeVariables().listarModulo());
         
         
         modulos = new HashMap<>();
@@ -192,7 +195,7 @@ public class VariablesRespuestasRatingController extends AbstractController {
     }
     
     public void precargaListaVariables(){
-        this.setListaVariablesModulo(getEjbFacadeCliente().listarVariablesRating());
+        this.setListaVariablesModulo(getEjbFacadeVariables().listarVariablesRating());
     }
     
     public void onModuleChange() {
@@ -535,6 +538,14 @@ public class VariablesRespuestasRatingController extends AbstractController {
 
     public void setEjbFacadeCliente(ConsultaClientesRatingFacade ejbFacadeCliente) {
         this.ejbFacadeCliente = ejbFacadeCliente;
+    }
+    
+    public ConsultaVariablesRatingFacade getEjbFacadeVariables() {
+        return ejbFacadeVariables;
+    }
+
+    public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
+        this.ejbFacadeVariables = ejbFacadeVariables;
     }
     
 }

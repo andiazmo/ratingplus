@@ -90,81 +90,6 @@ public class ModuloComportamientoController extends AbstractController{
         listaVariablesFrontComportamiento = this.precargaListaComportamiento();
         listaRespuestasVariablesComportamientoFront = 
                 this.precargaRespuestaListaComportamiento();
-        
-        mapRespuestasCalificacion.
-                        put(listaRespuestasVariablesComportamientoFront.get(0).
-                                getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.
-                                        get(0).getRespuesta());
-        
-        for (int i = 1; i < listaRespuestasVariablesComportamientoFront.size(); i++) {
-            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    contains("Calificaciones")){
-                mapRespuestasCalificacion.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                
-                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
-                
-                mapRespuestasCalificacion.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                }
-            }
-            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    contains("Garantias")){
-                mapRespuestasGarantias.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                
-                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
-                mapRespuestasGarantias.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                }
-            }
-            
-            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("Indicador")){
-                mapRespuestasMora.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                
-                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
-                mapRespuestasMora.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                }
-            }
-            
-            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("bancos")){
-                mapRespuestasNumeroBancos.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                
-                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
-                mapRespuestasNumeroBancos.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                }
-            }
-            
-            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("Marcacion")){
-                mapRespuestasMarcacion.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                
-                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
-                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
-                mapRespuestasMarcacion.
-                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
-                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
-                }
-            }
-        }
     }
 
     public void precargaInformacion(){
@@ -184,8 +109,89 @@ public class ModuloComportamientoController extends AbstractController{
        this.setListaRespuestasVariablesComportamiento
         (this.getListaRespuestasVariablesModulo().get(1));
       
+       return this.respuestasPorVariable();
+    }
+    
+    public List<VariablesRating> respuestasPorVariable(){
+        
+        mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamiento.get(0).
+                                getRespuesta(),
+                                listaRespuestasVariablesComportamiento.
+                                        get(0).getRespuesta());
+        
+        for (int i = 1; i < listaRespuestasVariablesComportamiento.size(); i++) {
+            if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    contains("Calificaciones")){
+                mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamiento.get(i-1).getNombre())) {
+                
+                mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    contains("Garantias")){
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamiento.get(i-1).getNombre())) {
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamiento.get(i).getNombre().contains("Indicador")){
+                mapRespuestasMora.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamiento.get(i-1).getNombre())) {
+                mapRespuestasMora.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamiento.get(i).getNombre().contains("bancos")){
+                mapRespuestasNumeroBancos.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamiento.get(i-1).getNombre())) {
+                mapRespuestasNumeroBancos.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamiento.get(i).getNombre().contains("Marcacion")){
+                mapRespuestasMarcacion.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamiento.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamiento.get(i-1).getNombre())) {
+                mapRespuestasMarcacion.
+                        put(listaRespuestasVariablesComportamiento.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamiento.get(i).getRespuesta());
+                }
+            }
+        }
+       
        return listaRespuestasVariablesComportamiento;
     }
+    
     
     public List<VariablesRating> precargaListaComportamiento(){
        this.setListaVariablesComportamiento(this.getListaVariablesModulo().get(1));

@@ -98,7 +98,8 @@
                 <p:panel header="Variables Módulo Comportamiento">
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-4">
-                        <p:dataTable var="product" value="#{moduloComportamiento.listaRespuestasVariablesComportamiento.get(0)}">
+                        <p:dataTable var="product" 
+                                     value="#{moduloComportamiento.listaRespuestasVariablesComportamiento.get(0)}">
                             <p:column headerText="Nombre">
                                 <h:outputText value="#{product.nombre}" />
                             </p:column>
@@ -107,9 +108,12 @@
                                                  label="Rangos variable" required="true" 
                                                  style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <f:selectItems value="#{moduloComportamiento.mapRespuestasCalificion}"/>
+                                    <!--
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(0).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(1).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(2).mapRespuesta}" />
+                                    -->
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>
@@ -122,8 +126,7 @@
                                                  label="Rangos variable" required="true" 
                                                  style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
-                                    <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(3).mapRespuesta}" />
-                                    <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(4).mapRespuesta}" />
+                                    <f:selectItems value="#{moduloComportamiento.mapRespuestasGarantias}"/>
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>
@@ -136,8 +139,11 @@
                                                  label="Rangos variable" required="true" 
                                                  style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <f:selectItems value="#{moduloComportamiento.mapRespuestasMora}"/>
+                                    <!--
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(5).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(6).mapRespuesta}" />
+                                    -->
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>    
@@ -150,9 +156,12 @@
                                                  label="Rangos variable" required="true" 
                                                  style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <f:selectItems value="#{moduloComportamiento.mapRespuestasNumeroBancos}"/>
+                                    <!--
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(7).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(8).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(9).mapRespuesta}" />
+                                    -->
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>
@@ -165,8 +174,11 @@
                                                  label="Rangos variable" required="true" 
                                                  style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                                    <f:selectItems value="#{moduloComportamiento.mapRespuestasMarcacion}"/>
+                                    <!--
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(10).mapRespuesta}" />
                                     <f:selectItems value="#{moduloComportamiento.listaRespuestasVariablesComportamientoFront.get(11).mapRespuesta}" />
+                                    -->
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>

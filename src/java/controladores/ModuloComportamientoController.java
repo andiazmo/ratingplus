@@ -73,6 +73,12 @@ public class ModuloComportamientoController extends AbstractController{
     private String respuestaIndMora;
     private String respuestaNumeroBancos;
     private String respuestaMarcacionReestructuracion;
+    private String respuestasCalificacion;
+    private Map<String, String> mapRespuestasCalificacion = new HashMap<>();
+    private Map<String, String> mapRespuestasGarantias = new HashMap<>();
+    private Map<String, String> mapRespuestasMora = new HashMap<>();
+    private Map<String, String> mapRespuestasNumeroBancos = new HashMap<>();
+    private Map<String, String> mapRespuestasMarcacion = new HashMap<>();
 
     @PostConstruct
     @Override
@@ -84,6 +90,81 @@ public class ModuloComportamientoController extends AbstractController{
         listaVariablesFrontComportamiento = this.precargaListaComportamiento();
         listaRespuestasVariablesComportamientoFront = 
                 this.precargaRespuestaListaComportamiento();
+        
+        mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamientoFront.get(0).
+                                getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.
+                                        get(0).getRespuesta());
+        
+        for (int i = 1; i < listaRespuestasVariablesComportamientoFront.size(); i++) {
+            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    contains("Calificaciones")){
+                mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
+                
+                mapRespuestasCalificacion.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                }
+            }
+            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    contains("Garantias")){
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
+                mapRespuestasGarantias.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("Indicador")){
+                mapRespuestasMora.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
+                mapRespuestasMora.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("bancos")){
+                mapRespuestasNumeroBancos.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
+                mapRespuestasNumeroBancos.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                }
+            }
+            
+            if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().contains("Marcacion")){
+                mapRespuestasMarcacion.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                
+                if(listaRespuestasVariablesComportamientoFront.get(i).getNombre().
+                    equals(listaRespuestasVariablesComportamientoFront.get(i-1).getNombre())) {
+                mapRespuestasMarcacion.
+                        put(listaRespuestasVariablesComportamientoFront.get(i).getRespuesta(),
+                                listaRespuestasVariablesComportamientoFront.get(i).getRespuesta());
+                }
+            }
+        }
     }
 
     public void precargaInformacion(){
@@ -101,9 +182,9 @@ public class ModuloComportamientoController extends AbstractController{
      
     public List<VariablesRating> precargaRespuestaListaComportamiento(){
        this.setListaRespuestasVariablesComportamiento
-        (this.getListaRespuestasVariablesModulo().get(0));
-       
-        return listaRespuestasVariablesComportamiento;
+        (this.getListaRespuestasVariablesModulo().get(1));
+      
+       return listaRespuestasVariablesComportamiento;
     }
     
     public List<VariablesRating> precargaListaComportamiento(){
@@ -497,5 +578,53 @@ public class ModuloComportamientoController extends AbstractController{
 
     public void setEjbFacadeVariables(ConsultaVariablesRatingFacade ejbFacadeVariables) {
         this.ejbFacadeVariables = ejbFacadeVariables;
+    }
+    
+    public String getRespuestasCalificacion() {
+        return respuestasCalificacion;
+    }
+
+    public void setRespuestasCalificacion(String respuestasCalificacion) {
+        this.respuestasCalificacion = respuestasCalificacion;
+    }
+
+    public Map<String, String> getMapRespuestasCalificion() {
+        return mapRespuestasCalificacion;
+    }
+
+    public void setMapRespuestasCalificion(Map<String, String> mapRespuestasCalificion) {
+        this.mapRespuestasCalificacion = mapRespuestasCalificion;
+    }
+    
+    public Map<String, String> getMapRespuestasGarantias() {
+        return mapRespuestasGarantias;
+    }
+
+    public void setMapRespuestasGarantias(Map<String, String> mapRespuestasGarantias) {
+        this.mapRespuestasGarantias = mapRespuestasGarantias;
+    }
+
+    public Map<String, String> getMapRespuestasNumeroBancos() {
+        return mapRespuestasNumeroBancos;
+    }
+
+    public void setMapRespuestasNumeroBancos(Map<String, String> mapRespuestasNumeroBancos) {
+        this.mapRespuestasNumeroBancos = mapRespuestasNumeroBancos;
+    }
+
+    public Map<String, String> getMapRespuestasMarcacion() {
+        return mapRespuestasMarcacion;
+    }
+
+    public void setMapRespuestasMarcacion(Map<String, String> mapRespuestasMarcacion) {
+        this.mapRespuestasMarcacion = mapRespuestasMarcacion;
+    }
+    
+    public Map<String, String> getMapRespuestasMora() {
+        return mapRespuestasMora;
+    }
+
+    public void setMapRespuestasMora(Map<String, String> mapRespuestasMora) {
+        this.mapRespuestasMora = mapRespuestasMora;
     }
 }

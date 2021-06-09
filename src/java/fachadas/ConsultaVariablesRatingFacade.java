@@ -25,6 +25,16 @@ import javax.persistence.PersistenceContext;
 public class ConsultaVariablesRatingFacade extends AbstractFacade {
     @PersistenceContext(unitName = "cuposPU")
     private EntityManager em;
+    
+    private List<VariablesRating> listaVariablesFinanciero;
+    private List<VariablesRating> listaVariablesComportamiento;
+    private List<VariablesRating> listaVariablesObjetivo;
+    private List<VariablesRating> listaVariablesSubjetivo;
+    private List<VariablesRating> listaVariablesResultado;
+    private List<VariablesRating> listaRespuestasVariablesFinanciero;
+    private List<VariablesRating> listaRespuestasVariablesComportamiento;
+    private List<VariablesRating> listaRespuestasVariablesObjetivo;
+    private List<VariablesRating> listaRespuestasVariablesSubjetivo;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -53,11 +63,19 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         
             listaVariables.add(objetoAgregado);
         }
-        listaVariablesModulo.add(listarVariablesFinanciero(listaVariables));
-        listaVariablesModulo.add(listarVariablesComportamiento(listaVariables));
-        listaVariablesModulo.add(listarVariablesObjetivo(listaVariables));
-        listaVariablesModulo.add(listarVariablesSubjetivo(listaVariables));
-        listaVariablesModulo.add(listarVariablesResultado(listaVariables));
+//        listaVariablesModulo.add(listarVariablesFinanciero(listaVariables));
+//        listaVariablesModulo.add(listarVariablesComportamiento(listaVariables));
+//        listaVariablesModulo.add(listarVariablesObjetivo(listaVariables));
+//        listaVariablesModulo.add(listarVariablesSubjetivo(listaVariables));
+//        listaVariablesModulo.add(listarVariablesResultado(listaVariables));
+
+        this.listarVariables(listaVariables);
+        
+        listaVariablesModulo.add(this.getListaVariablesFinanciero());
+        listaVariablesModulo.add(this.getListaVariablesComportamiento());
+        listaVariablesModulo.add(this.getListaVariablesObjetivo());
+        listaVariablesModulo.add(this.getListaVariablesSubjetivo());
+        listaVariablesModulo.add(this.getListaVariablesResultado());
         
         return listaVariablesModulo;
     }
@@ -66,6 +84,7 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         List<List<VariablesRating>> listaRespuestasVariablesModulo = 
                 new ArrayList<>();
         List<VariablesRating> listaRespuestasVariables = new ArrayList<>();
+        this.listaRespuestasVariablesFinanciero = new ArrayList<>();
         
         List listaProvisional = em.createNativeQuery("select id_modulo, "
                 + "id_variable, respuesta, nombre "
@@ -80,13 +99,25 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
             objetoAgregado.setRespuesta((String) object[2]);
             objetoAgregado.setNombre((String) object[3]);
             
+            
             listaRespuestasVariables.add(objetoAgregado);
         }
-        listaRespuestasVariablesModulo.
-                add(listarRespuestasVariablesComportamiento
-        (listaRespuestasVariables));
-        listaRespuestasVariablesModulo.
-                add(listarRespuestasVariablesSubjetivo
+        
+        this.listarRespuestasVariables(listaRespuestasVariables);
+       // listaRespuestasVariablesModulo.
+       //         add(listarRespuestasVariablesComportamiento
+       // (listaRespuestasVariables));
+       // listaRespuestasVariablesModulo.
+       //         add(listarRespuestasVariablesSubjetivo
+       // (listaRespuestasVariables));
+       // listaRespuestasVariablesModulo.
+       //         add(listarRespuestasVariablesObjetivo
+       // (listaRespuestasVariables));
+        listaRespuestasVariablesModulo.add(
+                this.getListaRespuestasVariablesFinanciero());
+        listaRespuestasVariablesModulo.add(
+                this.getListaRespuestasVariablesComportamiento());
+        listaRespuestasVariablesModulo.add(listarRespuestasVariablesSubjetivo
         (listaRespuestasVariables));
         listaRespuestasVariablesModulo.
                 add(listarRespuestasVariablesObjetivo
@@ -95,9 +126,13 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         return listaRespuestasVariablesModulo;
     }
     
-    public List<VariablesRating> listarVariablesFinanciero
+    public void listarVariables
         (List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesFinanciero = new ArrayList<>();
+        listaVariablesFinanciero = new ArrayList<>();
+        listaVariablesComportamiento = new ArrayList<>();
+        listaVariablesObjetivo = new ArrayList<>();
+        listaVariablesSubjetivo = new ArrayList<>();
+        listaVariablesResultado = new ArrayList<>();
         
         for (int i = 0; i < listaVariables.size(); i++) {
             if (listaVariables.get(i).getIdModulo() == 1) {
@@ -105,15 +140,40 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
                 objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
                 objetoAgregado.setNombre(listaVariables.get(i).getNombre());
                 listaVariablesFinanciero.add(objetoAgregado);
-            } 
+            }
+            if (listaVariables.get(i).getIdModulo() == 2) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
+                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
+                listaVariablesComportamiento.add(objetoAgregado);
+            }
+            if (listaVariables.get(i).getIdModulo() == 3) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
+                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
+                listaVariablesObjetivo.add(objetoAgregado);
+            }
+            if (listaVariables.get(i).getIdModulo() == 4) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
+                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
+                listaVariablesSubjetivo.add(objetoAgregado);
+            }
+             if (listaVariables.get(i).getIdModulo() == 5) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
+                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
+                listaVariablesResultado.add(objetoAgregado);
+            }
         }
-        return listaVariablesFinanciero;
     }
-    
-    public List<VariablesRating> listarRespuestasVariablesFinanciero
+        
+    public void listarRespuestasVariables
         (List<VariablesRating> listaRespuestaVariables){
-        List<VariablesRating> listaRespuestaVariablesFinanciero = 
-                new ArrayList<>();
+        listaRespuestasVariablesFinanciero = new ArrayList<>();
+        listaRespuestasVariablesComportamiento = new ArrayList<>();
+        listaRespuestasVariablesObjetivo = new ArrayList<>();
+        listaRespuestasVariablesSubjetivo = new ArrayList<>();
         
         for (int i = 0; i < listaRespuestaVariables.size(); i++) {
             if (listaRespuestaVariables.get(i).getIdModulo() == 1) {
@@ -124,30 +184,91 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
                         getNombre());
                 objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
                         getRespuesta());
-                listaRespuestaVariablesFinanciero.add(objetoAgregado);
-            }   
+                listaRespuestasVariablesFinanciero.add(objetoAgregado);
+            }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 2) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaRespuestasVariablesComportamiento.add(objetoAgregado);
+            }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 3) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaRespuestasVariablesObjetivo.add(objetoAgregado);
+            }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 4) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaRespuestasVariablesSubjetivo.add(objetoAgregado);
+            }
         }
-        return listaRespuestaVariablesFinanciero;
     }
     
-    public List<VariablesRating> listarVariablesComportamiento
-        (List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesComportamiento = 
-                new ArrayList<>();
+    public List<VariablesRating> listarRespuestasVariablesFinanciero
+        (List<VariablesRating> listaRespuestaVariables){
+        listaRespuestasVariablesFinanciero = new ArrayList<>();
+        listaVariablesComportamiento = new ArrayList<>();
+        listaVariablesObjetivo = new ArrayList<>();
+        listaVariablesSubjetivo = new ArrayList<>();
         
-        for (int i = 0; i < listaVariables.size(); i++) {
-            if (listaVariables.get(i).getIdModulo() == 2) {
+        for (int i = 0; i < listaRespuestaVariables.size(); i++) {
+            if (listaRespuestaVariables.get(i).getIdModulo() == 1) {
                 VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaVariables.get(i).
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
                         getIdModulo());
-                objetoAgregado.setNombre(listaVariables.get(i).
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
                         getNombre());
-                objetoAgregado.setRespuesta(listaVariables.get(i).
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaRespuestasVariablesFinanciero.add(objetoAgregado);
+            }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 2) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
                         getRespuesta());
                 listaVariablesComportamiento.add(objetoAgregado);
             }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 3) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaVariablesObjetivo.add(objetoAgregado);
+            }
+            if (listaRespuestaVariables.get(i).getIdModulo() == 4) {
+                VariablesRating objetoAgregado = new VariablesRating();
+                objetoAgregado.setIdModulo(listaRespuestaVariables.get(i).
+                        getIdModulo());
+                objetoAgregado.setNombre(listaRespuestaVariables.get(i).
+                        getNombre());
+                objetoAgregado.setRespuesta(listaRespuestaVariables.get(i).
+                        getRespuesta());
+                listaVariablesSubjetivo.add(objetoAgregado);
+            }
         }
-        return listaVariablesComportamiento;
+        return listaRespuestasVariablesFinanciero;
     }
     
     public List<VariablesRating> listarRespuestasVariablesComportamiento
@@ -199,38 +320,6 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         return listaRespuestasVariablesObjetivo;    
     }
     
-    public List<VariablesRating> listarVariablesObjetivo(
-            List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesObjetivo = new ArrayList<>();
-        
-        for (int i = 0; i < listaVariables.size(); i++) {
-            if (listaVariables.get(i).getIdModulo() == 3) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
-                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
-                
-                listaVariablesObjetivo.add(objetoAgregado);
-            }
-        }
-        return listaVariablesObjetivo;
-    }
-    
-    public List<VariablesRating> listarVariablesSubjetivo(
-            List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesSubjetivo = new ArrayList<>();
-        
-        for (int i = 0; i < listaVariables.size(); i++) {
-            if (listaVariables.get(i).getIdModulo() == 4) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
-                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
-               
-                listaVariablesSubjetivo.add(objetoAgregado);
-            }
-        }
-        return listaVariablesSubjetivo;     
-    }
-    
     public List<VariablesRating> listarRespuestasVariablesSubjetivo
         (List<VariablesRating> listaRespuestasVariables){
         List<VariablesRating> listaRespuestasVariablesSubjetivo = 
@@ -255,22 +344,6 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
         return listaRespuestasVariablesSubjetivo;    
     }
    
-    public List<VariablesRating> listarVariablesResultado(
-            List<VariablesRating> listaVariables){
-        List<VariablesRating> listaVariablesResultado = new ArrayList<>();
-        
-        for (int i = 0; i < listaVariables.size(); i++) {
-            if (listaVariables.get(i).getIdModulo() == 5) {
-                VariablesRating objetoAgregado = new VariablesRating();
-                objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
-                objetoAgregado.setNombre(listaVariables.get(i).getNombre());
-                
-                listaVariablesResultado.add(objetoAgregado);
-            }
-        }
-        return listaVariablesResultado;
-    }
-    
     public List<Modulo> listarModulo(){
         List<Modulo> listaModulos = new ArrayList<>();
         
@@ -287,5 +360,77 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
             listaModulos.add(objetoAgregado);
         }
         return listaModulos;
+    }
+   
+    public List<VariablesRating> getListaVariablesComportamiento() {
+        return listaVariablesComportamiento;
+    }
+
+    public void setListaVariablesComportamiento(List<VariablesRating> listaVariablesComportamiento) {
+        this.listaVariablesComportamiento = listaVariablesComportamiento;
+    }
+
+    public List<VariablesRating> getListaVariablesObjetivo() {
+        return listaVariablesObjetivo;
+    }
+
+    public void setListaVariablesObjetivo(List<VariablesRating> listaVariablesObjetivo) {
+        this.listaVariablesObjetivo = listaVariablesObjetivo;
+    }
+
+    public List<VariablesRating> getListaVariablesSubjetivo() {
+        return listaVariablesSubjetivo;
+    }
+
+    public void setListaVariablesSubjetivo(List<VariablesRating> listaVariablesSubjetivo) {
+        this.listaVariablesSubjetivo = listaVariablesSubjetivo;
+    }
+    
+    public List<VariablesRating> getListaRespuestasVariablesFinanciero() {
+        return listaRespuestasVariablesFinanciero;
+    }
+
+    public void setListaRespuestasVariablesFinanciero(List<VariablesRating> listaRespuestasVariablesFinanciero) {
+        this.listaRespuestasVariablesFinanciero = listaRespuestasVariablesFinanciero;
+    }
+
+    public List<VariablesRating> getListaRespuestasVariablesComportamiento() {
+        return listaRespuestasVariablesComportamiento;
+    }
+
+    public void setListaRespuestasVariablesComportamiento(List<VariablesRating> listaRespuestasVariablesComportamiento) {
+        this.listaRespuestasVariablesComportamiento = listaRespuestasVariablesComportamiento;
+    }
+
+    public List<VariablesRating> getListaRespuestasVariablesObjetivo() {
+        return listaRespuestasVariablesObjetivo;
+    }
+
+    public void setListaRespuestasVariablesObjetivo(List<VariablesRating> listaRespuestasVariablesObjetivo) {
+        this.listaRespuestasVariablesObjetivo = listaRespuestasVariablesObjetivo;
+    }
+
+    public List<VariablesRating> getListaRespuestasVariablesSubjetivo() {
+        return listaRespuestasVariablesSubjetivo;
+    }
+
+    public void setListaRespuestasVariablesSubjetivo(List<VariablesRating> listaRespuestasVariablesSubjetivo) {
+        this.listaRespuestasVariablesSubjetivo = listaRespuestasVariablesSubjetivo;
+    }
+    
+    public List<VariablesRating> getListaVariablesFinanciero() {
+        return listaVariablesFinanciero;
+    }
+
+    public void setListaVariablesFinanciero(List<VariablesRating> listaVariablesFinanciero) {
+        this.listaVariablesFinanciero = listaVariablesFinanciero;
+    }
+    
+     public List<VariablesRating> getListaVariablesResultado() {
+        return listaVariablesResultado;
+    }
+
+    public void setListaVariablesResultado(List<VariablesRating> listaVariablesResultado) {
+        this.listaVariablesResultado = listaVariablesResultado;
     }
 }

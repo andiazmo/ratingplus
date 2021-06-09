@@ -140,8 +140,6 @@ public class ModuloObjetivableController extends AbstractController{
         return this.getListaRespuestasVariablesObjetivable();
     }
     
-
-    
     public List<VariablesRating> respuestasPorVariableObjetivo(){
         
         mapRespuestasEvolucion.

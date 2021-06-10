@@ -36,6 +36,26 @@ public class ConsultaClientesRatingFacade extends AbstractFacade {
         super(GruposClientes.class);
     }
     
+    public List<ClientesRating> listarClientes(){
+        List<ClientesRating> listaClientes = new ArrayList<>();
+        
+        List listaProvisional = em.createNativeQuery("select grupo, "
+                + "nombre, nit from clientes "
+                + "order by nit asc").getResultList();
+        Iterator i = listaProvisional.iterator();
+        
+        while(i.hasNext()){
+            Object[] object = (Object[]) i.next();
+            ClientesRating objetoAgregado = new ClientesRating();
+            objetoAgregado.setIdGrupo
+        (Integer.parseInt(((BigDecimal) object[0]).toString()));
+            objetoAgregado.setNombre((String) object[1]);
+            objetoAgregado.setNit((String) object[2]);
+            listaClientes.add(objetoAgregado);
+        }
+        return listaClientes;
+    }
+    
     public List<GruposClientes> listarGruposCliente(){
         List<GruposClientes> listaGrupos = new ArrayList<>();
         

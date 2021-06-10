@@ -16,6 +16,7 @@ import fachadas.ConsultaVariablesRatingFacade;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -26,6 +27,7 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 import session.UsuarioSeccion;
 
 /**
@@ -48,6 +50,7 @@ public class ConsultaRatingController extends AbstractController{
     private List<GruposClientes> listaGrupos;
     private List<ClientesRating> listaClientes;
     private List<ClientesRating> listaClientesSeleccionados = new ArrayList<>();
+    private List<ClientesRating> listaClientesPreCarga = new ArrayList<>();
     private List<RatingInfo> informacionRating;
     private List<VariablesRating> listaVariables;
     private List<VariablesRating> listaVariablesFinanciero;
@@ -77,6 +80,7 @@ public class ConsultaRatingController extends AbstractController{
     private List<VariablesRating> variablesRatingResultado;
     private List<VariablesRating> ratingUpdate;
     private String periodo;
+    private List<String> listClient;
 
     @PostConstruct
     @Override
@@ -93,7 +97,7 @@ public class ConsultaRatingController extends AbstractController{
     }
 
     public void precargaInformacion(){
-        this.setListaGrupos(getEjbFacadeCliente().listarGruposCliente());
+        this.setListaClientesPreCarga(getEjbFacadeCliente().listarClientes());
     }
     
     public void precargaListaVariables(){
@@ -144,6 +148,18 @@ public class ConsultaRatingController extends AbstractController{
         this.nitDiligenciado = "";
         this.nombreDiligenciado = "";
         this.listaPeriodos = new ArrayList<>();
+    }
+    
+    public List<String> completeText(String query) {
+        listClient = new ArrayList<>();
+        
+        for(int i=0;i<this.listaClientesPreCarga.size();i++){
+            if(this.listaClientesPreCarga.get(i).getNombre().toLowerCase().
+                    contains(query.toLowerCase())){
+                listClient.add(this.listaClientesPreCarga.get(i).getNombre());
+            }   
+        }
+        return listClient;
     }
     
     public void consultaClientes(ActionEvent event){
@@ -674,4 +690,19 @@ public class ConsultaRatingController extends AbstractController{
         this.ejbFacadeVariables = ejbFacadeVariables;
     }
     
+    public List<ClientesRating> getListaClientesPreCarga() {
+        return listaClientesPreCarga;
+    }
+
+    public void setListaClientesPreCarga(List<ClientesRating> listaClientesPreCarga) {
+        this.listaClientesPreCarga = listaClientesPreCarga;
+    }
+    
+    public List<String> getListClient() {
+        return listClient;
+    }
+
+    public void setListClient(List<String> listClient) {
+        this.listClient = listClient;
+    }
 }

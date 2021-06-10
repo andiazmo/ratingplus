@@ -46,11 +46,15 @@
 
                     <p:radioButton id="opt2" for="btnSeleccion" itemIndex="1"/>
                     <h:outputLabel for="opt2" value="Consulta por Nombre:"/>
-                    <p:inputText id="txtNombre" requiredMessage="Nombre. 
-                                 Error de validación, se necesita un valor" 
-                                 value="#{consultaRating.nombreDiligenciado}" 
-                                 required="#{consultaRating.tipoConsulta == '1'}" 
-                                 disabled="#{consultaRating.tipoConsulta != '1'}"/>
+                    <p:autoComplete  id="txtNombre"
+                                     value="#{consultaRating.nombreDiligenciado}"
+                                   requiredMessage="Nombre. 
+                                   Error de validación, se necesita un valor"
+                                   completeMethod="#{consultaRating.completeText}"
+                                   required="#{consultaRating.tipoConsulta == '1'}" 
+                                   disabled="#{consultaRating.tipoConsulta != '1'}">  
+                    </p:autoComplete>
+                     
                     <p:commandButton actionListener="#{consultaRating.obtenerPeriodos}" 
                                      update=":growl, :formConsultaInicial:lblPeriodo, 
                                      :formConsultaInicial:sltPeriodo, 

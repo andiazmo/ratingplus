@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/controladores/ModuloComportamientoController.java</file>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/controladores/ModuloObjetivableController.java</file>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/moduloComportamiento.xhtml</file>
-            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/moduloObjetivable.xhtml</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/entidades/ClientesRating.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/web/ratingPlus/consultaRating.xhtml</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/controladores/ConsultaRatingController.java</file>
+            <file>file:/C:/Users/Anyelo/Documents/NetBeansProjectsSantander/cupos-web/src/java/fachadas/ConsultaClientesRatingFacade.java</file>
         </group>
     </open-files>
 </project-private>

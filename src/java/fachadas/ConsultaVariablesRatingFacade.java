@@ -138,8 +138,6 @@ public class ConsultaVariablesRatingFacade extends AbstractFacade {
                 objetoAgregado.setIdModulo(listaVariables.get(i).getIdModulo());
                 objetoAgregado.setNombre(listaVariables.get(i).getNombre());
                 listaVariablesObjetivo.add(objetoAgregado);
-                System.out.println("Id del modulo:::"+objetoAgregado.getIdModulo());
-                System.out.println("Nombre de la :::"+objetoAgregado.getNombre());
             }
             if (listaVariables.get(i).getIdModulo() == 4) {
                 VariablesRating objetoAgregado = new VariablesRating();

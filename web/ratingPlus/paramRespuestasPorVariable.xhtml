@@ -89,11 +89,8 @@
                         </p:cellEditor>
                     </p:column>
                 
-                    <p:column headerText="Min" 
-                              style="visibility: 
-                              #{respuestaRating.listaRespuestasRatingFinancieras.size() 
-                                &gt; 0 ? 'visible' : 'hidden'};">
-                        <p:cellEditor>
+                    <p:column headerText="Min" >
+                        <p:cellEditor rendered="#{betas.nombreModulo == 'Financiero'}">
                             <f:facet name="output">
                                 <h:outputText value="#{betas.min}" />
                             </f:facet>
@@ -107,7 +104,7 @@
                               style="visibility: 
                               #{respuestaRating.listaRespuestasRatingFinancieras.size() 
                                 &gt; 0 ? 'visible' : 'hidden'};">
-                        <p:cellEditor>
+                        <p:cellEditor rendered="#{betas.nombreModulo == 'Financiero'}">
                             <f:facet name="output">
                                 <h:outputText value="#{betas.max}" />
                             </f:facet>

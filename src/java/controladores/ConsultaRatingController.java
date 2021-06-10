@@ -16,7 +16,6 @@ import fachadas.ConsultaVariablesRatingFacade;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -27,7 +26,6 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.event.SelectEvent;
 import session.UsuarioSeccion;
 
 /**

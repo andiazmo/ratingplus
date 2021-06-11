@@ -172,7 +172,7 @@ public class VariablesRespuestasRatingController extends AbstractController {
         VariablesRating variableRespuesta = new VariablesRating();
         
         VariablesRating respuesta = (VariablesRating)event.getObject();
-        FacesMessage msg = new FacesMessage("Valores Actualizados", 
+        FacesMessage msg = new FacesMessage("Por favor confirme el cambio",
                 String.valueOf(respuesta.getNombre()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
         variableRespuesta.setId(respuesta.getId());
@@ -184,14 +184,24 @@ public class VariablesRespuestasRatingController extends AbstractController {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edición Cancelada", 
-                String.valueOf(event.getObject().toString()));
+        FacesMessage msg = new FacesMessage("Edición Cancelada", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     public void updateVariablesValuesFront() {
-        this.setUpdateVariableResult(this.getEjbFacade().
-                updateVarablesRespuesta(this.getListaRespuestasEditadas()));    
+        int result = this.getEjbFacade().
+                updateVarablesRespuesta(this.getListaRespuestasEditadas());
+        
+        if(result != 0) {
+            FacesMessage msg = new FacesMessage("Valor actualizado", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            
+        }
+        else {
+            FacesMessage msg = new FacesMessage("No fue posible el cambio", 
+                    "Intentelo mas tarde");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
     
     public void precargaListaVariables(){

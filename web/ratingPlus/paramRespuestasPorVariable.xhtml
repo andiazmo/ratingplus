@@ -18,10 +18,11 @@
             <p:growl id="msgs" showDetail="true"/>
             
             <p:panel header="#{myBundle.respuestasPorVariableTitle}">
-                <h:panelGrid columns="2" cellpadding="5">
+                <h:panelGrid columns="2" cellpadding="3">
                     <p:outputLabel for="modulo" value="Modulo:"/>
                     <p:selectOneMenu id="modulo" 
-                                     value="#{respuestaRating.moduloSeleccionado}">
+                                     value="#{respuestaRating.moduloSeleccionado}"
+                                     style="width: 110% !important">
                         <p:ajax listener="#{respuestaRating.onModuleChange}" 
                                 update="variable"/>
                         <f:selectItem itemLabel="Seleccione un Módulo" 
@@ -32,7 +33,7 @@
                     <p:outputLabel for="variable" value="Variable: "/>
                     <p:selectOneMenu id="variable" 
                                      value="#{respuestaRating.variableSeleccionada}" 
-                                     style="width:150px">
+                                     style="width: 110% !important">
                         <f:selectItem itemLabel="Seleccione una Variable" 
                                       itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{respuestaRating.variables}"/>
@@ -118,10 +119,12 @@
                     </p:column>
                 </p:dataTable>
                 <br/>
-                <p:commandButton value="Actulizar Valores" 
+                <p:commandButton value="Actulizar Valores"
+                                 icon="pi pi-check"
                                  id="btnActualizarValoresRespuesta"  
                                  actionListener="#{respuestaRating.
-                                                   updateVariablesValuesFront}" />
+                                                   updateVariablesValuesFront}"
+                                 update=":formTableRespuesta:msgs"/>
            </p:outputPanel>
         </h:form>        
     </ui:define>

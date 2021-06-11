@@ -7,13 +7,13 @@
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 template="/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml">
-
+    <h:outputScript library="js" name="calendar_es.js" />
     <ui:define name="title">
         <h:outputText value="Resultados Rating"/>
     </ui:define>
     
     <ui:define name="body">
-        
+        <h:outputScript library="js" name="calendar_es.js" />
         <h:form id="formParamModulo">
             <p:growl id="msgs" showDetail="true"/>
             
@@ -31,7 +31,9 @@
                     <p:outputLabel for="fechaInicial" value="Fecha Inicial:"/>
                     <p:calendar id="fechaInicial" pattern="dd/MM/yyyy" 
                                 maxdate="#{consultaResultadosRating.date}"
-                                value="#{consultaResultadosRating.minDate}" 
+                                value="#{consultaResultadosRating.minDate}"
+                                locale="es"
+                                size="6"
                                 showOn="button">
                         <p:ajax event="dateSelect" listener="#{consultaResultadosRating.onDateSelect}" 
                                 update=":formParamModulo:pnlFiltros"/>
@@ -40,8 +42,11 @@
                     <p:outputLabel for="fechaFinal" value="Fecha Final:"/>
                     <p:calendar id="fechaFinal" pattern="dd/MM/yyyy"
                                 mindate="#{consultaResultadosRating.finalDate}"
-                                value="#{consultaResultadosRating.maxDate}" 
-                                showOn="button" disabled="#{consultaResultadosRating.validDate}"/>
+                                value="#{consultaResultadosRating.maxDate}"
+                                locale="es"
+                                size="6"
+                                showOn="button" 
+                                disabled="#{consultaResultadosRating.validDate}"/>
                     
                 </h:panelGrid>
                 

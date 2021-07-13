@@ -61,7 +61,7 @@ public class ParamBetaModuloCasoFacade extends AbstractFacade<BetaModuloCasoUso>
         List<BetaModuloCategoria> listaCategorias = this.listarCategorias();
         List<BetaModuloCasoUso> listaBetas = new ArrayList<>();
         List listaProvisional = em.createNativeQuery("select codigo, num_caso, "
-                + "categoria_beta, valor from ri.rp_beta_modulo_caso "
+                + "categoria_beta, valor from ri.rp_beta_modulo_caso asc"
                 + "order by num_caso asc").getResultList();
         Iterator i = listaProvisional.iterator();
         
@@ -72,11 +72,9 @@ public class ParamBetaModuloCasoFacade extends AbstractFacade<BetaModuloCasoUso>
             objetoAgregado.setNumCaso((Integer) object[1]);
             
             for(BetaModuloCategoria categoria : listaCategorias){
-                
                 if(categoria.getCodigo() == ((Integer) object[2])){
                     objetoAgregado.setCategoria(categoria);
-                }
-                
+                }   
             }
             
             objetoAgregado.setValor(((BigDecimal)object[3]).doubleValue());

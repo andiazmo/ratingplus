@@ -268,7 +268,7 @@ public class ConsultaRatingFacade extends AbstractFacade {
     public List<List<VariablesRating>> calcularRating(String[] listaNits, 
             String periodo, String usuario) throws SQLException{
         List<List<VariablesRating>> listVariablesRatingTotal;
-        try (Connection conn = new ConnectionFactory().getConnection()) {
+        
             List<RatingInfo> listaRating = new ArrayList<>();
             List<List<VariablesRating>> listVariablesRating = new ArrayList<>();
             List<VariablesRating> listaVariables = new ArrayList<>();
@@ -282,15 +282,13 @@ public class ConsultaRatingFacade extends AbstractFacade {
             if (periodo == null) {
                 Query query = em.createNativeQuery("SELECT "
                         + "ri.calcular_rating_sinfin_fn(?,?)");
-                listaProvisional = query.setParameter(1,
-                        conn.createArrayOf("text", listaNits)).
+                listaProvisional = query.setParameter(1, listaNits).
                         setParameter(2, usuario).getResultList();
             }
             else {
                 Query q = em.createNativeQuery("SELECT "
                         + "ri.calcular_rating_fn(?,?,TO_DATE(?,'YYYY-MM-DD'))");
-                listaProvisional = q.setParameter(1,
-                        conn.createArrayOf("text", listaNits)).
+                listaProvisional = q.setParameter(1, listaNits).
                         setParameter(2, usuario).setParameter(3, periodo).
                         getResultList();    
             }   
@@ -301,8 +299,8 @@ public class ConsultaRatingFacade extends AbstractFacade {
                     + "FROM ri.Informacion_Rating_Plus_VW WHERE nit = ANY(?) "
                     + "GROUP BY nit)");
             List listaTemporal = q1.setParameter(1, usuario).
-                    setParameter(2, conn.createArrayOf("text", listaNits)).
-                    setParameter(3, conn.createArrayOf("text", listaNits)).
+                    setParameter(2, listaNits).
+                    setParameter(3, listaNits).
                     getResultList();
             List listaTemporalResp =
                     em.createNativeQuery("select * "
@@ -545,8 +543,7 @@ public class ConsultaRatingFacade extends AbstractFacade {
                 
                 listaRating.add(objetoAgregado);
             }
-        }
-        
+ 
         return listVariablesRatingTotal;
     }
      

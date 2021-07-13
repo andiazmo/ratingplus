@@ -42,7 +42,7 @@ public class ConsultaSubjetivoFacade extends AbstractFacade {
                 + "grado_autofinanciacion_inversiones, existencia_deudas_compromisos_fuera_alcance, "
                 + "perfil_pago_deuda, calidad_activos_circulantes, tipo_accionista,"
                 + " usuario, fecha_insercion)"
-                + " VALUES ((SELECT MAX(id) from ri.modulo_subjetivo)+ 1, "
+                + " VALUES ((SELECT COALESCE(MAX(id), 0) from ri.modulo_subjetivo)+ 1, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT now()::timestamp))");
    
         return q.setParameter(1, cliente).setParameter(2, tipoProducto).

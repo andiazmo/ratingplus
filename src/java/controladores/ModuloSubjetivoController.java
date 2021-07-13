@@ -17,8 +17,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -99,7 +101,7 @@ public class ModuloSubjetivoController extends AbstractController{
     }
      
     public List<VariablesRating> precargaRespuestaListaSubjetivo(){
-       this.setListaRespuestasVariablesSubjetivo(this.getListaRespuestasVariablesModulo().get(1));
+       this.setListaRespuestasVariablesSubjetivo(this.getListaRespuestasVariablesModulo().get(3));
        
        return listaRespuestasVariablesSubjetivo;
     }
@@ -123,11 +125,17 @@ public class ModuloSubjetivoController extends AbstractController{
         }
     }
 
-    public void limpiarResultados(ActionEvent event){
-        this.listaClientes = new ArrayList<>();
-        this.tipoConsulta = null;
-        this.nitDiligenciado = "";
-        this.nombreDiligenciado = "";  
+    public void limpiarResultados(ActionEvent event) throws IOException{
+       FacesContext context = FacesContext.getCurrentInstance();
+       this.tipoConsulta = null;
+       this.nitDiligenciado = "";
+       this.nombreDiligenciado = "";
+       this.listaClientes = new ArrayList<>();
+       String refreshpage = context.getViewRoot().getViewId();
+       ViewHandler handler = context.getApplication().getViewHandler();
+       UIViewRoot root = handler.createView(context, refreshpage);
+       root.setViewId(refreshpage);
+       context.setViewRoot(root);
     }
     
     public void consultaClientes(ActionEvent event){

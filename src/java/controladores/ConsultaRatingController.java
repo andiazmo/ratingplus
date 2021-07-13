@@ -13,17 +13,24 @@ import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaRatingFacade;
 import fachadas.ConsultaVariablesRatingFacade;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import javax.xml.rpc.ServiceException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import session.UsuarioSeccion;
@@ -140,14 +147,6 @@ public class ConsultaRatingController extends AbstractController{
         this.listaPeriodos = new ArrayList<>();
     }
 
-    public void limpiarResultados(ActionEvent event){
-        this.listaClientes = new ArrayList<>();
-        this.tipoConsulta = null;
-        this.nitDiligenciado = "";
-        this.nombreDiligenciado = "";
-        this.listaPeriodos = new ArrayList<>();
-    }
-    
     public List<String> completeText(String query) {
         listClient = new ArrayList<>();
         
@@ -198,9 +197,9 @@ public class ConsultaRatingController extends AbstractController{
                     getAttribute("seccion");                         
             
             String usuario = seccion.getUsuario().getCodigo();
-            this.setPeriodo(this.getPeriodoSeleccionado());
+            this.setPeriodo(this.getPeriodoSeleccionado()); 
             
-            if (this.getPeriodo().length() == 0) {
+            if (this.getPeriodo() == null || this.getPeriodo().length() == 0) {
                 this.listVariablesRating = ejbFacade.
                         calcularRating(listaNits, null, usuario);
                 this.setListaVariables(this.listVariablesRating.get(0));
@@ -267,7 +266,6 @@ public class ConsultaRatingController extends AbstractController{
     public void obtenerPeriodos(ActionEvent event){
         listaPeriodos = ejbFacadeCliente.obtenerPeriodos(tipoConsulta, 
                 tipoConsulta.equals("0") ? nitDiligenciado : nombreDiligenciado);
-        
         if(listaPeriodos.isEmpty()){
             this.listaClientes = 
                     ejbFacadeCliente.consultaClienteGrupoResultadoSinResRating
@@ -292,7 +290,7 @@ public class ConsultaRatingController extends AbstractController{
     public void definirRating(ActionEvent event){
         this.setRatingUpdate(this.listaVariablesFrontResultado);
     }
-    
+   
     public void confirmarRating(ActionEvent event){
         this.setRatingUpdate(this.listaVariablesFrontResultado);
         
@@ -314,6 +312,19 @@ public class ConsultaRatingController extends AbstractController{
                                     + "información del rating, por favor "
                                     + "intente más tarde.", ""));
         }
+    }
+    
+    public void limpiarResultados(ActionEvent event) throws IOException{        
+        FacesContext context = FacesContext.getCurrentInstance();
+        this.tipoConsulta = null;
+        this.nitDiligenciado = "";
+        this.nombreDiligenciado = "";
+        this.listaClientes = new ArrayList<>();
+        String refreshpage = context.getViewRoot().getViewId();
+        ViewHandler handler = context.getApplication().getViewHandler();
+        UIViewRoot root = handler.createView(context, refreshpage);
+        root.setViewId(refreshpage);
+        context.setViewRoot(root);
     }
     
     /**

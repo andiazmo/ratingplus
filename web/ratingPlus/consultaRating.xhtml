@@ -86,6 +86,7 @@
                                  actionListener="#{consultaRating.consultaClientes}" 
                                  update=":growl, :formTableClientes:cntTableClientes, 
                                  :formTableClientes:tableClientes"
+                                 icon="ui-icon-search"
                                  disabled="#{consultaRating.tipoConsulta == null}"/>
             </p:panel>
         </h:form>
@@ -135,7 +136,8 @@
 
                 <div style="width: 100%; text-align: center;">
                     <p:commandButton value="Calcular Rating" id="btnCalculo" 
-                                     actionListener="#{consultaRating.calcularRating}" 
+                                     actionListener="#{consultaRating.calcularRating}"
+                                     styleClass="p-mr-2" icon="ui-icon-plus"
                                      update=":growl, :formVariables:cntTableVariables"/>
                 </div>
             </p:outputPanel>
@@ -143,10 +145,12 @@
         
         <h:form id="formVariables">
             <p:outputPanel id="cntTableVariables" 
-                           style="visibility: #{consultaRating.listVariablesRating.size() &gt; 0 ? 'visible' : 'hidden'};">
+                           style="visibility: 
+                           #{consultaRating.listVariablesRating.size() &gt; 0 ? 'visible' : 'hidden'};">
                 <p:growl id="msgs" showDetail="true"/>
                 <div style="width: 100%; text-align: center;">
-                    <p:dataTable var="rating" value="#{consultaRating.listaVariablesFrontResultado.get(0)}">
+                    <p:dataTable var="rating" 
+                                 value="#{consultaRating.listaVariablesFrontResultado.get(0)}">
                         <f:facet name="header">
                                 RESULTADO RATING
                         </f:facet>
@@ -231,8 +235,12 @@
                     <p:commandButton value="Modificación ajuste manual" id="btnCalculo1" 
                                      actionListener="#{consultaRating.editDataValue}" 
                                      update=":growl, :formResultadosRating:tableResultadosRatingEdit"
+                                     styleClass="p-mr-2" icon="ui-icon-alert"/>
+                    <p:commandButton value="Realizar nuevo cálculo" id="btnCalculo3" 
+                                     actionListener="#{consultaRating.limpiarResultados}" 
+                                     update=":growl, :formResultadosRating:tableResultadosRatingEdit, :formConsultaInicial, :formTableClientes, formVariables:"
                                      styleClass="p-mr-2" icon="pi pi-check"/>
-                                    </div>
+                </div>
             </p:outputPanel>
            </p:outputPanel>
         </h:form>

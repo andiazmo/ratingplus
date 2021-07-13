@@ -12,6 +12,7 @@ import entidades.VariablesRating;
 import fachadas.ConsultaClientesRatingFacade;
 import fachadas.ConsultaComportamientoFacade;
 import fachadas.ConsultaVariablesRatingFacade;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +20,14 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import session.UsuarioSeccion;
 
@@ -211,13 +216,6 @@ public class ModuloComportamientoController extends AbstractController{
         }
     }
 
-    public void limpiarResultados(ActionEvent event){
-        this.listaClientes = new ArrayList<>();
-        this.tipoConsulta = null;
-        this.nitDiligenciado = "";
-        this.nombreDiligenciado = "";
-    }
-    
     public void consultaClientes(ActionEvent event){
         String parametroConsulta = tipoConsulta.equals("0") ? 
                 this.nitDiligenciado : this.nombreDiligenciado;
@@ -266,6 +264,19 @@ public class ModuloComportamientoController extends AbstractController{
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void limpiarResultados(ActionEvent event) throws IOException{
+       FacesContext context = FacesContext.getCurrentInstance();
+       this.tipoConsulta = null;
+       this.nitDiligenciado = "";
+       this.nombreDiligenciado = "";
+       this.listaClientes = new ArrayList<>();
+       String refreshpage = context.getViewRoot().getViewId();
+       ViewHandler handler = context.getApplication().getViewHandler();
+       UIViewRoot root = handler.createView(context, refreshpage);
+       root.setViewId(refreshpage);
+       context.setViewRoot(root);
     }
     
     /**

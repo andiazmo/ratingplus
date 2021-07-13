@@ -49,10 +49,8 @@
                 <p:commandButton value="Consultar clientes" id="btnConsultaClientes" 
                                  disabled="#{moduloSubjetivo.tipoConsulta == null}" 
                                  actionListener="#{moduloSubjetivo.consultaClientes}" 
-                                 update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>
-                
-            </p:panel>
-            
+                                 update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes"/>   
+            </p:panel>         
         </h:form>
         
         <h:form id="formTableClientes">
@@ -292,6 +290,10 @@
                                        message="¿Está seguro de proceder?"  
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
+                         <p:commandButton value="Realizar nuevo registro" id="btnCalculo3" 
+                                     actionListener="#{moduloSubjetivo.limpiarResultados}" 
+                                     update=":growl, :formTableClientes:cntTableClientes, :formTableClientes:tableClientes, :formConsultaInicial"
+                                     styleClass="p-mr-2" icon="pi pi-check"/>
                     </p:panel>
                     <p:confirmDialog global="true" showEffect="fade" 
                                      hideEffect="fade" 

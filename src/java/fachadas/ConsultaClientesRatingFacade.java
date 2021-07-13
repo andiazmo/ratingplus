@@ -9,6 +9,7 @@ package fachadas;
 import entidades.ClientesRating;
 import entidades.GruposClientes;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.rpc.ServiceException;
 /**
  *
  * @author x356167

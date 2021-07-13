@@ -69,7 +69,6 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
         this.categoriaSeleccionada = 0;
         this.valor = "";
         this.setRegistroSeleccionado(null);
-        
     }
     
     public void iniciarListaCasos(){
@@ -102,7 +101,6 @@ public class ParamBetaModuloController extends AbstractController<BetaModuloCaso
                 variables.put(this.listaBetas.get(i).getCategoria().getCategoria(),
                         this.listaBetas.get(i).getCategoria().getCategoria());
             }
-            
         }
     }
     

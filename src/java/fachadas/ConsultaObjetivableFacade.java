@@ -39,7 +39,7 @@ public class ConsultaObjetivableFacade extends AbstractFacade {
                 + "dependencia_clientes, concentracion_proveedor, "
                 + "voluntad_capacidad_apoyo_financiero_accionistas, garantias_adicionales, "
                 + "calidad_revisor_fiscal, informe_revisor_fiscal, usuario, fecha_insercion)"
-                + " VALUES ((SELECT MAX(id) from ri.modulo_objetivable)+ 1, "
+                + " VALUES ((SELECT COALESCE(MAX(id), 0) from ri.modulo_objetivable)+ 1, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT now()::timestamp))");
    
         return q.setParameter(1, cliente).setParameter(2, evolucionEsperada).

@@ -7,6 +7,9 @@
 package fachadas;
 
 import entidades.GruposClientes;
+import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,11 +35,11 @@ public class ConsultaComportamientoFacade extends AbstractFacade {
     public boolean registrarComportamiento(String respCalificacion,
             String respGarantia, String indMora, String numeroBancos, 
             String marcacionReestructuracion, String id_cliente, String usuario){
-    
+        
         Query q = em.createNativeQuery("INSERT INTO ri.modulo_comportamiento(id,"
                 + "calificacion, garantia, indicador_mora, numero_bancos, "
                 + "marcacion_reestructuracion, id_cliente, usuario, "
-                + "fecha_insercion) VALUES ((SELECT MAX(id)"
+                + "fecha_insercion) VALUES ((SELECT COALESCE(MAX(id), 0)"
                 + " from ri.modulo_comportamiento)+ 1, ?, ?, ?, ?, ?, ?, ?, "
                 + "(SELECT now()::timestamp))");
    
